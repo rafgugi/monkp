@@ -12,3 +12,7 @@
 */
 
 Route::get('/', 'WelcomeController@index');
+
+Route::controllers([
+	'auth' => 'AuthController',
+]);
