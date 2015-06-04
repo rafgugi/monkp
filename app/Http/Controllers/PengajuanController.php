@@ -1,9 +1,8 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
+use App\Http\Requests\StorePengajuanRequest as StoreRequest;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
 
 class PengajuanController extends Controller {
 
@@ -32,9 +31,9 @@ class PengajuanController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(StoreRequest $request)
 	{
-		//
+		dd($request->all());
 	}
 
 	/**

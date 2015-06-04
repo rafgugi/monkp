@@ -14,6 +14,7 @@
 Route::get('/', 'WelcomeController@index');
 Route::get('home', 'HomeController@index');
 Route::get('pengajuan', 'PengajuanController@create');
+Route::post('pengajuan', 'PengajuanController@store');
 
 Route::controllers([
 	'auth' => 'AuthController',
