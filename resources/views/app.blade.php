@@ -5,10 +5,10 @@
     Monitoring Kerja Praktik
     @yield('title')
   </title>
-  {!! HTML::style('css/bootstrap.min.css') !!}
-  {!! HTML::style('css/sb-admin-2.css') !!}
-  {!! HTML::style('css/metis-menu.min.css') !!}
-  {!! HTML::style('css/font-awesome.min.css') !!}
+  {!! HTML::style('public/css/bootstrap.min.css') !!}
+  {!! HTML::style('public/css/sb-admin-2.css') !!}
+  {!! HTML::style('public/css/metis-menu.min.css') !!}
+  {!! HTML::style('public/css/font-awesome.min.css') !!}
   @yield('css')
 </head>
 <body>
@@ -180,9 +180,9 @@
   </div>
   <!-- /#wrapper -->
 
-  {!! HTML::script('js/jquery.min.js') !!}
-  {!! HTML::script('js/bootstrap.min.js') !!}
-  {!! HTML::script('js/metis-menu.min.js') !!}
-  {!! HTML::script('js/sb-admin-2.js') !!}
+  {!! HTML::script('public/js/jquery.min.js') !!}
+  {!! HTML::script('public/js/bootstrap.min.js') !!}
+  {!! HTML::script('public/js/metis-menu.min.js') !!}
+  {!! HTML::script('public/js/sb-admin-2.js') !!}
   @yield('js')
 </body>
