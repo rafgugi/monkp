@@ -16,10 +16,6 @@ class CreateMentorsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('group_id');
-			$table->string('name');
-			$table->string('position');
-			$table->string('telp');
-			$table->string('email');
 			$table->timestamps();
 		});
 	}
