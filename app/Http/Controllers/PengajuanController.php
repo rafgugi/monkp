@@ -23,7 +23,7 @@ class PengajuanController extends Controller {
 	 */
 	public function create()
 	{
-		return view('pengajuan');
+		return view('inside.pengajuan');
 	}
 
 	/**

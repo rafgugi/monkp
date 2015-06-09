@@ -1,4 +1,4 @@
-@extends('app')
+@extends('inside.app')
 
 @section('content')
   <h1>Pengajuan

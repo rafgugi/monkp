@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration {
 			$table->string('personable_id');
 			$table->integer('role_id');
 			$table->string('personable_type');
+			$table->rememberToken();
 			$table->timestamps();
 
 		});

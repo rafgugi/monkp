@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller {
@@ -14,7 +14,20 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
+		if (Auth::check()) {
+			return $this->dashboard();
+		}
 		return view('home');
+	}
+
+	public function dashboard()
+	{
+		return view('inside.dashboard');
+	}
+
+	public function berita()
+	{
+		return view('inside.berita');
 	}
 
 }

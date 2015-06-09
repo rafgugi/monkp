@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Registrar;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use App\User;
+use App\Student;
+use Validator;
 
 class AuthController extends Controller {
 
@@ -57,10 +58,10 @@ class AuthController extends Controller {
 	public function postLogin(Request $request)
 	{
 		$this->validate($request, [
-			'username' => 'required', 'password' => 'required',
+			'email' => 'required', 'password' => 'required',
 		]);
 
-		$credentials = $request->only('username', 'password');
+		$credentials = $request->only('email', 'password');
 
 		if ($this->auth->attempt($credentials, $request->has('remember')))
 		{
@@ -68,10 +69,52 @@ class AuthController extends Controller {
 		}
 
 		return redirect($this->loginPath())
-					->withInput($request->only('username', 'remember'))
+					->withInput($request->only('email'))
 					->withErrors([
-						'username' => $this->getFailedLoginMesssage(),
+						'email' => $this->getFailedLoginMesssage(),
 					]);
+	}
+
+	public function getRegister()
+	{
+		return view('register');
+	}
+
+	public function postRegister(Request $request)
+	{
+		$validator = Validator::make($request->all(), [
+			'name' => 'required',
+			'nrp' => 'required|numeric',
+			'email' => 'email|unique:users,email',
+			'password' => 'required|same:password_confirmation',
+		]);
+
+		if ($validator->fails())
+		{
+			$this->throwValidationException(
+				$request, $validator
+			);
+		}
+
+		# make student
+		$student = new Student();
+		$student->nrp = $request->input('nrp');
+		$student->save();
+
+		# make user
+		$user = new User();
+		$user->name = $request->input('name');
+		$user->email = $request->input('email');
+		$user->password = bcrypt($request->input('password'));
+
+		# attach student to user
+		$user->personable_id = $student->id;
+		$user->personable_type = 'student';
+		$user->save();
+
+		$this->auth->login($user);
+
+		return redirect($this->redirectPath());
 	}
 
 	/**
@@ -118,7 +161,7 @@ class AuthController extends Controller {
 	 */
 	public function loginPath()
 	{
-		return property_exists($this, 'loginPath') ? $this->loginPath : '/auth/login';
+		return property_exists($this, 'loginPath') ? $this->loginPath : '/home';
 	}
 
 }

@@ -11,8 +11,10 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', 'HomeController@index');
 Route::get('home', 'HomeController@index');
+Route::get('dashboard', 'HomeController@dashboard');
+Route::get('berita', 'HomeController@berita');
 Route::get('pengajuan', 'PengajuanController@create');
 Route::post('pengajuan', 'PengajuanController@store');
 

@@ -1,63 +1,106 @@
-@extends('app')
+<!doctype html>
+<html>
+<head>
+  <title>
+    Monitoring Kerja Praktik
+  </title>
+  {!! HTML::style('public/css/bootstrap.min.css') !!}
+  {!! HTML::style('public/css/font-awesome.min.css') !!}
+  <style>
+  /* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
 
-@section('content')
-  <h1>Dashboard
-  <small>Welcome, J</small></h1>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <ul class="nav nav-pills" role="tablist">
-        <li role="presentation" class="active"><a href="#kp" aria-controls="kp" role="tab" data-toggle="tab">KP</a></li>
-        <li role="presentation"><a href="#list" aria-controls="list" role="tab" data-toggle="tab">List KP</a></li>
-        <li role="presentation"><a href="#nilai" aria-controls="nilai" role="tab" data-toggle="tab">Nilai KP</a></li>
-      </ul>
+/* Carousel base class */
+.carousel, .carousel .item {
+  min-height: 200px;
+}
+.carousel .carousel-caption, .carousel-control {
+  color: #333;
+  text-shadow: none;
+}
+.carousel-control:hover, .carousel-control:focus {
+  color: #222;
+}
+.carousel-control, .carousel-control:hover {
+  background-image: none !important;
+}
+  </style>
+</head>
+<body>
+  <div class="jumbotron" style="background-color:#428bca;">
+    <div class="container">
+      <h2 style="color:#fff;">
+        Monitoring Kerja Praktik
+        <small style="color:#ddd;">Institut Teknologi Sepuluh Nopember</small>
+      </h2>
     </div>
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="kp">
-        <div class="panel-body">
-          <div class="row">
-            <p class="col-md-3 text-right"><strong>Status</strong></p>
-            <p class="col-md-3">-</p>
-            <p class="col-md-3 text-right"><strong>Tempat KP</strong></p>
-            <p class="col-md-3">-</p>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <h4>carousel</h4>
+        <!-- Carousel
+        ================================================== -->
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner" role="listbox">
+            <div class="item active">
+              <div class="container">
+                <div class="carousel-caption">
+                  <h1>Example headline.</h1>
+                  <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="container">
+                <div class="carousel-caption">
+                  <h1>Another example headline.</h1>
+                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="container">
+                <div class="carousel-caption">
+                  <h1>One more for good measure.</h1>
+                  <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="row">
-            <p class="col-md-3 text-right"><strong>Periode Awal</strong></p>
-            <p class="col-md-3">-</p>
-            <p class="col-md-3 text-right"><strong>Periode Akhir</strong></p>
-            <p class="col-md-3">-</p>
-          </div>
-          <div class="row">
-            <p class="col-md-3 text-right"><strong>Dosen Pembimbing</strong></p>
-            <p class="col-md-3">-</p>
-            <p class="col-md-3 text-right"><strong>Pembimbing Lapangan</strong></p>
-            <p class="col-md-3">-</p>
-          </div>
-          <div class="row">
-            <p class="col-md-3 text-right"><strong>Anggota</strong></p>
-            <p class="col-md-3">-</p>
-          </div>
-        </div>
+          <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div><!-- /.carousel -->
       </div>
-      <div role="tabpanel" class="tab-pane" id="list">
-        <table class="table table-striped table-hover">
-          <tr class="info">
-            <th>Status</th>
-            <th>Perusahaan</th>
-            <th>Pembimbing Lapangan</th>
-          </tr>
-          <tr>
-            <td>Status</td>
-            <td>Teknik Informatika</td>
-            <td>Orang</td>
-          </tr>
-        </table>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="nilai">
-        <div class="panel-body">
-          Nilai belum dapat diakses.
-        </div>
+      <div class="col-md-3">
+        <form action="{{url('auth/login')}}" method="post">
+          <h4>Login</h4>
+          @if (count($errors) > 0)
+            <div class="alert alert-info">
+              <strong>Whoops!</strong> Login failed.
+            </div>
+          @endif
+          <div class="form-group form-group-lg">
+            <input class="form-control" placeholder="Email" name="email" type="email" value="{{old('email')}}" autofocus>
+          </div>
+          <div class="form-group">
+            <input class="form-control" placeholder="Password" name="password" type="password" value="">
+          </div>
+          <div class="form-group">
+            <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign in">
+          </div>
+          <p>Silakan <a href="{{url('auth/register')}}">register</a> jika belum punya akun.</p>
+        </form>
       </div>
     </div>
   </div>
-@endsection
+  {!! HTML::script('public/js/jquery.min.js') !!}
+  {!! HTML::script('public/js/bootstrap.min.js') !!}
+  {!! HTML::script('public/js/sb-admin-2.js') !!}
+</body>
