@@ -11,12 +11,19 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', function() {
+	return redirect('home');
+});
 Route::get('home', 'HomeController@index');
-Route::get('dashboard', 'HomeController@dashboard');
-Route::get('berita', 'HomeController@berita');
-Route::get('pengajuan', 'PengajuanController@create');
-Route::post('pengajuan', 'PengajuanController@store');
+// Route::get('dashboard', 'HomeController@dashboard');
+
+Route::group(['middleware' => ['auth']], function() {
+	Route::get('pengajuan', 'PengajuanController@create');
+	Route::post('pengajuan', 'PengajuanController@store');
+
+	Route::get('berita', 'BeritaController@index');
+	Route::post('berita/tambah', 'BeritaController@store');
+});
 
 Route::controllers([
 	'auth' => 'AuthController',

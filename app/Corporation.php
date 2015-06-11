@@ -4,6 +4,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Corporation extends Model {
 
-	//
+	protected $guarded = [];
+
+	public function nameCity() {
+		return $this->name + '-' + $this->city;
+	}
 
 }

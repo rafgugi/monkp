@@ -89,7 +89,7 @@
           <div class="form-group form-group-lg">
             <input class="form-control" placeholder="Email" name="email" type="email" value="{{old('email')}}" autofocus>
           </div>
-          <div class="form-group">
+          <div class="form-group form-group-lg">
             <input class="form-control" placeholder="Password" name="password" type="password" value="">
           </div>
           <div class="form-group">

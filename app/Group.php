@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model {
 
+	protected $guarded = [];
+
 	public function members() {
 		return $this->hasMany('App\Members');
 	}
@@ -18,6 +20,10 @@ class Group extends Model {
 
 	public function corporation() {
 		return $this->belongsTo('App\Corporation');
+	}
+
+	public function lecturer() {
+		return $this->belongsTo('App\Lecturer', 'internal_id');
 	}
 
 }

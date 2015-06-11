@@ -6,6 +6,8 @@
     @yield('title')
   </title>
   {!! HTML::style('public/css/bootstrap.min.css') !!}
+  {!! HTML::style('public/css/bootstrap-table.css') !!}
+  {!! HTML::style('public/css/bootstrap-datepicker.css') !!}
   {!! HTML::style('public/css/sb-admin-2.css') !!}
   {!! HTML::style('public/css/metis-menu.min.css') !!}
   {!! HTML::style('public/css/font-awesome.min.css') !!}
@@ -14,7 +16,7 @@
 <body>
   <div id="wrapper">
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation" style="margin-bottom: 0">
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -63,7 +65,9 @@
         <!-- /.dropdown -->
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <i class="fa fa-user fa-fw"></i>
+            {{Auth::user()->name}}
+            <i class="fa fa-caret-down"></i>
           </a>
           <ul class="dropdown-menu dropdown-user">
             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
@@ -81,7 +85,7 @@
       <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
           <ul class="nav" id="side-menu">
-            <li class="sidebar-search">
+            <!--li class="sidebar-search">
               <div class="input-group custom-search-form">
                 <input type="text" class="form-control" placeholder="Cari">
                 <span class="input-group-btn">
@@ -90,10 +94,9 @@
                   </button>
                 </span>
               </div>
-              <!-- /input-group -->
-            </li>
+            </li-->
             <li>
-              <a href="{{url('dashboard')}}"><i class="fa fa-home fa-fw"></i> Dashboard</a>
+              <a href="{{url('home')}}"><i class="fa fa-home fa-fw"></i> Dashboard</a>
             </li>
             <li>
               <a href="{{url('berita')}}"><i class="fa fa-newspaper-o fa-fw"></i> Berita</a>
@@ -121,6 +124,9 @@
 
   {!! HTML::script('public/js/jquery.min.js') !!}
   {!! HTML::script('public/js/bootstrap.min.js') !!}
+  {!! HTML::script('public/js/bootstrap-table.js') !!}
+  {!! HTML::script('public/js/bootstrap-datepicker.js') !!}
+  {!! HTML::script('public/js/bootstrap-table-en-US.js') !!}
   {!! HTML::script('public/js/metis-menu.min.js') !!}
   {!! HTML::script('public/js/sb-admin-2.js') !!}
   @yield('js')

@@ -21,7 +21,7 @@ class CreateCorporationsTable extends Migration {
 			$table->string('post_code');
 			$table->string('telp');
 			$table->string('fax');
-			$table->string('bussiness_type');
+			$table->string('business_type');
 			$table->string('description');
 			$table->timestamps();
 		});

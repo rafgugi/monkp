@@ -22,12 +22,11 @@ class HomeController extends Controller {
 
 	public function dashboard()
 	{
-		return view('inside.dashboard');
-	}
+		$student = Auth::user()->personable;
+		$members = $student->members;
 
-	public function berita()
-	{
-		return view('inside.berita');
+		$data = compact('members');
+		return view('inside.dashboard', $data);
 	}
 
 }

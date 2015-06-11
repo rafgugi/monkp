@@ -2,7 +2,10 @@
 
 use App\Http\Requests\StorePengajuanRequest as StoreRequest;
 use App\Http\Controllers\Controller;
-
+use App\Corporation;
+use App\Group;
+use App\Member;
+use Auth;
 
 class PengajuanController extends Controller {
 
@@ -33,7 +36,28 @@ class PengajuanController extends Controller {
 	 */
 	public function store(StoreRequest $request)
 	{
-		dd($request->all());
+		$req = $request->all();
+		$creq = $req['corporation'];
+		$greq = $req['group'];
+
+		# fill corporation
+		$corp = Corporation::firstOrNew(array_only($creq, ['name', 'city']));
+		$corp->fill($creq);
+		$corp->save();
+
+		# make group
+		$group = new Group($greq);
+		$group->corporation()->associate($corp);
+		$group->save();
+
+		# connect group to student
+		$member = new Member();
+		$member->group()->associate($group);
+		$member->student()->associate(Auth::user()->personable);
+		$member->status = 1;
+		$member->save();
+		// dd(compact('member', 'group', 'corp'));
+		// diredirect kemana nih?
 	}
 
 	/**

@@ -4,8 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Member extends Model {
 
-	public function user() {
-		return $this->belongsTo('App\User');
+	public function student() {
+		return $this->belongsTo('App\Student');
 	}
 
 	public function group() {

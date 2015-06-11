@@ -1,8 +1,7 @@
 @extends('inside.app')
 
 @section('content')
-  <h1>Pengajuan
-  <small>Welcome, J</small></h1>
+  <h1>Pengajuan</h1>
   <form method="post" action="{{url('pengajuan')}}">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -77,11 +76,18 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label>Periode Awal</label>
-                  <input type="date" class="form-control" name="group[start_date]">
+                  <input type="date" data-provide="datepicker" class="datepicker form-control" name="group[start_date]">
                 </div>
                 <div class="form-group">
                   <label>Periode Akhir</label>
-                  <input type="date" class="form-control" name="group[end_date]">
+                  <input type="date" data-provide="datepicker" class="datepicker form-control" name="group[end_date]">
+                </div>
+                <div class="form-group">
+                  <label>Kelompok</label>
+                  <select class="form-control" id="perusahaan">
+                    <option value="0">-</option>
+                    <option value="2">Orang lain</option>
+                  </select>
                 </div>
               </div>
             </div>
