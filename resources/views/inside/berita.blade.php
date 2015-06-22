@@ -53,18 +53,22 @@
     </div>
     
     <ul class="list-group">
-      @foreach ($posts as $post)
-        <li class="list-group-item" id="accordion">
-          <h4>{{$post->title}}</h4>
-          <i><small><span class="fa fa-clock-o"></span> Created at: {{strstr($post->created_at, ' ', true)}}</small></i>
-          &nbsp;
-          <i><small><span class="fa fa-clock-o"></span> Updated at: {{strstr($post->updated_at, ' ', true)}}</small></i>
-          <br />
-          <p id="less">
-            {{$post->post}}
-          </p>
-        </li>
-      @endforeach
+      @if (sizeof($posts) < 1)
+        <li class="list-group-item">Tidak ada berita.</li>
+      @else
+        @foreach ($posts as $post)
+          <li class="list-group-item" id="accordion">
+            <h4>{{$post->title}}</h4>
+            <i><small><span class="fa fa-clock-o"></span> Created at: {{strstr($post->created_at, ' ', true)}}</small></i>
+            &nbsp;
+            <i><small><span class="fa fa-clock-o"></span> Updated at: {{strstr($post->updated_at, ' ', true)}}</small></i>
+            <br />
+            <p id="less">
+              {{$post->post}}
+            </p>
+          </li>
+        @endforeach
+      @endif
     </ul>
   </div>
 

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMentorsTable extends Migration {
+class CreateNotificationsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,14 @@ class CreateMentorsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('mentors', function(Blueprint $table)
+		Schema::create('notifications', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('group_id');
-			$table->string('name');
+			$table->integer('user_id');
+			$table->integer('notifiable_id');
+			$table->string('notifiable_type');
+			$table->boolean('is_read');
+			$table->timestamps();
 		});
 	}
 
@@ -27,7 +30,7 @@ class CreateMentorsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('mentors');
+		Schema::drop('notifications');
 	}
 
 }

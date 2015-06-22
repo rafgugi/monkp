@@ -4,19 +4,19 @@ use App\Http\Requests\StorePengajuanRequest as StoreRequest;
 use App\Http\Controllers\Controller;
 use App\Corporation;
 use App\Group;
-use App\Member;
+use App\Student;
+use App\User;
+use App\GroupRequest as Friend;
+use App\Notification as Notif;
 use Auth;
 
 class PengajuanController extends Controller {
 
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
+	 * Only student is allowed to access.
 	 */
-	public function index()
-	{
-		//
+	public function __construct() {
+		$this->middleware('student');
 	}
 
 	/**
@@ -26,7 +26,11 @@ class PengajuanController extends Controller {
 	 */
 	public function create()
 	{
-		return view('inside.pengajuan');
+		$corps = Corporation::get()->toJson();
+		$students = Student::where('id', '!=', Auth::user()->personable_id)->get();
+		$data = compact('students', 'corps');
+		// dd($data);
+		return view('inside.pengajuan', $data);
 	}
 
 	/**
@@ -37,7 +41,7 @@ class PengajuanController extends Controller {
 	public function store(StoreRequest $request)
 	{
 		$req = $request->all();
-		$creq = $req['corporation'];
+		$creq = array_only($req['corporation'], ['name']);
 		$greq = $req['group'];
 
 		# fill corporation
@@ -51,13 +55,52 @@ class PengajuanController extends Controller {
 		$group->save();
 
 		# connect group to student
-		$member = new Member();
-		$member->group()->associate($group);
-		$member->student()->associate(Auth::user()->personable);
-		$member->status = 1;
-		$member->save();
-		// dd(compact('member', 'group', 'corp'));
-		// diredirect kemana nih?
+		Auth::user()->personable->groups()->save($group);
+
+		$friend_id = $req['friend'];
+		if ($friend_id != 0) {
+			# ngajak orang buat jadi temen kelompok
+			$friend = new Friend;
+			$friend->group_id = $group->id;
+			$friend->status = 0;
+			$friend->save();
+
+			# bikin notifnya
+			$notif = new Notif;
+			$notif->user_id = Student::find($friend_id)->user->id;
+			$notif->notifiable_id = $friend->id;
+			$notif->notifiable_type = 'group request';
+			$notif->is_read = false;
+			$notif->save();
+		}
+		// dd(compact('member', 'group', 'corp', 'friend', 'notif'));
+
+		return redirect('home');
+	}
+
+	public function accept($id)
+	{
+		$groupreq = Friend::find($id);
+		$groupreq->status = 1;
+		$groupreq->notif->is_read = true;
+		$groupreq->notif->save();
+		$groupreq->save();
+
+		$student = Auth::user()->personable;
+		$student->groups()->attach($groupreq->group_id);
+
+		return redirect()->back();
+	}
+
+	public function reject($id)
+	{
+		$groupreq = Friend::find($id);
+		$groupreq->status = 2;
+		$groupreq->notif->is_read = true;
+		$groupreq->notif->save();
+		$groupreq->save();
+
+		return redirect()->back();
 	}
 
 	/**
@@ -96,12 +139,18 @@ class PengajuanController extends Controller {
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int  $id
+	 * @param  int  $id of Group
 	 * @return Response
 	 */
 	public function destroy($id)
 	{
-		//
+		$group = Group::find($id);
+		$group->status = -1;
+		foreach ($group->requests as $request) {
+			$request->notif->delete();
+			$request->delete();
+		}
+
 	}
 
 }

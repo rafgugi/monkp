@@ -17,7 +17,6 @@ class CreateMembersTable extends Migration {
 			$table->increments('id');
 			$table->integer('student_id');
 			$table->integer('group_id');
-			$table->boolean('status');
 			$table->timestamps();
 		});
 	}

@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>Daftar</title>
+  <title>[Monitoring Kerja Praktik] Daftar</title>
   {!! HTML::style('public/css/bootstrap.min.css') !!}
   {!! HTML::style('public/css/font-awesome.min.css') !!}
 </head>

@@ -4,10 +4,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model {
 
-	protected $guarded = [];
+	protected $fillable = ['start_date', 'end_date'];
+	// protected $appends = ['status_string'];
 
-	public function members() {
-		return $this->hasMany('App\Members');
+	public function students() {
+		return $this->belongsToMany('App\Student', 'members');
+	}
+
+	public function corporation() {
+		return $this->belongsTo('App\Corporation');
 	}
 
 	public function grade() {
@@ -18,12 +23,20 @@ class Group extends Model {
 		return $this->hasOne('App\Mentor');
 	}
 
-	public function corporation() {
-		return $this->belongsTo('App\Corporation');
+	public function lecturer() {
+		return $this->belongsTo('App\Lecturer');
 	}
 
-	public function lecturer() {
-		return $this->belongsTo('App\Lecturer', 'internal_id');
+	public function requests() {
+		return $this->hasMany('App\GroupRequest');
 	}
+
+	// public function getStatusStringAttribute($status) {
+	// 	return  $status == -1 ? 'deleted' :(
+	// 			$status ==  0 ? 'created' :(
+	// 			$status ==  1 ? 'confirmed' :(
+	// 			$status ==  5 ? 'finished' :
+	// 				'unknown')));
+	// }
 
 }

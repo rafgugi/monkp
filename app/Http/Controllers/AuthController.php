@@ -9,16 +9,6 @@ use Validator;
 
 class AuthController extends Controller {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Registration & Login Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller handles the registration of new users, as well as the
-	| authentication of existing users.
-	|
-	*/
-
 	/**
 	 * The Guard implementation.
 	 *
@@ -99,11 +89,12 @@ class AuthController extends Controller {
 		# make student
 		$student = new Student();
 		$student->nrp = $request->input('nrp');
+		$student->name = $request->input('name');
 		$student->save();
 
 		# make user
 		$user = new User();
-		$user->name = $request->input('name');
+		$user->name = strstr($request->input('name'), ' ', true);
 		$user->email = $request->input('email');
 		$user->password = bcrypt($request->input('password'));
 

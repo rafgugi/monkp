@@ -9,23 +9,23 @@ class User extends Model  implements AuthenticatableContract {
 
 	use Authenticatable;
 
-	protected $type = [
-		'student' => 'App\Student',
-		'lecturer' => 'App\Lecturer',
-	];
+	protected $hidden = ['password', 'role_id'];
 	
 	public function role() {
 		return $this->belongsTo('App\Role');
 	}
 
 	public function personable() {
-		return $this->morphTo();
+		return $this->morphTo('personable');
+	}
+
+	public function notif() {
+		return $this->hasMany('App\Notification');
 	}
 
 	public function getPersonableTypeAttribute($type) {
-        $type = strtolower($type);
-
-        return 'App\\'. str_replace(' ', '', ucwords($type));
-    }
+		$type = strtolower($type);
+		return 'App\\'. str_replace(' ', '', ucwords($type));
+	}
 
 }

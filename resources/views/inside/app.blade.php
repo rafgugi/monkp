@@ -11,6 +11,12 @@
   {!! HTML::style('public/css/sb-admin-2.css') !!}
   {!! HTML::style('public/css/metis-menu.min.css') !!}
   {!! HTML::style('public/css/font-awesome.min.css') !!}
+  <style>
+    .navbar-top-links .dropdown-menu li > div {
+      padding: 3px 20px;
+      min-height: 0;
+    }
+  </style>
   @yield('css')
 </head>
 <body>
@@ -32,33 +38,49 @@
         <!-- /.dropdown -->
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <i class="fa fa-bell fa-fw"></i>
+            @if (Auth::user()->notif->contains('is_read', 0))
+            <span class="badge">{{Auth::user()->notif->where('is_read', 0)->count()}}</span>
+            @endif
+            <i class="fa fa-caret-down"></i>
           </a>
           <ul class="dropdown-menu dropdown-alerts">
-            <li>
-              <a href="#">
+            @forelse (Auth::user()->notif as $notif)
+              <li>
                 <div>
-                  <i class="fa fa-envelope fa-fw"></i> Message Sent
-                  <span class="pull-right text-muted small">4 minutes ago</span>
+                  <div>
+                    @if ($notif->notifiable_type == 'App\GroupRequest')
+                      <i class="fa fa-envelope fa-fw"></i> <strong>Permintaan bergabung</strong>
+                      <span class="pull-right text-muted small">{{strstr($notif->created_at, ' ', true)}}</span><br>
+                      from: {{$notif->notifiable->group->students->get(0)->name}}<br>
+                      {{$notif->notifiable->group->corporation->name_city}}
+                      @if ($notif->notifiable->status == 1)
+                        <span class="pull-right text-muted small">Accepted</span>
+                      @elseif ($notif->notifiable->status == 2)
+                        <span class="pull-right text-muted small">Rejected</span>
+                      @else
+                        <span class="pull-right">
+                          <a href="{{url('pengajuan/accept/'.$notif->notifiable->id)}}" class="btn btn-success btn-xs fa fa-check"></a>
+                          <a href="{{url('pengajuan/reject/'.$notif->notifiable->id)}}" class="btn btn-danger btn-xs fa fa-remove"></a>
+                        </span>
+                      @endif
+                    @endif
+                  </div>
                 </div>
-              </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-              <a href="#">
+              </li>
+              <li class="divider"></li>
+            @empty
+              <li>
                 <div>
-                  <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                  <span class="pull-right text-muted small">4 minutes ago</span>
+                  <div>Tidak ada pemberitahuan.</div>
                 </div>
+              </li>
+            @endforelse
+            <!--li>
+              <a>
+                <div>Halo</div>
               </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-              <a class="text-center" href="#">
-                <strong>See All Alerts</strong>
-                <i class="fa fa-angle-right"></i>
-              </a>
-            </li>
+            </li-->
           </ul>
           <!-- /.dropdown-alerts -->
         </li>
@@ -76,11 +98,8 @@
             <li><a href="{{url('auth/logout')}}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
             </li>
           </ul>
-          <!-- /.dropdown-user -->
         </li>
-        <!-- /.dropdown -->
       </ul>
-      <!-- /.navbar-top-links -->
 
       <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
@@ -99,10 +118,16 @@
               <a href="{{url('home')}}"><i class="fa fa-home fa-fw"></i> Dashboard</a>
             </li>
             <li>
+              <a href="{{url('tabel')}}"><i class="fa fa-home fa-fw"></i> Tabel</a>
+            </li>
+            <li>
               <a href="{{url('berita')}}"><i class="fa fa-newspaper-o fa-fw"></i> Berita</a>
             </li>
             <li>
               <a href="{{url('pengajuan')}}"><i class="fa fa-edit fa-fw"></i> Pengajuan</a>
+            </li>
+            <li>
+              <a href="{{url('pengajuan')}}"><i class="fa fa-cog fa-fw"></i> Pengaturan</a>
             </li>
           </ul>
         </div>

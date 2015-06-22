@@ -22,11 +22,29 @@ class HomeController extends Controller {
 
 	public function dashboard()
 	{
-		$student = Auth::user()->personable;
-		$members = $student->members;
+		// dd(Auth::user()->notif);
+		switch (Auth::user()->personable_type) {
+			case 'App\Student':
+				$student = Auth::user()->personable;
+				$groups = $student->groups;
 
-		$data = compact('members');
-		return view('inside.dashboard', $data);
+				$data = compact('groups');
+				// dd($data);
+				foreach ($groups as $group) {
+					// dd($group->members->get(0)->student->name);
+				}
+				return view('inside.dashboardstudent', $data);
+				break;
+			case 'App\Lecturer':
+				echo 'welcome lecturer';
+				break;
+			case 'App\Admin':
+				return view('inside.dashboardadmin');
+				break;
+			default:
+				echo '# code... unreachable impossible';
+				break;
+		}
 	}
 
 }

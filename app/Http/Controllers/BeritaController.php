@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
 use App\Post;
+use App\Lecturer; // ini testing doang
 use Carbon\Carbon;
 
 class BeritaController extends Controller {

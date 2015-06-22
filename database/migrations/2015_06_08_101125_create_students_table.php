@@ -16,7 +16,7 @@ class CreateStudentsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('nrp');
-			$table->timestamps();
+			$table->string('name');
 		});
 	}
 

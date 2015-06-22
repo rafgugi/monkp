@@ -14,12 +14,17 @@
 Route::get('/', function() {
 	return redirect('home');
 });
+Route::get('tabel', function() {
+	return view('inside.tabel');
+});
+
 Route::get('home', 'HomeController@index');
-// Route::get('dashboard', 'HomeController@dashboard');
 
 Route::group(['middleware' => ['auth']], function() {
 	Route::get('pengajuan', 'PengajuanController@create');
 	Route::post('pengajuan', 'PengajuanController@store');
+	Route::get('pengajuan/accept/{id}', 'PengajuanController@accept');
+	Route::get('pengajuan/reject/{id}', 'PengajuanController@reject');
 
 	Route::get('berita', 'BeritaController@index');
 	Route::post('berita/tambah', 'BeritaController@store');

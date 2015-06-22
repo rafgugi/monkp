@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>
-    Monitoring Kerja Praktik
+    [Monitoring Kerja Praktik] Home
   </title>
   {!! HTML::style('public/css/bootstrap.min.css') !!}
   {!! HTML::style('public/css/font-awesome.min.css') !!}
