@@ -4,8 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Admin extends Model {
 
+	protected $table = '';
 	protected $appends = ['name'];
-
-	public $name = 'Admin';
+	public $getNameAttribute() { return 'Koor KP'; }
 
 }

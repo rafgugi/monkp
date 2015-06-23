@@ -87,7 +87,7 @@
             </div>
           @endif
           <div class="form-group form-group-lg">
-            <input class="form-control" placeholder="Email" name="email" type="email" value="{{old('email')}}" autofocus>
+            <input class="form-control" placeholder="Username" name="username" type="text" value="{{old('username')}}" autofocus>
           </div>
           <div class="form-group form-group-lg">
             <input class="form-control" placeholder="Password" name="password" type="password" value="">

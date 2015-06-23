@@ -48,10 +48,10 @@ class AuthController extends Controller {
 	public function postLogin(Request $request)
 	{
 		$this->validate($request, [
-			'email' => 'required', 'password' => 'required',
+			'username' => 'required', 'password' => 'required',
 		]);
 
-		$credentials = $request->only('email', 'password');
+		$credentials = $request->only('username', 'password');
 
 		if ($this->auth->attempt($credentials, $request->has('remember')))
 		{
@@ -59,9 +59,9 @@ class AuthController extends Controller {
 		}
 
 		return redirect($this->loginPath())
-					->withInput($request->only('email'))
+					->withInput($request->only('username'))
 					->withErrors([
-						'email' => $this->getFailedLoginMesssage(),
+						'username' => $this->getFailedLoginMesssage(),
 					]);
 	}
 
@@ -75,7 +75,7 @@ class AuthController extends Controller {
 		$validator = Validator::make($request->all(), [
 			'name' => 'required',
 			'nrp' => 'required|numeric',
-			'email' => 'email|unique:users,email',
+			'username' => 'required|unique:users,username',
 			'password' => 'required|same:password_confirmation',
 		]);
 
@@ -95,7 +95,7 @@ class AuthController extends Controller {
 		# make user
 		$user = new User();
 		$user->name = strstr($request->input('name'), ' ', true);
-		$user->email = $request->input('email');
+		$user->username = $request->input('username');
 		$user->password = bcrypt($request->input('password'));
 
 		# attach student to user
