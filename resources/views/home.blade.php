@@ -6,10 +6,7 @@
   </title>
   {!! HTML::style('public/css/bootstrap.min.css') !!}
   {!! HTML::style('public/css/font-awesome.min.css') !!}
-  <style>
-  /* CUSTOMIZE THE CAROUSEL
--------------------------------------------------- */
-
+  <!--style>
 /* Carousel base class */
 .carousel, .carousel .item {
   min-height: 200px;
@@ -24,7 +21,7 @@
 .carousel-control, .carousel-control:hover {
   background-image: none !important;
 }
-  </style>
+  </style-->
 </head>
 <body>
   <div class="jumbotron" style="background-color:#428bca;">
@@ -37,10 +34,8 @@
   </div>
   <div class="container">
     <div class="row">
-      <div class="col-md-9">
+      <!--div class="col-md-9">
         <h4>carousel</h4>
-        <!-- Carousel
-        ================================================== -->
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner" role="listbox">
             <div class="item active">
@@ -76,9 +71,10 @@
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
           </a>
-        </div><!-- /.carousel -->
+        </div>
       </div>
-      <div class="col-md-3">
+      <!-- /.carousel -->
+      <div class="col-md-offset-4 col-md-4">
         <form action="{{url('auth/login')}}" method="post">
           <h4>Login</h4>
           @if (count($errors) > 0)

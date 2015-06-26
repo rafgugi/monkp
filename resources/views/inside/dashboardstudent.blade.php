@@ -61,7 +61,7 @@
             </tr>
             @foreach ($groups as $group)
               <tr data-toggle="collapse" data-target="#clps{{$group->id}}" class="accordion-toggle" title="klik untuk lihat detail">
-                <td>{{$group->status_string}}</td>
+                <td>{{$group->status}}</td>
                 <td>
                   {{$group->students->get(0)->name}}
                   @if (sizeof($group->students) > 1)
@@ -73,20 +73,46 @@
               <tr>
                 <td colspan="3" class="hidden-row">
                   <div class="accordion-body collapse" id="clps{{$group->id}}">
-                    <p>
-                      <strong>Mulai:</strong> {{$group->start_date}}
-                    </p>
-                    <p>
-                      <strong>Selesai:</strong> {{$group->end_date}}
-                    </p>
-                    <p>
-                      <strong>Dosen pembimbing:</strong> 
-                      @if ($group->lecturer != null)
-                        {{$group->lecturer->name}}
-                      @else
-                        -
-                      @endif
-                    </p>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <strong>Status KP</strong>
+                      </div>
+                      <div class="col-md-4">
+                        <select name="status" class="form-control input-sm">
+                          @if ($group->status == 0)
+                            <option value="-1">Tolak Pengajuan</option>
+                            <option value="1">Terima Pengajuan</option>
+                          @elseif ($group->status == 1)
+                            <option value="-2">Ditolak Perusahaan</option>
+                            <option value="2">Diterima Perusahaan</option>
+                          @endif
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <strong>Tanggal Mulai</strong>
+                      </div>
+                      <div class="col-md-4">{{$group->start_date}}</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <strong>Tanggal Selesai</strong>
+                      </div>
+                      <div class="col-md-4">{{$group->end_date}}</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <strong>Dosen pembimbing</strong>
+                      </div>
+                      <div class="col-md-4">
+                        @if ($group->lecturer != null)
+                          {{$group->lecturer->name}}
+                        @else
+                          -
+                        @endif
+                      </div>
+                    </div>
                     <p>
           <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal{{$group->id}}">
             Edit

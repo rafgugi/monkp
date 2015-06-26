@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
+use App\Lecturer;
 
 class HomeController extends Controller {
 
@@ -22,7 +23,6 @@ class HomeController extends Controller {
 
 	public function dashboard()
 	{
-		// dd(Auth::user()->notif);
 		switch (Auth::user()->personable_type) {
 			case 'App\Student':
 				$student = Auth::user()->personable;
@@ -30,19 +30,16 @@ class HomeController extends Controller {
 
 				$data = compact('groups');
 				// dd($data);
-				foreach ($groups as $group) {
-					// dd($group->members->get(0)->student->name);
-				}
 				return view('inside.dashboardstudent', $data);
 				break;
 			case 'App\Lecturer':
 				echo 'welcome lecturer';
 				break;
 			case 'App\Admin':
-				return view('inside.dashboardadmin');
+				return Auth::user()->personable->name;
 				break;
 			default:
-				echo '# code... unreachable impossible';
+				return view('home');
 				break;
 		}
 	}

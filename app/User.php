@@ -10,9 +10,20 @@ class User extends Model  implements AuthenticatableContract {
 	use Authenticatable;
 
 	protected $hidden = ['password', 'role_id'];
+	protected $appends = ['role'];
 	
 	public function role() {
-		return $this->belongsTo('App\Role');
+		if ($this->personable_type == 'App\Student') {
+			return 'STUDENT';
+		} else if ($this->personable_type == 'App\Lecturer') {
+			if ($this->personable->nip == '0') {
+				return 'ADMIN';
+			} else {
+				return 'DOSEN';
+			}
+		} else {
+			return 'UNKNOWN';
+		}
 	}
 
 	public function personable() {

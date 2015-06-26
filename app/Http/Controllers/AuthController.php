@@ -75,7 +75,6 @@ class AuthController extends Controller {
 		$validator = Validator::make($request->all(), [
 			'name' => 'required',
 			'nrp' => 'required|numeric',
-			'username' => 'required|unique:users,username',
 			'password' => 'required|same:password_confirmation',
 		]);
 
@@ -94,8 +93,7 @@ class AuthController extends Controller {
 
 		# make user
 		$user = new User();
-		$user->name = strstr($request->input('name'), ' ', true);
-		$user->username = $request->input('username');
+		$user->username = $request->input('nrp');
 		$user->password = bcrypt($request->input('password'));
 
 		# attach student to user
@@ -126,7 +124,6 @@ class AuthController extends Controller {
 	public function getLogout()
 	{
 		$this->auth->logout();
-
 		return redirect('/');
 	}
 

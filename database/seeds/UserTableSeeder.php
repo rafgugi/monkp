@@ -3,11 +3,12 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Lecturer as Dosen;
 
 class UserTableSeeder extends Seeder {
 
 	/**
-	 * Run the database seeds.
+	 * Create admin user and lecturer users.
 	 *
 	 * @return void
 	 */
@@ -18,12 +19,23 @@ class UserTableSeeder extends Seeder {
 		User::create([
 				'username' => 'koorkp',
 				'password' => bcrypt('koorkp'),
-				'name' => 'Koor KP',
-				'personable_id' => 0,
-				'personable_type' => 'admin',
+				'personable_id' => Dosen::where('nip', '0')->first()->id,
+				'personable_type' => 'lecturer',
 				'created_at' => date("Y-m-d H:i:s"),
 				'updated_at' => date("Y-m-d H:i:s"),
 			]);
+
+		$dosens = Dosen::where('nip', '!=', '0')->get();
+		foreach ($dosens as $dosen) {
+			User::create([
+					'username' => $dosen['nip'],
+					'password' => bcrypt($dosen['nip']),
+					'personable_id' => $dosen->id,
+					'personable_type' => 'lecturer',
+					'created_at' => date("Y-m-d H:i:s"),
+					'updated_at' => date("Y-m-d H:i:s"),
+				]);
+		}
 	}
 
 }

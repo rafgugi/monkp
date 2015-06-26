@@ -31,11 +31,15 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-md-4 control-label">NRP</label>
+                <label class="col-md-4 control-label">
+                  NRP
+                  <i class="fa fa-info text-primary" title="NRP akan digunakan sebagai username untuk login."></i>
+                </label>
                 <div class="col-md-6">
                   <input type="text" class="form-control" name="nrp" value="{{ old('nrp') }}">
                 </div>
-                <p>NRP akan digunakan sebagai username untuk login.</p>
+                <div class="col-md-1">
+                </div>
               </div>
               <div class="form-group">
                 <label class="col-md-4 control-label">E-Mail</label>
