@@ -16,6 +16,9 @@
       padding: 3px 20px;
       min-height: 0;
     }
+    .borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
+      border: none !important;
+    }
   </style>
   @yield('css')
 </head>
@@ -103,17 +106,24 @@
               <a href="{{url('home')}}"><i class="fa fa-home fa-fw"></i> Dashboard</a>
             </li>
             <li>
-              <a href="{{url('tabel')}}"><i class="fa fa-home fa-fw"></i> Tabel</a>
-            </li>
-            <li>
               <a href="{{url('berita')}}"><i class="fa fa-newspaper-o fa-fw"></i> Berita</a>
             </li>
-            <li>
-              <a href="{{url('pengajuan')}}"><i class="fa fa-edit fa-fw"></i> Pengajuan</a>
-            </li>
-            <li>
-              <a href="{{url('pengajuan')}}"><i class="fa fa-cog fa-fw"></i> Pengaturan</a>
-            </li>
+            @if (Auth::user()->role == 'STUDENT')
+              <li>
+                <a href="{{url('pengajuan')}}"><i class="fa fa-edit fa-fw"></i> Pengajuan</a>
+              </li>
+            @endif
+            @if (Auth::user()->role == 'ADMIN')
+              <li>
+                <a href="{{url('stats')}}"><i class="fa fa-bar-chart fa-fw"></i> Statistics</a>
+              </li>
+              <li>
+                <a href="{{url('table')}}"><i class="fa fa-table fa-fw"></i> Tabel</a>
+              </li>
+              <li>
+                <a href="{{url('settings')}}"><i class="fa fa-cog fa-fw"></i> Pengaturan</a>
+              </li>
+            @endif
           </ul>
         </div>
         <!-- /.sidebar-collapse -->

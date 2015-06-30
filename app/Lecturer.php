@@ -5,9 +5,10 @@ use Illuminate\Database\Eloquent\Model;
 class Lecturer extends Model {
 
 	public $timestamps = false;
+	protected $morphClass = "lecturer";
 
 	public function user() {
-		return $this->hasOne('App\User', 'personable_id');
+		return $this->morphOne('App\User', 'personable');
 	}
 
 	public static function getDosen() {

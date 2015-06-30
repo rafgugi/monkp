@@ -5,13 +5,14 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model {
 
 	public $timestamps = false;
+	protected $morphClass = "student";
 
 	public function members() {
 		return $this->hasMany('App\Member');
 	}
 
 	public function user() {
-		return $this->hasOne('App\User', 'personable_id');
+		return $this->morphOne('App\User', 'personable');
 	}
 
 	public function groups() {

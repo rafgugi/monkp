@@ -16,7 +16,7 @@ class PengajuanController extends Controller {
 	 * Only student is allowed to access.
 	 */
 	public function __construct() {
-		$this->middleware('student');
+		$this->middleware('student', ['except' => ['destroy']]);
 	}
 
 	/**
@@ -41,7 +41,7 @@ class PengajuanController extends Controller {
 	public function store(StoreRequest $request)
 	{
 		$req = $request->all();
-		$creq = array_only($req['corporation'], ['name']);
+		$creq = $req['corporation'];
 		$greq = $req['group'];
 
 		# fill corporation
@@ -94,12 +94,13 @@ class PengajuanController extends Controller {
 
 	public function reject($id)
 	{
+		dd('a');
 		$groupreq = Friend::find($id);
 		$groupreq->status = 2;
 		$groupreq->notif->is_read = true;
 		$groupreq->notif->save();
 		$groupreq->save();
-
+		dd($groupreq, $groupreq->notif);
 		return redirect()->back();
 	}
 
@@ -145,12 +146,16 @@ class PengajuanController extends Controller {
 	public function destroy($id)
 	{
 		$group = Group::find($id);
-		$group->status = -1;
 		foreach ($group->requests as $request) {
 			$request->notif->delete();
 			$request->delete();
 		}
+		foreach ($group->members as $member) {
+			$member->delete();
+		}
+		$group->delete();
 
+		return redirect()->back();
 	}
 
 }

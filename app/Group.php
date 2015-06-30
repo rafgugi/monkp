@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Group extends Model {
 
 	protected $fillable = ['start_date', 'end_date'];
-	// protected $appends = ['status_string'];
+	protected $appends = ['status_string'];
 
 	public function students() {
 		return $this->belongsToMany('App\Student', 'members');
@@ -27,12 +27,18 @@ class Group extends Model {
 		return $this->hasMany('App\GroupRequest');
 	}
 
-	// public function getStatusStringAttribute($status) {
-	// 	return  $status == -1 ? 'deleted' :(
-	// 			$status ==  0 ? 'created' :(
-	// 			$status ==  1 ? 'confirmed' :(
-	// 			$status ==  5 ? 'finished' :
-	// 				'unknown')));
-	// }
+	public function members() {
+		return $this->hasMany('App\Member');
+	}
+
+	public function getStatusStringAttribute($status) {
+		return  $status ==  0 ? 'created' :(
+				$status == -1 ? 'denied' :(
+				$status ==  1 ? 'confirmed' :(
+				$status == -2 ? 'rejected' :(
+				$status ==  2 ? 'progress' :(
+				$status ==  3 ? 'finished' :
+					'unknown')))));
+	}
 
 }

@@ -82,7 +82,7 @@ class AuthController extends Controller {
 	{
 		$this->validate($request, [
 			'name' => 'required',
-			'nrp' => 'required|numeric',
+			'nrp' => 'required|numeric|unique:users,username',
 			'password' => 'required|same:password_confirmation',
 		]);
 

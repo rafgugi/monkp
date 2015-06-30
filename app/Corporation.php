@@ -21,4 +21,8 @@ class Corporation extends Model {
 		return $this->name . ' - ' . $this->city;
 	}
 
+	public function groups() {
+		return $this->hasMany('App\Group');
+	}
+
 }

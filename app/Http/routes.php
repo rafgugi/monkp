@@ -14,9 +14,6 @@
 Route::get('/', function() {
 	return redirect('home');
 });
-Route::get('tabel', function() {
-	return view('inside.tabel');
-});
 
 Route::get('home', 'HomeController@index');
 
@@ -25,9 +22,13 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::post('pengajuan', 'PengajuanController@store');
 	Route::get('pengajuan/accept/{id}', 'PengajuanController@accept');
 	Route::get('pengajuan/reject/{id}', 'PengajuanController@reject');
+	Route::get('pengajuan/destroy/{id}', 'PengajuanController@destroy');
 
 	Route::get('berita', 'BeritaController@index');
 	Route::post('berita/tambah', 'BeritaController@store');
+
+	Route::get('stats', 'HomeController@stats');
+	Route::get('table', 'HomeController@table');
 
 	Route::get('settings', 'SettingsController@index');
 });

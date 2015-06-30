@@ -4,10 +4,6 @@
   <h1>Settings</h1>
   <div class="panel panel-default">
     <div class="panel-body">
-      <p>
-        <strong>Periode sekarang:</strong>
-        {{$semester==null?'-':$semester->toString()}}
-      </p>
       <h4><strong>Ganti semester:</strong></h4>
       <form action="" class="form-horizontal">
         <div class="form-group">
@@ -23,6 +19,11 @@
               <option value="1">Gasal</option>
               <option value="0">Genap</option>
             </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-3 col-md-offset-2">
+            <input type="submit" value="Submit" class="btn btn-success">
           </div>
         </div>
       </form>
