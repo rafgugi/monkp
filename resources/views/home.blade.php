@@ -79,7 +79,7 @@
           <h4>Login</h4>
           @if (count($errors) > 0)
             <div class="alert alert-info">
-              <strong>Whoops!</strong> Login failed.
+              <strong>Whoops!</strong> {{$errors->first()}}
             </div>
           @endif
           <div class="form-group form-group-lg">

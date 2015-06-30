@@ -28,6 +28,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 	Route::get('berita', 'BeritaController@index');
 	Route::post('berita/tambah', 'BeritaController@store');
+
+	Route::get('settings', 'SettingsController@index');
 });
 
 Route::controllers([

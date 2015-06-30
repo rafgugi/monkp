@@ -109,7 +109,11 @@
                         @if ($group->lecturer != null)
                           {{$group->lecturer->name}}
                         @else
-                          -
+                          <select name="lecturer_id" class="form-control input-sm">
+                            @foreach ($lecturers as $l)
+                              <option value="{{$l->id}}">{{$l->initial}} - {{$l->name}} ({{$l->groups->count()}})</option>
+                            @endforeach
+                          </select>
                         @endif
                       </div>
                     </div>

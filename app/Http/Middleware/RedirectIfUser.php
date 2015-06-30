@@ -7,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 class RedirectIfUser {
 
 	/**
-	 * This actually $user->personable_type.
+	 * This actually $user->role.
 	 */
 	protected $user;
 
@@ -25,16 +25,11 @@ class RedirectIfUser {
 	 */
 	public function handle($request, Closure $next)
 	{
-		$user = $this->namespaced($this->user);
-		if (Auth::user()->personable_type != $user) {
+		$user = strtoupper($this->user);
+		if (Auth::user()->role != $user) {
 			return new RedirectResponse(url('/home'));
 		}
 		return $next($request);
-	}
-
-	public function namespaced($type, $namespace = 'App') {
-		$type = strtolower($type);
-		return $namespace.'\\'. str_replace(' ', '', ucwords($type));
 	}
 
 }

@@ -14,4 +14,12 @@ class Lecturer extends Model {
 		return static::where('nip', '!=', '0')->get();
 	}
 
+	public function groups() {
+		return $this->hasMany('App\Group');
+	}
+
+	public function getNameAttribute($name) {
+		return ucwords(strtolower($name));
+	}
+
 }

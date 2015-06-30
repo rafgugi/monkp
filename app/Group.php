@@ -15,10 +15,6 @@ class Group extends Model {
 		return $this->belongsTo('App\Corporation');
 	}
 
-	public function grade() {
-		return $this->hasOne('App\Grade');
-	}
-
 	public function mentor() {
 		return $this->hasOne('App\Mentor');
 	}

@@ -30,7 +30,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#"><strong>MonKP</strong></a>
+        <a class="navbar-brand" href="#"><strong>MonKP Periode {{App\Semester::latest()->toString()}}</strong></a>
       </div>
       <!-- /.navbar-header -->
 

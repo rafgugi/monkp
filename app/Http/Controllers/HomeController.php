@@ -23,12 +23,13 @@ class HomeController extends Controller {
 
 	public function dashboard()
 	{
+		$lecturers = Lecturer::getDosen()->sortBy('initial');
 		switch (Auth::user()->personable_type) {
 			case 'App\Student':
 				$student = Auth::user()->personable;
 				$groups = $student->groups;
 
-				$data = compact('groups');
+				$data = compact('groups', 'lecturers');
 				// dd($data);
 				return view('inside.dashboardstudent', $data);
 				break;

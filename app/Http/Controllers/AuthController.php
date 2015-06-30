@@ -5,12 +5,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use App\User;
 use App\Student;
-use Validator;
 
 class AuthController extends Controller {
 
 	/**
-	 * The Guard implementation.
+	 * The Guard implementation. See Illuminate\Auth\Guard.
 	 *
 	 * @var Guard
 	 */
@@ -24,9 +23,8 @@ class AuthController extends Controller {
 	 */
 	public function __construct(Guard $auth)
 	{
-		$this->auth = $auth;
-
 		$this->middleware('guest', ['except' => 'getLogout']);
+		$this->auth = $auth;
 	}
 
 	/**
@@ -52,38 +50,41 @@ class AuthController extends Controller {
 		]);
 
 		$credentials = $request->only('username', 'password');
-
-		if ($this->auth->attempt($credentials, $request->has('remember')))
+		if ($this->auth->attempt($credentials, false))
 		{
 			return redirect()->intended($this->redirectPath());
 		}
 
-		return redirect($this->loginPath())
-					->withInput($request->only('username'))
-					->withErrors([
-						'username' => $this->getFailedLoginMesssage(),
-					]);
+		return redirect()->back()
+				->withInput($request->only('username'))
+				->withErrors([
+					'username' => 'Incorrect username and/or password.',
+				]);
 	}
 
+	/**
+	 * Show the application register form.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
 	public function getRegister()
 	{
 		return view('register');
 	}
 
+	/**
+	 * Handle a register request to the application.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function postRegister(Request $request)
 	{
-		$validator = Validator::make($request->all(), [
+		$this->validate($request, [
 			'name' => 'required',
 			'nrp' => 'required|numeric',
 			'password' => 'required|same:password_confirmation',
 		]);
-
-		if ($validator->fails())
-		{
-			$this->throwValidationException(
-				$request, $validator
-			);
-		}
 
 		# make student
 		$student = new Student();
@@ -104,16 +105,6 @@ class AuthController extends Controller {
 		$this->auth->login($user);
 
 		return redirect($this->redirectPath());
-	}
-
-	/**
-	 * Get the failed login message.
-	 *
-	 * @return string
-	 */
-	protected function getFailedLoginMesssage()
-	{
-		return 'These credentials do not match our records.';
 	}
 
 	/**
@@ -140,16 +131,6 @@ class AuthController extends Controller {
 		}
 
 		return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
-	}
-
-	/**
-	 * Get the path to the login route.
-	 *
-	 * @return string
-	 */
-	public function loginPath()
-	{
-		return property_exists($this, 'loginPath') ? $this->loginPath : '/home';
 	}
 
 }

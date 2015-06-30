@@ -5,21 +5,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
-class User extends Model  implements AuthenticatableContract {
+class User extends Model implements AuthenticatableContract {
 
 	use Authenticatable;
 
-	protected $hidden = ['password', 'role_id'];
+	protected $hidden = ['password'];
 	protected $appends = ['role'];
 	
-	public function role() {
+	public function getRoleAttribute() {
 		if ($this->personable_type == 'App\Student') {
 			return 'STUDENT';
 		} else if ($this->personable_type == 'App\Lecturer') {
 			if ($this->personable->nip == '0') {
 				return 'ADMIN';
 			} else {
-				return 'DOSEN';
+				return 'LECTURER';
 			}
 		} else {
 			return 'UNKNOWN';
