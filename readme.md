@@ -1,27 +1,17 @@
-## Laravel PHP Framework
+## Monitoring Kerja Praktik
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+### Cara menginstal (windows)
+ - Install requirement: [xampp](https://www.apachefriends.org/download.html)(web server, PHP >= 5.4, mysql), [composer](https://getcomposer.org/download).
+ - Buat folder `monkp` di direktori public xampp. Biasanya di `C:\xampp\htdocs`.
+ - Download source ini dan masukkan ke dalam folder `monkp`.
+ - Buka command line, jalankan `composer-update` di direktori utama `monkp`.
+ - Selagi menunggu update selesai, buat database baru di mysql, beri nama `monkp`.
+ - Rename `./.env.example` menjadi `.env`.
+ - Setelah update selesai, jalankan `composer dump-autoload`.
+ - Jalankan `php artisan migrate` untuk membuat seluruh tabel.
+ - Jalankan `php artisan db:seed` untuk menginisialisasi record.
+ - Buka `localhost/monkp` lewat browser.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
-
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
-
-## Official Documentation
-
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-### License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+### Cara menginstal (linux)
+ - Baca cara menginstal (windows).
+ - Instal sendiri setau anda. Cari di google bila perlu.
