@@ -42,5 +42,4 @@
   </div>
   {!! HTML::script('public/js/jquery.min.js') !!}
   {!! HTML::script('public/js/bootstrap.min.js') !!}
-  {!! HTML::script('public/js/sb-admin-2.js') !!}
 </body>

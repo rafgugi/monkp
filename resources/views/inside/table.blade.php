@@ -1,9 +1,8 @@
 @extends('inside.app')
 
 @section('content')
-  <h1>Dashboard</h1>
+  <h1>List Mahasiswa Mengambil KP</h1>
   <div class="panel panel-default">
-    <div class="panel-body">
       <div class="table-responsive">
         <table class="table table-bordered">
           <tr>
@@ -25,7 +24,7 @@
             <tr>
               <td nowrap>{{$member->student->name}}</td>
               <td nowrap>{{$member->student->nrp}}</td>
-              <td nowrap>{{$member->group->id}} ({{$member->group->status_string}})</td>
+              <td nowrap>{{$member->group->id}} ({{$member->group->status['name']}})</td>
               <td nowrap>{{$member->group->start_date}}</td>
               <td nowrap>{{$member->group->end_date}}</td>
               <td nowrap>{{$member->group->lecturer == null ? '-' : $member->group->lecturer->name}}</td>
@@ -40,6 +39,5 @@
           @endforeach
         </table>
       </div>
-    </div>
   </div>
 @endsection

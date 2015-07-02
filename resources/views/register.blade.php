@@ -6,7 +6,7 @@
   {!! HTML::style('public/css/font-awesome.min.css') !!}
 </head>
 <body style="background-color:#555;">
-  <div class="container" style="margin-top:5%;">
+  <div class="container" style="margin-top:6%;">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
@@ -33,7 +33,7 @@
               <div class="form-group">
                 <label class="col-md-4 control-label">
                   NRP
-                  <i class="fa fa-info text-primary" title="NRP akan digunakan sebagai username untuk login."></i>
+                  <i class="fa fa-info-circle text-primary" title="NRP akan digunakan sebagai username untuk login."></i>
                 </label>
                 <div class="col-md-6">
                   <input type="text" class="form-control" name="nrp" value="{{ old('nrp') }}">
@@ -61,6 +61,7 @@
               </div>
               <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
+                  <a href="{{url('/')}}" class="btn btn-default">Back</a>
                   <button type="submit" class="btn btn-primary">Register</button>
                 </div>
               </div>

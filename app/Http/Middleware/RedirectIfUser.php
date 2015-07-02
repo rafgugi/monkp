@@ -3,6 +3,7 @@
 use Closure;
 use Auth;
 use Illuminate\Http\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RedirectIfUser {
 

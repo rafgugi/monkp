@@ -7,12 +7,12 @@ class Student extends Model {
 	public $timestamps = false;
 	protected $morphClass = "student";
 
-	public function members() {
-		return $this->hasMany('App\Member');
-	}
-
 	public function user() {
 		return $this->morphOne('App\User', 'personable');
+	}
+
+	public function members() {
+		return $this->hasMany('App\Member');
 	}
 
 	public function groups() {

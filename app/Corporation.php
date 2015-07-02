@@ -25,4 +25,12 @@ class Corporation extends Model {
 		return $this->hasMany('App\Group');
 	}
 
+	public static function total() {
+		$total = 0;
+		foreach (static::get() as $corp) {
+			$total += $corp->groups->count();
+		}
+		return $total;
+	}
+
 }

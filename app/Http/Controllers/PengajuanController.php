@@ -13,13 +13,6 @@ use Auth;
 class PengajuanController extends Controller {
 
 	/**
-	 * Only student is allowed to access.
-	 */
-	public function __construct() {
-		$this->middleware('student', ['except' => ['destroy']]);
-	}
-
-	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
@@ -81,80 +74,28 @@ class PengajuanController extends Controller {
 	public function accept($id)
 	{
 		$groupreq = Friend::find($id);
-		$groupreq->status = 1;
-		$groupreq->notif->is_read = true;
-		$groupreq->notif->save();
-		$groupreq->save();
+		if ($groupreq != null) {
+			$groupreq->status = 1;
+			$groupreq->notif->is_read = true;
+			$groupreq->notif->save();
+			$groupreq->save();
 
-		$student = Auth::user()->personable;
-		$student->groups()->attach($groupreq->group_id);
-
+			$student = Auth::user()->personable;
+			$student->groups()->attach($groupreq->group_id);
+		}
 		return redirect()->back();
 	}
 
 	public function reject($id)
 	{
-		dd('a');
 		$groupreq = Friend::find($id);
-		$groupreq->status = 2;
-		$groupreq->notif->is_read = true;
-		$groupreq->notif->save();
-		$groupreq->save();
-		dd($groupreq, $groupreq->notif);
-		return redirect()->back();
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id of Group
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		$group = Group::find($id);
-		foreach ($group->requests as $request) {
-			$request->notif->delete();
-			$request->delete();
+		if ($groupreq != null) {
+			$groupreq->status = 2;
+			$groupreq->notif->is_read = true;
+			$groupreq->notif->save();
+			$groupreq->save();
+			dd($groupreq, $groupreq->notif);
 		}
-		foreach ($group->members as $member) {
-			$member->delete();
-		}
-		$group->delete();
-
 		return redirect()->back();
 	}
 

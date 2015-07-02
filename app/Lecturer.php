@@ -7,20 +7,20 @@ class Lecturer extends Model {
 	public $timestamps = false;
 	protected $morphClass = "lecturer";
 
-	public function user() {
-		return $this->morphOne('App\User', 'personable');
+	public function getNameAttribute($name) {
+		return ucwords(strtolower($name));
 	}
 
 	public static function getDosen() {
 		return static::where('nip', '!=', '0')->get();
 	}
 
-	public function groups() {
-		return $this->hasMany('App\Group');
+	public function user() {
+		return $this->morphOne('App\User', 'personable');
 	}
 
-	public function getNameAttribute($name) {
-		return ucwords(strtolower($name));
+	public function groups() {
+		return $this->hasMany('App\Group');
 	}
 
 }

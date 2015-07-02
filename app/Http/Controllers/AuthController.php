@@ -34,7 +34,7 @@ class AuthController extends Controller {
 	 */
 	public function getLogin()
 	{
-		return redirect('home');
+		return view('home');
 	}
 
 	/**

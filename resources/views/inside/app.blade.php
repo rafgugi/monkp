@@ -103,7 +103,7 @@
         <div class="sidebar-nav navbar-collapse">
           <ul class="nav" id="side-menu">
             <li>
-              <a href="{{url('home')}}"><i class="fa fa-home fa-fw"></i> Dashboard</a>
+              <a href="{{url('home')}}"><i class="fa fa-users fa-fw"></i> Kelompok</a>
             </li>
             <li>
               <a href="{{url('berita')}}"><i class="fa fa-newspaper-o fa-fw"></i> Berita</a>

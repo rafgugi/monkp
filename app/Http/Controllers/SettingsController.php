@@ -8,13 +8,6 @@ use App\Semester;
 class SettingsController extends Controller {
 
 	/**
-	 * Only student is allowed to access.
-	 */
-	public function __construct() {
-		$this->middleware('admin');
-	}
-
-	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
