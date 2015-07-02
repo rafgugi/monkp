@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
           <div class="col-md-3 col-md-offset-2">
-            <input type="submit" value="Submit" class="btn btn-success">
+            <input type="submit" value="Submit" class="btn btn-primary">
           </div>
         </div>
       </form>

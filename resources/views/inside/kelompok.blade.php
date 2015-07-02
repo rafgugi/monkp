@@ -107,7 +107,7 @@
                 </div>
                 <div class="col-md-offset-3">
                   @if (Auth::user()->role != 'STUDENT')
-                    <button type="button" class="btn btn-info" onclick="save({{$group->id}})">Save</button>
+                    <button type="button" class="btn btn-primary" onclick="save({{$group->id}})">Save</button>
                   @endif
                   @if ($group->status['status'] == 0)
                     <a href="{{url('pengajuan/destroy/'.$group->id)}}" class="btn btn-danger">
