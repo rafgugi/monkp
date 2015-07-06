@@ -50,8 +50,8 @@
                   <div class="col-md-6">
                     <div class="form-horizontal">
                       <div class="form-group">
-                        <label class="col-md-5 control-label">Status KP</label>
-                        <div class="col-md-7">
+                        <label class="col-md-4 control-label">Status KP</label>
+                        <div class="col-md-6">
                           <select class="form-control input-sm" id="status{{$group->id}}" onchange="change({{$group->id}})">
                             <option value="{{$group->status['status']}}">
                               {{strtoupper($group->status['name'])}}
@@ -69,12 +69,12 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-5 control-label">Dosen Pembimbing</label>
-                        <div class="col-md-7 control-text" id="dosentext{{$group->id}}">
+                        <label class="col-md-4 control-label">Dosen Pembimbing</label>
+                        <div class="col-md-6 control-text" id="dosentext{{$group->id}}">
                           {{$group->lecturer == null ? '-' : $group->lecturer->name}}
                         </div>
                         @if (Auth::user()->role != 'STUDENT')
-                          <div class="col-md-7" id="dosenselect{{$group->id}}">
+                          <div class="col-md-6" id="dosenselect{{$group->id}}">
                             <select class="form-control input-sm" id="dosen{{$group->id}}">
                               <option value="-">-- PILIH DOSEN PEMBIMBING --</option>
                               @foreach ($lecturers as $l)
@@ -91,15 +91,36 @@
                   <div class="col-md-6">
                     <div class="form-horizontal">
                       <div class="form-group">
-                        <label class="col-md-5 control-label">Tanggal Mulai</label>
-                        <div class="col-md-7 control-text">
-                          <strong class="control-text">{{$group->start_date}}</strong>
+                        <label class="col-md-4 control-label">Tanggal Mulai</label>
+                        <div class="col-md-6 control-text">
+                          @if (Auth::user()->role == 'STUDENT')
+                            {{$group->start_date}}
+                          @else
+                            <input type="date" class="form-control datepicker input-sm" data-provide="datepicker" name="start_date" value="{{$group->start_date}}">
+                          @endif
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-md-5 control-label">Tanggal Selesai</label>
-                        <div class="col-md-7 control-text">
-                          <strong class="control-text">{{$group->end_date}}</strong>
+                        <label class="col-md-4 control-label">Tanggal Selesai</label>
+                        <div class="col-md-6 control-text">
+                          @if (Auth::user()->role == 'STUDENT')
+                            {{$group->end_date}}
+                          @else
+                            <input type="date" class="form-control datepicker input-sm" data-provide="datepicker" name="end_date" value="{{$group->end_date}}">
+                          @endif
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-horizontal">
+                      <div class="form-group">
+                        <label class="col-md-2 control-label">Mahasiswa</label>
+                        <div class="col-md-10 control-text">
+                          {{$group->students->get(0)->nrp}} {{$group->students->get(0)->name}}
+                          @for ($i = 1; $i < $group->students->count(); $i++)
+                            - {{$group->students->get($i)->nrp}} {{$group->students->get($i)->name}}
+                          @endfor
                         </div>
                       </div>
                     </div>
@@ -125,7 +146,7 @@
 @endsection
 
 @section('js')
-  @if (Auth::user()->role != 'STUDENT')
+  @if (Auth::user()->role != 'STUDENT' && sizeof($groups) >= 1)
   <script>
     function niceAlert(msg) {
       $("#alert-container").html(

@@ -57,10 +57,6 @@ class GroupController extends Controller {
 	 */
 	public function update($id, $rstat, $rlect)
 	{
-		// $req = $request->all();
-		// // dd($req);
-		// $rstat = $req['status'];
-		// $rlect = $req['dosen'];
 		$group = Group::find($id);
 		if ($group == null) {
 			return $this->alert('danger', 'ID kelompok tidak terdaftar.');
@@ -86,6 +82,11 @@ class GroupController extends Controller {
 		return $this->alert('info', 'Alhamdulillah, kelompok telah berhasil diperbarui.');
 	}
 
+	/**
+	 * Create json alert for view 'inside.kelompok'.
+	 *
+	 * @return string
+	 */
 	protected function alert($alert, $body) {
 		return json_encode(compact('alert', 'body'));
 	}

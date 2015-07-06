@@ -6,9 +6,9 @@ class Group extends Model {
 
 	protected $fillable = ['start_date', 'end_date'];
 	protected $status_collection = [
-		['status' =>  0, 'name' => 'created', 'desc' => 'Pengajuan kelompok KP baru saja dibuat', 'changeto' => [-1, 1]],
+		['status' =>  0, 'name' => 'created', 'desc' => 'Pengajuan kelompok KP baru saja dibuat', 'changeto' => [1, -1]],
 		['status' => -1, 'name' => 'denied', 'desc' => 'Pengajuan kelompok KP ditolak oleh Koor KP', 'changeto' => []],
-		['status' =>  1, 'name' => 'confirmed', 'desc' => 'Pengajuan kelompok KP telah dikonfirmasi', 'changeto' => [-2, 2]],
+		['status' =>  1, 'name' => 'confirmed', 'desc' => 'Pengajuan kelompok KP telah dikonfirmasi', 'changeto' => [2, -2]],
 		['status' => -2, 'name' => 'rejected', 'desc' => 'Pengajuan kelompok KP ditolak perusahaan', 'changeto' => []],
 		['status' =>  2, 'name' => 'progress', 'desc' => 'Pengajuan kelompok KP diterima perusahaan', 'changeto' => [3]],
 		['status' =>  3, 'name' => 'finished', 'desc' => 'Proses KP telah selesai', 'changeto' => [2]],

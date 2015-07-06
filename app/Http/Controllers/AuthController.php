@@ -23,7 +23,7 @@ class AuthController extends Controller {
 	 */
 	public function __construct(Guard $auth)
 	{
-		$this->middleware('guest', ['except' => 'getLogout']);
+		$this->middleware('guest', ['except' => ['getLogout', 'getProfile', 'postProfile']]);
 		$this->auth = $auth;
 	}
 
@@ -60,6 +60,38 @@ class AuthController extends Controller {
 				->withErrors([
 					'username' => 'Incorrect username and/or password.',
 				]);
+	}
+
+	/**
+	 * Show the user settings form.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function getProfile()
+	{
+		return view('inside.profile');
+	}
+
+	/**
+	 * Handle user settings.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function postProfile(Request $request)
+	{
+		$this->validate($request, [
+			'password' => 'required|same:password_confirmation',
+		]);
+
+		$old = bcrypt($request->input('old_password'));
+		$new = bcrypt($request->input('password'));
+		if ($old == $this->auth->user()->password) {
+			$this->auth->user()->password = $new;
+			$this->auth->user()->save();
+			return redirect('/');
+		}
+		dd($request->input('old_password'), $request->input('password'), $old, $new, $this->auth->user()->password);
+		return redirect()->back()->withErrors(['Wrong password.']);
 	}
 
 	/**

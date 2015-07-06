@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Corporation;
 use App\Group;
 use App\Student;
-use App\User;
+use App\Semester;
 use App\GroupRequest as Friend;
 use App\Notification as Notif;
 use Auth;
@@ -45,6 +45,7 @@ class PengajuanController extends Controller {
 		# make group
 		$group = new Group($greq);
 		$group->corporation()->associate($corp);
+		$group->semester()->associate(Semester::now());
 		$group->save();
 
 		# connect group to student

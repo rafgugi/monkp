@@ -1,4 +1,4 @@
 @extends('errors.error')
 @section('content')
-Be right back.
+Page not found.
 @endsection
