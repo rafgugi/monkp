@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::group(['middleware' => ['admin']], function() {
 		Route::get('stats', 'GroupController@stats');
 		Route::get('table', 'GroupController@table');
+		Route::get('table/grading/{id}', 'GroupController@grading');
 		Route::get('settings', 'SettingsController@index');
 		Route::post('berita/tambah', 'BeritaController@store');
 	});

@@ -1,7 +1,7 @@
 @extends('inside.app')
 
 @section('content')
-  <h1>List Mahasiswa Mengambil KP</h1>
+  <h1>List Mahasiswa Mengambil KP{{date('Y-m-d')}}</h1>
   <div id="alert-container"></div>
   <div class="panel panel-default">
     @if (sizeof($members) < 1)
@@ -36,32 +36,32 @@
               <td nowrap>{{$member->group->mentor == null ? '-' : $member->group->mentor->name}}</td>
               @if ($member->group->status['status'] != 2)
                 <td class="text-center">
-                  {{$member->group->grade == null ? '-' : $member->group->grade->lecturer_grade}}
+                  {{$member->grade == null ? '-' : $member->grade->lecturer_grade}}
                 </td>
                 <td class="text-center">
-                  {{$member->group->grade == null ? '-' : $member->group->grade->mentor_grade}}
+                  {{$member->grade == null ? '-' : $member->grade->mentor_grade}}
                 </td>
                 <td class="text-center">
-                  {{$member->group->grade == null ? '-' : $member->group->grade->discipline_grade}}
+                  {{$member->grade == null ? '-' : $member->grade->discipline_grade}}
                 </td>
                 <td class="text-center">
-                  {{$member->group->grade == null ? '-' : $member->group->grade->report_status}}
+                  {{$member->grade == null ? '-' : $member->grade->report_status}}
                 </td>
               @else
                 <td class="text-center">
-                  <input type="text" class="form-control" name="lecturer_grade" value="{{$member->group->grade == null ? '' : $member->group->grade->lecturer_grade}}">
+                  <input type="text" class="form-control" id="lecturer_grade{{$member->id}}" value="{{$member->grade == null ? '' : $member->grade->lecturer_grade}}">
                 </td>
                 <td class="text-center">
-                  <input type="text" class="form-control" name="mentor_grade" value="{{$member->group->grade == null ? '' : $member->group->grade->mentor_grade}}">
+                  <input type="text" class="form-control" id="mentor_grade{{$member->id}}" value="{{$member->grade == null ? '' : $member->grade->mentor_grade}}">
                 </td>
                 <td class="text-center">
-                  <input type="text" class="form-control" name="discipline_grade" value="{{$member->group->grade == null ? '' : $member->group->grade->discipline_grade}}">
+                  <input type="text" class="form-control" id="discipline_grade{{$member->id}}" value="{{$member->grade == null ? '' : $member->grade->discipline_grade}}">
                 </td>
                 <td class="text-center">
-                  <input type="text" class="form-control" name="report_status" value="{{$member->group->grade == null ? '' : $member->group->grade->report_status}}">
+                  <input type="text" class="form-control" id="report_status{{$member->id}}" value="{{$member->grade == null ? '' : $member->grade->report_status}}">
                 </td>
               @endif
-              <td><a href="#" class="btn btn-info">Edit</a></td>
+              <td><button type="button" class="btn btn-primary" onclick="save({{$member->id}})">Save</button></td>
             </tr>
           @endforeach
         </table>
@@ -80,49 +80,26 @@
       );
     }
 
-    function change(id) {
-      if ($("#status" + id).val() == 2) { // jika statusnya 'progress'
-        $("#dosenselect{{$group->id}}").removeClass("hidden");
-        $("#dosentext{{$group->id}}").addClass("hidden");
-      } else {
-        $("#dosenselect{{$group->id}}").addClass("hidden");
-        $("#dosentext{{$group->id}}").removeClass("hidden");
-      }
-    }
-
-    function save(id) {
-      var status = $("#status"+id).val();
-      var dosen = $("#dosen"+id).val();
+    function save(id) { // member id
       $.ajax({
         type: "GET",
         dataType: "json",
         data: {
-          dosen: $("#dosen"+id).val(),
-          status: $("#status"+id).val()
+          lecturer_grade: $("#lecturer_grade"+id).val(),
+          mentor_grade: $("#mentor_grade"+id).val(),
+          discipline_grade: $("#discipline_grade"+id).val(),
+          report_status: $("#report_status"+id).val()
         },
-        url: "{{url('pengajuan/update')}}/" + id + '/' + status + '/' + dosen,
+        url: "{{url('table/grading')}}/" + id,
         success: function(data){
+          console.log(data);
           niceAlert(data);
         },
         error: function(data) {
-          niceAlert({alert: 'danger', body: 'Failed to fetch data via ajax.'});
+          console.log(data);
+          niceAlert({alert: 'danger', body: data});
         }
       });
     }
-
-    $(document).ready(function() {
-      @foreach ($groups as $group)
-        // kalau status group itu 2, maka tampilkan dropdown dosen.
-        @if ($group->status['status'] != 2)
-          $("#dosenselect{{$group->id}}").addClass("hidden");
-        @else
-          $("#dosentext{{$group->id}}").addClass("hidden");
-        @endif
-        // default isi dosen nya
-        @if ($group->lecturer != null)
-          $("#dosen{{$group->id}}").val({{$group->lecturer->id}});
-        @endif
-      @endforeach
-    });
   </script>
 @endsection

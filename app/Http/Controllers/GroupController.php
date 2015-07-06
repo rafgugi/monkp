@@ -79,7 +79,30 @@ class GroupController extends Controller {
 			$group->status = $rstat;
 			$group->save();
 		}
-		return $this->alert('info', 'Alhamdulillah, kelompok telah berhasil diperbarui.');
+		return $this->alert('info', 'Kelompok telah berhasil diperbarui.');
+	}
+
+	public function grading($id, Request $request)
+	{
+		$req = $request->all();
+		$lecturer_grade = $req['lecturer_grade'];
+		$mentor_grade = $req['mentor_grade'];
+		$discipline_grade = $req['discipline_grade'];
+		$report_status = $req['report_status'];
+
+		$member = Member::find($id);
+		if ($member->grade == null) {
+			$member->grade = new Grade;
+		}
+		$grade = $member->grade;
+
+		$member->grade->lecturer_grade = is_numeric($lecturer_grade) ? $lecturer_grade : '';
+		$member->grade->mentor_grade = is_numeric($mentor_grade) ? $mentor_grade : '';
+		$member->grade->discipline_grade = is_numeric($discipline_grade) ? $discipline_grade : '';
+		$member->grade->report_status = is_numeric($report_status) ? $report_status : '';
+
+		$member->grade->save();
+		return $this->alert('info', 'Nilai berhasil diperbarui.');
 	}
 
 	/**
