@@ -2,6 +2,7 @@
 
 ### Cara menginstal (windows)
  - Install requirement: [xampp](https://www.apachefriends.org/download.html)(web server, PHP >= 5.4, mysql), [composer](https://getcomposer.org/download).
+ - Ubah settings apache `php.ini`, hapus `;` pada `extension=php_fileinfo.dll`
  - Buat folder `monkp` di direktori public xampp. Biasanya di `C:\xampp\htdocs`.
  - Download source ini dan masukkan ke dalam folder `monkp`.
  - Buka command line, jalankan `composer-update` di direktori utama `monkp`.
