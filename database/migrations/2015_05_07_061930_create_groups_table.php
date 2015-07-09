@@ -16,10 +16,11 @@ class CreateGroupsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('corporation_id');
-			$table->integer('lecturer_id');
 			$table->date('start_date');
 			$table->date('end_date');
 			$table->integer('status');
+			$table->integer('lecturer_id');
+			$table->integer('semester_id');
 			$table->timestamps();
 		});
 	}

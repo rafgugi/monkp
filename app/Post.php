@@ -6,4 +6,8 @@ class Post extends Model {
 
 	protected $guarded = [];
 
+	public function file() {
+		return $this->hasOne('App\File');
+	}
+
 }

@@ -92,23 +92,27 @@
                     <div class="form-horizontal">
                       <div class="form-group">
                         <label class="col-md-4 control-label">Tanggal Mulai</label>
-                        <div class="col-md-6 control-text">
-                          @if (Auth::user()->role == 'STUDENT')
+                        @if (Auth::user()->role == 'STUDENT')
+                          <div class="col-md-6 control-text">
                             {{$group->start_date}}
-                          @else
+                          </div>
+                        @else
+                          <div class="col-md-6">
                             <input type="date" class="form-control datepicker input-sm" data-provide="datepicker" name="start_date" value="{{$group->start_date}}">
-                          @endif
-                        </div>
+                          </div>
+                        @endif
                       </div>
                       <div class="form-group">
                         <label class="col-md-4 control-label">Tanggal Selesai</label>
-                        <div class="col-md-6 control-text">
-                          @if (Auth::user()->role == 'STUDENT')
+                        @if (Auth::user()->role == 'STUDENT')
+                          <div class="col-md-6 control-text">
                             {{$group->end_date}}
-                          @else
+                          </div>
+                        @else
+                          <div class="col-md-6">
                             <input type="date" class="form-control datepicker input-sm" data-provide="datepicker" name="end_date" value="{{$group->end_date}}">
-                          @endif
-                        </div>
+                          </div>
+                        @endif
                       </div>
                     </div>
                   </div>
@@ -125,8 +129,24 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-12">
+                    <div class="form-horizontal">
+                      <div class="form-group">
+                        <label class="col-md-2 control-label">Mentor <i class="fa fa-question-circle text-primary" title="Mentor adalah pembimbing eksternal."></i></label>
+                        @if (Auth::user()->role == 'STUDENT')
+                          <div class="col-md-4 control-text">
+                            {{$group->mentor == null ? '-' : $group->mentor->name}}
+                          </div>
+                        @else
+                          <div class="col-md-4">
+                            <input type="text" id="mentor{{$group->id}}" class="form-control input-sm" value="{{$group->mentor == null ? '' : $group->mentor->name}}" onchange="mentor({{$group->id}})">
+                          </div>
+                        @endif
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-md-offset-3">
+                <div class="col-md-offset-10">
                   @if (Auth::user()->role != 'STUDENT')
                     <button type="button" class="btn btn-primary" onclick="save({{$group->id}})">Save</button>
                   @endif
@@ -146,7 +166,6 @@
 @endsection
 
 @section('js')
-  @if (Auth::user()->role != 'STUDENT' && sizeof($groups) >= 1)
   <script>
     function niceAlert(msg) {
       $("#alert-container").html(
@@ -156,13 +175,19 @@
       );
     }
 
+    function mentor(id) {
+      var mentor_name = $("#mentor" + id).val();
+      console.log(mentor_name);
+    }
+
+  @if (Auth::user()->role != 'STUDENT')
     function change(id) {
       if ($("#status" + id).val() == 2) { // jika statusnya 'progress'
-        $("#dosenselect{{$group->id}}").removeClass("hidden");
-        $("#dosentext{{$group->id}}").addClass("hidden");
+        $("#dosenselect" + id).removeClass("hidden");
+        $("#dosentext" + id).addClass("hidden");
       } else {
-        $("#dosenselect{{$group->id}}").addClass("hidden");
-        $("#dosentext{{$group->id}}").removeClass("hidden");
+        $("#dosenselect" + id).addClass("hidden");
+        $("#dosentext" + id).removeClass("hidden");
       }
     }
 
@@ -187,19 +212,21 @@
     }
 
     $(document).ready(function() {
-      @foreach ($groups as $group)
-        // kalau status group itu 2, maka tampilkan dropdown dosen.
-        @if ($group->status['status'] != 2)
-          $("#dosenselect{{$group->id}}").addClass("hidden");
-        @else
-          $("#dosentext{{$group->id}}").addClass("hidden");
-        @endif
-        // default isi dosen nya
-        @if ($group->lecturer != null)
-          $("#dosen{{$group->id}}").val({{$group->lecturer->id}});
-        @endif
-      @endforeach
+      @if (sizeof($groups) >= 1)
+        @foreach ($groups as $group)
+          // kalau status group itu 2, maka tampilkan dropdown dosen.
+          @if ($group->status['status'] != 2)
+            $("#dosenselect{{$group->id}}").addClass("hidden");
+          @else
+            $("#dosentext{{$group->id}}").addClass("hidden");
+          @endif
+          // default isi dosen nya
+          @if ($group->lecturer != null)
+            $("#dosen{{$group->id}}").val({{$group->lecturer->id}});
+          @endif
+        @endforeach
+      @endif
     });
-  </script>
   @endif
+  </script>
 @endsection

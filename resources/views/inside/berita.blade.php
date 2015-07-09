@@ -4,7 +4,7 @@
   <h1>Berita</h1>
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog" aria-hidden="true">
-    <form action="{{url('berita/tambah')}}" method="post" class="form">
+    <form action="{{url('berita/tambah')}}" enctype="multipart/form-data" method="post" class="form">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -16,11 +16,15 @@
           <div class="modal-body">
             <div class="form-group">
               <label>Judul</label>
-              <input class="form-control" name="title" />
+              <input class="form-control" name="title">
             </div>
             <div class="form-group">
               <label>Isi</label>
               <textarea class="form-control" name="post" rows="9"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Attach</label>
+              <input type="file" class="form-control" name="file">
             </div>
           </div>
           <div class="modal-footer">
@@ -52,25 +56,27 @@
         </div>
       </form>
     </div>
-    
-    <ul class="list-group">
-      @if (sizeof($posts) < 1)
-        <li class="list-group-item">Tidak ada berita.</li>
-      @else
+    @if (sizeof($posts) < 1)
+      <div class="panel-body">Tidak ada berita.</div>
+    @else
+      <table class="table">
         @foreach ($posts as $post)
-          <li class="list-group-item" id="accordion">
-            <h4>{{$post->title}}</h4>
-            <i><small><span class="fa fa-clock-o"></span> Created at: {{strstr($post->created_at, ' ', true)}}</small></i>
-            &nbsp;
-            <i><small><span class="fa fa-clock-o"></span> Updated at: {{strstr($post->updated_at, ' ', true)}}</small></i>
-            <br />
-            <p id="less">
-              {{$post->post}}
-            </p>
-          </li>
+          <tr>
+            <td>
+              <h4>{{$post->title}}</h4>
+              <i><small><span class="fa fa-clock-o"></span> Created at: {{strstr($post->created_at, ' ', true)}}</small></i>
+              &nbsp;
+              <i><small><span class="fa fa-clock-o"></span> Updated at: {{strstr($post->updated_at, ' ', true)}}</small></i>
+              <br /><br />
+              <p>{{$post->post}}</p>
+              @if ($post->file != null)
+                <p class="text-muted">Attachment: {!!link_to('file/'.$post->file->id, $post->file->name)!!}</p>
+              @endif
+            </td>
+          </tr>
         @endforeach
-      @endif
-    </ul>
+      </table>
+    @endif
   </div>
 
 @endsection

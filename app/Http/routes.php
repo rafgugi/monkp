@@ -16,6 +16,10 @@ Route::get('home', 'GroupController@home');
 Route::get('/', function() {
 	return redirect('home');
 });
+Route::get('file', function() {
+	return view('inputfile');
+});
+Route::post('file', 'BeritaController@file');
 
 Route::group(['middleware' => ['auth']], function() {
 
@@ -30,6 +34,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('pengajuan/destroy/{id}', 'GroupController@destroy');
 
 	Route::get('berita', 'BeritaController@index');
+	Route::get('file/{id}', 'BeritaController@file');
 
 	Route::group(['middleware' => ['admin']], function() {
 		Route::get('stats', 'GroupController@stats');
