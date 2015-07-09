@@ -1,10 +1,11 @@
 <?php namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Auth\Guard;
-use App\User;
 use App\Student;
+use App\User;
+use Hash;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller {
 
@@ -83,10 +84,11 @@ class AuthController extends Controller {
 			'password' => 'required|same:password_confirmation',
 		]);
 
-		$old = bcrypt($request->input('old_password'));
-		$new = bcrypt($request->input('password'));
-		if ($old == $this->auth->user()->password) {
-			$this->auth->user()->password = $new;
+		$old = $request->input('old_password');
+		$new = $request->input('password');
+
+		if (Hash::check($old, $this->auth->user()->password)) {
+			$this->auth->user()->password = Hash::make($new);
 			$this->auth->user()->save();
 			return redirect('/');
 		}
