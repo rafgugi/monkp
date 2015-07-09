@@ -16,3 +16,7 @@
 ### Cara menginstal (linux)
  - Baca cara menginstal (windows).
  - Instal sendiri setau anda. Cari di google bila perlu.
+
+### Proxified git (git bash)
+   ``git config --global http.proxy http://proxyuser:proxypwd@proxy.server.com:8080``  
+   ``git config --global https.proxy https://proxyuser:proxypwd@proxy.server.com:8080``  
