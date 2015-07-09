@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('pengajuan/reject/{id}', 'PengajuanController@reject');
 	});
 	
-	Route::get('pengajuan/update/{id}/{status}/{dosen}', 'GroupController@update');
+	Route::get('pengajuan/update/{id}', 'GroupController@update');
 	Route::get('pengajuan/destroy/{id}', 'GroupController@destroy');
 
 	Route::get('berita', 'BeritaController@index');

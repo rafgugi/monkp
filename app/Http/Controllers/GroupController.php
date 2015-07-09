@@ -55,12 +55,18 @@ class GroupController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id, $rstat, $rlect)
+	public function update($id, Request $request)
 	{
 		$group = Group::find($id);
 		if ($group == null) {
 			return $this->alert('danger', 'ID kelompok tidak terdaftar.');
 		}
+
+		$rstat = $request->input('status');
+		$rlect = $request->input('dosen');
+		$group->start_date = $request->input('start_date');
+		$group->end_date = $request->input('end_date');
+
 		if ($rstat == 2) {
 			if ($rlect == '-') {
 				return $this->alert('warning', 'Silahkan pilih dosen pembimbing.');

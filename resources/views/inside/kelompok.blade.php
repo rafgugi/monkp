@@ -98,7 +98,7 @@
                           </div>
                         @else
                           <div class="col-md-6">
-                            <input type="date" class="form-control datepicker input-sm" data-provide="datepicker" name="start_date" value="{{$group->start_date}}">
+                            <input type="date" class="form-control datepicker input-sm" data-provide="datepicker" id="start_date{{$group->id}}" value="{{$group->start_date}}">
                           </div>
                         @endif
                       </div>
@@ -110,7 +110,7 @@
                           </div>
                         @else
                           <div class="col-md-6">
-                            <input type="date" class="form-control datepicker input-sm" data-provide="datepicker" name="end_date" value="{{$group->end_date}}">
+                            <input type="date" class="form-control datepicker input-sm" data-provide="datepicker" id="end_date{{$group->id}}" value="{{$group->end_date}}">
                           </div>
                         @endif
                       </div>
@@ -199,9 +199,11 @@
         dataType: "json",
         data: {
           dosen: $("#dosen"+id).val(),
-          status: $("#status"+id).val()
+          status: $("#status"+id).val(),
+          start_date: $("#start_date"+id).val(),
+          end_date: $("#end_date"+id).val(),
         },
-        url: "{{url('pengajuan/update')}}/" + id + '/' + status + '/' + dosen,
+        url: "{{url('pengajuan/update')}}/" + id,
         success: function(data){
           niceAlert(data);
         },
