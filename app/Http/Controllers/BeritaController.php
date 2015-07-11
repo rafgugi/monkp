@@ -23,7 +23,6 @@ class BeritaController extends Controller {
 
 		$uploadedFile = $request->file('file');
 		if ($uploadedFile != null) {
-			// $this->attach($uploadedFile);
 			$ext = $uploadedFile->getClientOriginalExtension();
 			$saved_name = str_random(20) . '.' . $ext;
 			$uploadedFile->move(storage_path() . '/upload', $saved_name);
@@ -36,7 +35,6 @@ class BeritaController extends Controller {
 
 			$file = compact('saved_name', 'name', 'mime', 'size', 'post_id');
 			$file = new File($file);
-			// dd($file);
 			$file->save();
 		}
 
@@ -47,4 +45,23 @@ class BeritaController extends Controller {
 	{
 		return File::find($id)->binary();
 	}
+
+	/**
+	 * Remove the post from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id) {
+		$post = Post::find($id);
+
+		if ($post->file != null) {
+			$post->file->delete();
+		}
+
+		$post->delete();
+
+		return redirect()->back();
+	}
+
 }

@@ -15,12 +15,9 @@
 @endsection
 
 @section('content')
-  <h1>Dashboard</h1>
+  <h1>List Kelompok</h1>
   <div id="alert-container"></div>
   <div class="panel panel-default">
-    <div class="panel-heading">
-      List Kelompok
-    </div>
     @if (sizeof($groups) < 1)
       <div class="panel-body">Tidak ada kelompok KP.</div>
     @else
@@ -178,6 +175,20 @@
     function mentor(id) {
       var mentor_name = $("#mentor" + id).val();
       console.log(mentor_name);
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        data: {
+          mentor: mentor_name,
+        },
+        url: "{{url('pengajuan/mentor')}}/" + id,
+        success: function(data){
+          niceAlert(data);
+        },
+        error: function(data) {
+          niceAlert({alert: 'danger', body: 'Failed to fetch data via ajax.'});
+        }
+      });
     }
 
   @if (Auth::user()->role != 'STUDENT')

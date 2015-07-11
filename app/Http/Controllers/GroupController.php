@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Lecturer;
 use App\Group;
 use App\Grade;
+use App\Mentor;
 use App\Member;
 use App\Corporation;
 
@@ -86,6 +87,23 @@ class GroupController extends Controller {
 			$group->save();
 		}
 		return $this->alert('info', 'Kelompok telah berhasil diperbarui.');
+	}
+
+	public function updateMentor($id, Request $request) {
+		$group = Group::find($id);
+		if ($group == null) {
+			return $this->alert('danger', 'ID kelompok tidak terdaftar.');
+		}
+		if ($group->mentor == null) {
+			$mentor = new Mentor;
+			$mentor->group_id = $id;
+			$mentor->name = $request->input('mentor');
+			$mentor->save();
+		} else {
+			$group->mentor->name = $request->input('mentor');
+			$group->mentor->save();
+		}
+		return $this->alert('info', 'Mentor berhasil diperbarui.');
 	}
 
 	public function grading($id, Request $request)
