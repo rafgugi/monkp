@@ -20,3 +20,5 @@
 ### Proxified git (git bash)
    ``git config --global http.proxy http://proxyuser:proxypwd@proxy.server.com:8080``  
    ``git config --global https.proxy https://proxyuser:proxypwd@proxy.server.com:8080``  
+   ``git config --global --unset http.proxy``  
+   ``git config --global --unset https.proxy``  
