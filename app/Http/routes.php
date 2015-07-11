@@ -19,24 +19,25 @@ Route::get('/', function() {
 
 Route::group(['middleware' => ['auth']], function() {
 
-	Route::group(['middleware' => ['student']], function() {
-		Route::get('pengajuan', 'PengajuanController@create');
-		Route::post('pengajuan', 'PengajuanController@store');
-		Route::get('pengajuan/accept/{id}', 'PengajuanController@accept');
-		Route::get('pengajuan/reject/{id}', 'PengajuanController@reject');
-	});
-
-	Route::get('pengajuan/mentor/{id}', 'GroupController@updateMentor');
 	Route::get('pengajuan/destroy/{id}', 'GroupController@destroy');
+	Route::get('pengajuan/mentor/{id}', 'GroupController@updateMentor');
 
 	Route::get('berita', 'BeritaController@index');
 	Route::get('file/{id}', 'BeritaController@file');
 
+	Route::group(['middleware' => ['student']], function() {
+		Route::get('pengajuan', 'PengajuanController@create');
+		Route::get('pengajuan/accept/{id}', 'PengajuanController@accept');
+		Route::get('pengajuan/reject/{id}', 'PengajuanController@reject');
+		Route::post('pengajuan', 'PengajuanController@store');
+	});
+
 	Route::group(['middleware' => ['admin']], function() {
+		Route::get('berita/hapus/{id}', 'BeritaController@destroy');
+		Route::get('pengajuan/update/{id}', 'GroupController@update');
 		Route::get('settings', 'SettingsController@index');
 		Route::get('stats', 'GroupController@stats');
 		Route::get('table', 'GroupController@table');
-		Route::get('pengajuan/update/{id}', 'GroupController@update');
 		Route::get('table/grading/{id}', 'GroupController@grading');
 		Route::post('berita/tambah', 'BeritaController@store');
 	});
