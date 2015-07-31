@@ -7,6 +7,8 @@ use App\Post;
 use Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeExtensionGuesser as MimeGuesser;
+use App\Service\MimeTypeGuesser;
 
 class BeritaController extends Controller {
 
@@ -29,12 +31,14 @@ class BeritaController extends Controller {
 
 			// we should save this file information in database
 			$name = $uploadedFile->getClientOriginalName();
-			$mime = $uploadedFile->getClientMimeType();
+			$ext = $uploadedFile->getClientOriginalExtension();
+			$mime = (new MimeTypeGuesser)->guess($ext);
 			$size = $uploadedFile->getClientSize();
 			$post_id = $post->id;
 
 			$file = compact('saved_name', 'name', 'mime', 'size', 'post_id');
 			$file = new File($file);
+			// dd($file);
 			$file->save();
 		}
 
@@ -43,7 +47,7 @@ class BeritaController extends Controller {
 
 	public function file($id)
 	{
-		return File::find($id)->binary();
+		return File::find($id)->download();
 	}
 
 	/**

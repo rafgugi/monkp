@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('stats', 'GroupController@stats');
 		Route::get('table', 'GroupController@table');
 		Route::get('table/grading/{id}', 'GroupController@grading');
+		Route::get('table/export', 'GroupController@export');
 		Route::post('berita/tambah', 'BeritaController@store');
 	});
 });

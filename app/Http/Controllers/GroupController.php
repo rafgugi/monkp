@@ -167,6 +167,15 @@ class GroupController extends Controller {
 	}
 
 	/**
+	 * Export group and corporation to excel.
+	 *
+	 * @return File .xls
+	 */
+	public function export() {
+		return 'excel';
+	}
+
+	/**
 	 * Remove the group and related resource.
 	 *
 	 * @param  int  $id of Group

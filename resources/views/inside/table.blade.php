@@ -3,10 +3,15 @@
 @section('content')
   <h1>List Mahasiswa Mengambil KP{{date('Y-m-d')}}</h1>
   <div id="alert-container"></div>
-  <div class="panel panel-default">
-    @if (sizeof($members) < 1)
+  @if (sizeof($members) < 1)
+    <div class="panel panel-default">
       <div class="panel-body">Tidak ada kelompok KP.</div>
-    @else
+    </div>
+  @else
+    <p class="">
+      <a href="{{url('table/export')}}" class="btn btn-success">Export</a>
+    </p>
+    <div class="panel panel-default">
       <div class="table-responsive">
         <table class="table table-bordered">
           <tr>
@@ -66,8 +71,8 @@
           @endforeach
         </table>
       </div>
-    @endif
-  </div>
+    </div>
+  @endif
 @endsection
 
 @section('js')

@@ -49,9 +49,7 @@
         <div class="input-group custom-search-form">
           <input type="text" class="form-control" placeholder="Cari berita">
           <span class="input-group-btn">
-            <button class="btn btn-default">
-              <i class="fa fa-search"></i>
-            </button>
+            <button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
           </span>
         </div>
       </form>
@@ -63,14 +61,19 @@
         @foreach ($posts as $post)
           <tr>
             <td>
+              @if (Auth::user()->role == 'ADMIN')
+                <a class="close" title="hapus" href="{{url('berita/hapus/'.$post->id)}}">
+                  &times;
+                </a>
+              @endif
               <h4>{{$post->title}}</h4>
               <i><small><span class="fa fa-clock-o"></span> Created at: {{strstr($post->created_at, ' ', true)}}</small></i>
               &nbsp;
               <i><small><span class="fa fa-clock-o"></span> Updated at: {{strstr($post->updated_at, ' ', true)}}</small></i>
               <br /><br />
               <p>{{$post->post}}</p>
-              @if ($post->file != null)
-                <p class="text-muted">Attachment: {!!link_to('file/'.$post->file->id, $post->file->name)!!}</p>
+              @if (($file = $post->file) != null)
+                <p class="text-muted">Attachment: {!!link_to($file->path, $file->name)!!}</p>
               @endif
             </td>
           </tr>

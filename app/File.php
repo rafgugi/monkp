@@ -8,23 +8,14 @@ class File extends Model {
 	public $timestamps = false;
 	protected $guarded = [];
 	protected $appends = ['path'];
-
-	/**
-	 * Open the file as binary and return as a response.
-	 *
-	 * @return BinaryFileResponse
-	 */
-	public function binary() {
-		return new BinaryFileResponse($this->path);
-	}
+	protected $download_path = 'storage/upload/';
 
 	public function download() {
-		$header = ['Content: ' . $this->mime];
-		return new BinaryFileResponse($this->path, 200, $header);
+		return redirect($this->path);
 	}
 
 	public function getPathAttribute() {
-		return storage_path() . '\upload\\' . $this->saved_name;
+		return $this->download_path . $this->saved_name;
 	}
 
 }

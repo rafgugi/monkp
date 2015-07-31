@@ -2,7 +2,7 @@
 
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Symfony\Component\HttpFoundation\File\File;
+use File;
 use App\File as MyFile;
 
 class EventServiceProvider extends ServiceProvider {
