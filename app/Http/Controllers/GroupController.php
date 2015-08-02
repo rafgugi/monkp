@@ -171,7 +171,7 @@ class GroupController extends Controller {
 		$corps = Corporation::get()->sortBy(
 				function($s) { return $s->groups->count(); }
 			)->reverse();
-		$lects = Lecturer::getDosen()->take(10)->sortBy(
+		$lects = Lecturer::getDosen()->sortBy(
 				function($s) { return $s->groups->count(); }
 			)->reverse();
 		$data = compact('groups', 'corps', 'lects');

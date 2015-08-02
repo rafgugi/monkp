@@ -81,14 +81,25 @@
     </div>
     <div class="col-md-8">
       <div class="panel panel-default">
-        <div class="panel-heading">Dosen Pembimbing</div>
+        <div class="panel-heading">
+          Dosen Pembimbing
+          <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href=".dsn" aria-expanded="false" aria-controls="dosen-collapse">
+            View All
+          </a>
+        </div>
         <table class="table">
           <tr>
             <th>Nama</th>
             <th class="text-center">Count</th>
           </tr>
-          @foreach ($dosens as $dosen)
+          @foreach ($lects->take(10) as $dosen)
             <tr>
+              <td>{{$dosen->initial}} - {{$dosen->name}}</td>
+              <td class="text-center">{{$dosen->groups->count()}}</td>
+            </tr>
+          @endforeach
+          @foreach ($lects->slice(10) as $dosen)
+            <tr class="dsn collapse">
               <td>{{$dosen->initial}} - {{$dosen->name}}</td>
               <td class="text-center">{{$dosen->groups->count()}}</td>
             </tr>
