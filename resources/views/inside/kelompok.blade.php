@@ -27,7 +27,7 @@
           <th>Peserta</th>
           <th>Perusahaan</th>
         </tr>
-        @foreach ($groups as $group)
+        @foreach ($groups->slice(($groups->currentPage() - 1) * $groups->perPage(), $groups->perPage()) as $group)
           <tr data-toggle="collapse" data-target="#clps{{$group->id}}" class="accordion-toggle" title="klik untuk lihat detail">
             <td>
               <span title="{{$group->status['desc']}}">{{strtoupper($group->status['name'])}}</span>
@@ -160,6 +160,9 @@
       </table>
     @endif
   </div>
+  @if (sizeof($groups) > 0)
+    {!!$groups->render()!!}
+  @endif
 @endsection
 
 @section('js')

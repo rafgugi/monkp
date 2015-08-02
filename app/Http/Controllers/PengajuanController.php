@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePengajuanRequest as StoreRequest;
-use App\Http\Controllers\Controller;
 use App\Corporation;
 use App\Group;
 use App\Student;

@@ -9,7 +9,7 @@
     </div>
   @else
     <p class="">
-      <a href="{{url('table/export')}}" class="btn btn-success">Export</a>
+      <a href="{{url('table/export')}}" class="btn btn-success">Export All</a>
     </p>
     <div class="panel panel-default">
       <div class="table-responsive">
@@ -29,7 +29,7 @@
             <th nowrap class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;NB&nbsp;&nbsp;&nbsp;&nbsp;</th>
             <th nowrap class="text-center"></th>
           </tr>
-          @foreach ($members as $member)
+          @foreach ($members->slice(($members->currentPage() - 1) * $members->perPage(), $members->perPage()) as $member)
             <tr>
               <td nowrap>{{$member->student->name}}</td>
               <td nowrap>{{$member->student->nrp}}</td>
@@ -72,6 +72,7 @@
         </table>
       </div>
     </div>
+    {!!$members->render()!!}
   @endif
 @endsection
 

@@ -1,14 +1,11 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\File;
 use App\Post;
+use App\Service\MimeTypeGuesser;
 use Auth;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeExtensionGuesser as MimeGuesser;
-use App\Service\MimeTypeGuesser;
+use Illuminate\Pagination\LengthAwarePaginator as Pagination;
 
 class BeritaController extends Controller {
 
@@ -43,11 +40,6 @@ class BeritaController extends Controller {
 		}
 
 		return redirect('berita');
-	}
-
-	public function file($id)
-	{
-		return File::find($id)->download();
 	}
 
 	/**

@@ -1,15 +1,14 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Auth;
-use Illuminate\Http\Request;
-use App\Lecturer;
-use App\Group;
-use App\Grade;
-use App\Mentor;
-use App\Member;
 use App\Corporation;
+use App\Grade;
+use App\Group;
+use App\Lecturer;
+use App\Member;
+use App\Mentor;
+use Auth;
+use Illuminate\Pagination\LengthAwarePaginator as Pagination;
+use Request;
 
 class GroupController extends Controller {
 
@@ -33,40 +32,50 @@ class GroupController extends Controller {
 	 */
 	public function index()
 	{
-		$lecturers = Lecturer::getDosen()->sortBy('initial');
 		switch (Auth::user()->role) {
 			case 'LECTURER':
 			case 'STUDENT':
 				$groups = Auth::user()->personable->groups;
-				$data = compact('groups', 'lecturers');
-				return view('inside.kelompok', $data);
 				break;
 			case 'ADMIN':
 				$groups = Group::get();
-				$data = compact('groups', 'lecturers');
-				return view('inside.kelompok', $data);
+				break;
+			default:
+				return view('home');
 				break;
 		}
-		return view('home');
+
+		$lecturers = Lecturer::getDosen()->sortBy('initial');
+
+		$total = $groups->count();
+		$perPage = 10;
+		$page = Request::input('page');
+		$page == null ? 1 : $page;
+		$option = ['path' => url('home')];
+
+		$groups = new Pagination($groups, $total, $perPage, $page, $option);
+		// dd($groups, $groups->render());
+		$data = compact('groups', 'lecturers');
+		return view('inside.kelompok', $data);
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the status and lecturer via json.
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @return string
 	 */
-	public function update($id, Request $request)
+	public function update($id)
 	{
 		$group = Group::find($id);
 		if ($group == null) {
 			return $this->alert('danger', 'ID kelompok tidak terdaftar.');
 		}
 
-		$rstat = $request->input('status');
-		$rlect = $request->input('dosen');
-		$group->start_date = $request->input('start_date');
-		$group->end_date = $request->input('end_date');
+		$rstat = Request::input('status');
+		$rlect = Request::input('dosen');
+		$group->start_date = Request::input('start_date');
+		$group->end_date = Request::input('end_date');
 
 		if ($rstat == 2) {
 			if ($rlect == '-') {
@@ -89,7 +98,13 @@ class GroupController extends Controller {
 		return $this->alert('info', 'Kelompok telah berhasil diperbarui.');
 	}
 
-	public function updateMentor($id, Request $request) {
+	/**
+	 * Update the mentor via json.
+	 *
+	 * @param  int  $id
+	 * @return string
+	 */
+	public function updateMentor($id) {
 		$group = Group::find($id);
 		if ($group == null) {
 			return $this->alert('danger', 'ID kelompok tidak terdaftar.');
@@ -97,18 +112,25 @@ class GroupController extends Controller {
 		if ($group->mentor == null) {
 			$mentor = new Mentor;
 			$mentor->group_id = $id;
-			$mentor->name = $request->input('mentor');
+			$mentor->name = Request::input('mentor');
 			$mentor->save();
 		} else {
-			$group->mentor->name = $request->input('mentor');
+			$group->mentor->name = Request::input('mentor');
 			$group->mentor->save();
 		}
 		return $this->alert('info', 'Mentor berhasil diperbarui.');
 	}
 
-	public function grading($id, Request $request)
+
+	/**
+	 * Update the grades via json.
+	 *
+	 * @param  int  $id
+	 * @return string
+	 */
+	public function grading($id)
 	{
-		$req = $request->all();
+		$req = Request::all();
 		$lecturer_grade = $req['lecturer_grade'];
 		$mentor_grade = $req['mentor_grade'];
 		$discipline_grade = $req['discipline_grade'];
@@ -148,10 +170,10 @@ class GroupController extends Controller {
 		$corps = Corporation::get()->sortBy(
 				function($s) { return $s->groups->count(); }
 			)->reverse();
-		$dosens = Lecturer::getDosen()->take(10)->sortBy(
+		$lects = Lecturer::getDosen()->take(10)->sortBy(
 				function($s) { return $s->groups->count(); }
 			)->reverse();
-		$data = compact('groups', 'corps', 'dosens');
+		$data = compact('groups', 'corps', 'lects');
 		return view('inside.statistic', $data);
 	}
 
@@ -162,6 +184,15 @@ class GroupController extends Controller {
 	 */
 	public function table() {
 		$members = Member::get();
+
+		$total = $members->count();
+		$perPage = 15;
+		$page = Request::input('page');
+		$page == null ? 1 : $page;
+		$option = ['path' => url('table')];
+
+		$members = new Pagination($members, $total, $perPage, $page, $option);
+
 		$data = compact('members');
 		return view('inside.table', $data);
 	}
