@@ -776,7 +776,7 @@ class MimeTypeGuesser extends MimeGuesser {
     );
 
 	public function guess($ext) {
-		return isset($this->defaultMime[$ext]) ? $this->defaultMime[$ext] : null;
+		return isset($this->defaultMime[$ext]) ? $this->defaultMime[$ext] : 'application/octet-stream';
 	}
 
 }
