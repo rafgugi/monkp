@@ -7,6 +7,7 @@ use App\Lecturer;
 use App\Member;
 use App\Mentor;
 use Auth;
+use Excel;
 use Illuminate\Pagination\LengthAwarePaginator as Pagination;
 use Request;
 
@@ -203,7 +204,33 @@ class GroupController extends Controller {
 	 * @return File .xls
 	 */
 	public function export() {
-		return 'excel';
+		$excel = Excel::create('export');
+		$excel->setTitle('Export List Kelompok KP')
+			  ->setCreator('Teknik Informatika')
+			  ->setCompany('Teknik Informatika');
+
+		$members = [];
+		foreach (Member::get() as $member) {
+			$q['Nama'] = $member->student->name;
+			$q['NRP'] = $member->student->nrp;
+			$q['Kelompok (Status)'] = $member->group->id . ' (' . $member->group->status['name'] . ')';
+			$q['Mulai'] = $member->group->start_date;
+			$q['Selesai'] = $member->group->end_date;
+			$q['Dosen Pembimbing'] = $member->group->lecturer == null ? '-' : $member->group->lecturer->name;
+			$q['Perusahaan'] = $member->group->corporation->name_city;
+			$q['Pembimbing Lapangan'] = $member->group->mentor == null ? '-' : $member->group->mentor->name;
+			$q['NI'] = $member->grade == null ? '-' : $member->grade->lecturer_grade;
+			$q['NE'] = $member->grade == null ? '-' : $member->grade->mentor_grade;
+			$q['ND'] = $member->grade == null ? '-' : $member->grade->discipline_grade;
+			$q['NB'] = $member->grade == null ? '-' : $member->grade->report_status;
+			array_push($members, $q);
+		}
+		// dd($members);
+		$excel->sheet('Kelompok', function($sheet) use($members) {
+			$sheet->fromArray($members, null, 'A1', true);
+			$sheet->setBorder('A1:L' . (count($members) + 1), 'thin');
+		});
+		return $excel->export('xls');
 	}
 
 	/**
