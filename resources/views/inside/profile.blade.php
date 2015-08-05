@@ -29,7 +29,6 @@
                 <input type="password" name="password_confirmation" class="form-control">
               </div>
             </div>
-            <p class="text-muted">Still under maintenance.</p>
             <div class="form-group">
               <div class="col-md-3 col-md-offset-4">
                 <input type="submit" value="Submit" class="btn btn-primary">
