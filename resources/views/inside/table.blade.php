@@ -1,7 +1,7 @@
 @extends('inside.app')
 
 @section('content')
-  <h1>List Mahasiswa Mengambil KP{{date('Y-m-d')}}</h1>
+  <h1>List Mahasiswa Mengambil KP</h1>
   <div id="alert-container"></div>
   @if (sizeof($members) < 1)
     <div class="panel panel-default">
@@ -9,7 +9,7 @@
     </div>
   @else
     <p class="">
-      <a href="{{url('table/export')}}" class="btn btn-success">Export All</a>
+      <a href="{{url('table/export')}}" class="btn btn-success">Export to Excel</a>
     </p>
     <div class="panel panel-default">
       <div class="table-responsive">

@@ -126,12 +126,15 @@ class GroupController extends Controller {
 	/**
 	 * Update the grades via json.
 	 *
-	 * @param  int  $id
+	 * @param  int  $id member_id
 	 * @return string
 	 */
 	public function grading($id)
 	{
 		$req = Request::all();
+		if ($req == []) {
+			return $this->alert('warning', 'Nilai tidak diperbarui.');
+		}
 		$lecturer_grade = $req['lecturer_grade'];
 		$mentor_grade = $req['mentor_grade'];
 		$discipline_grade = $req['discipline_grade'];
