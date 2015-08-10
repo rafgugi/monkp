@@ -9,12 +9,24 @@ use Illuminate\Pagination\LengthAwarePaginator as Pagination;
 
 class BeritaController extends Controller {
 
+
+	/**
+	 * Display posts listing.
+	 *
+	 * @return Response
+	 */
 	public function index()
 	{
 		$posts = Post::orderBy('created_at', 'desc')->get();
 		return view('inside.berita', compact('posts'));
 	}
 
+	/**
+	 * Store a newly created post in storage.
+	 *
+	 * @param Request
+	 * @return Response
+	 */
 	public function store(Request $request)
 	{
 		$br = $request->only(['title', 'post']);
@@ -39,7 +51,27 @@ class BeritaController extends Controller {
 			$file->save();
 		}
 
-		return redirect('berita');
+		return redirect('berita')
+			->with('alert', ['alert' => 'success', 'body' => 'Berhasil membuat berita.']);
+	}
+
+
+	/**
+	 * Update the post.
+	 *
+	 * @param  Request
+	 * @return Response
+	 */
+	public function update(Request $request) {
+		$post = Post::find($request->input('id'));
+		if ($post == null) {
+			return redirect('berita')
+				->with('alert', ['alert' => 'warning', 'body' => 'Tidak dapat mengubah berita.']);
+		}
+		$post->fill($request->only(['title', 'post']));
+		$post->save();
+		return redirect('berita')
+			->with('alert', ['alert' => 'success', 'body' => 'Berhasil mengubah berita.']);
 	}
 
 	/**
