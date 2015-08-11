@@ -30,6 +30,10 @@ class BeritaController extends Controller {
 	public function store(Request $request)
 	{
 		$br = $request->only(['title', 'post']);
+		if ($br['title'] == "" || $br['post'] == "") {
+			return redirect('berita')
+				->with('alert', ['alert' => 'warning', 'body' => 'Gagal membuat berita.']);
+		}
 		$post = Post::create($br);
 
 		$uploadedFile = $request->file('file');
@@ -66,9 +70,16 @@ class BeritaController extends Controller {
 		$post = Post::find($request->input('id'));
 		if ($post == null) {
 			return redirect('berita')
-				->with('alert', ['alert' => 'warning', 'body' => 'Tidak dapat mengubah berita.']);
+				->with('alert', ['alert' => 'warning', 'body' => 'Gagal mengubah berita.']);
 		}
-		$post->fill($request->only(['title', 'post']));
+
+		$br = $request->only(['title', 'post']);
+		if ($br['title'] == "" || $br['post'] == "") {
+			return redirect('berita')
+				->with('alert', ['alert' => 'warning', 'body' => 'Gagal mengubah berita.']);
+		}
+
+		$post->fill($br);
 		$post->save();
 		return redirect('berita')
 			->with('alert', ['alert' => 'success', 'body' => 'Berhasil mengubah berita.']);
@@ -89,7 +100,8 @@ class BeritaController extends Controller {
 
 		$post->delete();
 
-		return redirect()->back();
+		return redirect('berita')
+			->with('alert', ['alert' => 'success', 'body' => 'Berhasil menghapus berita.']);
 	}
 
 }

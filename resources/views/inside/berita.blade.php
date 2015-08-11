@@ -2,12 +2,12 @@
 
 @section('content')
   <h1>Berita</h1>
-  @if (isset($alert) && is_array($alert))
-    <div class="alert alert-{{$alert['alert']}} alert-dismissible" role="alert">
+  @if (session('alert'))
+    <div class="alert alert-{{session('alert')['alert']}} alert-dismissible" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-      {{$alert['body']}}
+      {{session('alert')['body']}}
     </div>
   @endif
   <div class="modal fade" id="createModal" role="dialog" aria-hidden="true">
