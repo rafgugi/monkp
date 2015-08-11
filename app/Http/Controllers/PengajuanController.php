@@ -36,6 +36,29 @@ class PengajuanController extends Controller {
 		$creq = $req['corporation'];
 		$greq = $req['group'];
 
+		# check if student 1 has created group in the same semester
+		$now = Semester::now();
+		$student = Auth::user()->personable;
+		$student_groups = $student->groups->where('semester_id', $now->id);
+		foreach ($student_groups as $group) {
+			if ($group->status['status'] >= 0) {
+				return redirect()->back()
+						->with('you');
+			}
+		}
+
+		# check if student 2 has created group in the same semester
+		$friend_id = $req['friend'];
+		$student2 = Student::find($friend_id);
+		$groups = $student2->groups->where('semester_id', $now->id);
+		$allowed = true;
+		foreach ($groups as $group) {
+			if ($group->status['status'] >= 0) {
+				return redirect()->back()
+						->with('you');
+			}
+		}
+
 		# fill corporation
 		$corp = Corporation::firstOrNew(array_only($creq, ['name', 'city']));
 		$corp->fill($creq);
@@ -50,8 +73,7 @@ class PengajuanController extends Controller {
 		# connect group to student
 		Auth::user()->personable->groups()->save($group);
 
-		$friend_id = $req['friend'];
-		if ($friend_id != 0) {
+		if ($student2 != null) {
 			# ngajak orang buat jadi temen kelompok
 			$friend = new Friend;
 			$friend->group_id = $group->id;
@@ -60,7 +82,7 @@ class PengajuanController extends Controller {
 
 			# bikin notifnya
 			$notif = new Notif;
-			$notif->user_id = Student::find($friend_id)->user->id;
+			$notif->user_id = $student2->user->id;
 			$notif->notifiable_id = $friend->id;
 			$notif->notifiable_type = 'group request';
 			$notif->is_read = false;

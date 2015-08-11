@@ -1,8 +1,6 @@
 <?php namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Semester;
-use Auth;
 
 class StorePengajuanRequest extends Request {
 
@@ -13,14 +11,6 @@ class StorePengajuanRequest extends Request {
 	 */
 	public function authorize()
 	{
-		$now = Semester::now();
-		$user = Auth::user();
-		$groups = $user->personable->groups->where('semester_id', $now->id);
-		foreach ($groups as $group) {
-			if ($group->status['status'] >= 0) {
-				return false;
-			}
-		}
 		return true;
 	}
 
