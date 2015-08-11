@@ -121,9 +121,9 @@
               <li>
                 <a href="{{url('table')}}"><i class="fa fa-table fa-fw"></i> Tabel</a>
               </li>
-              <!--li>
+              <li>
                 <a href="{{url('settings')}}"><i class="fa fa-cog fa-fw"></i> Pengaturan</a>
-              </li-->
+              </li>
             @endif
           </ul>
         </div>

@@ -17,6 +17,9 @@ class CreateSemestersTable extends Migration {
 			$table->increments('id');
 			$table->boolean('odd');
 			$table->integer('year');
+			$table->date('created_date');
+			$table->date('ended_date');
+			$table->date('user_due_date');
 		});
 	}
 
