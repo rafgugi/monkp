@@ -13,7 +13,7 @@
           <div class="panel-heading">Daftar</div>
           <div class="panel-body">
             @if (count($errors) > 0)
-              <div class="alert alert-danger">
+              <div class="alert alert-warning">
                 <strong>Whoops!</strong> There were some problems with your input.<br><br>
                 <ul>
                   @foreach ($errors->all() as $error)

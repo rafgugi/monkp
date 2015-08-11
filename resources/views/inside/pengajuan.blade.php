@@ -43,6 +43,16 @@
 
 @section('content')
   <h1>Pengajuan</h1>
+  @if (count($errors) > 0)
+    <div class="alert alert-warning">
+      <strong>Whoops!</strong> Lengkapi apa yang harus dilengkapi.<br><br>
+                <ul>
+                  @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                  @endforeach
+                </ul>
+    </div>
+  @endif
   <form method="post" action="{{url('pengajuan')}}">
     <div class="panel panel-default">
       <div class="panel-body">
@@ -56,39 +66,39 @@
             </div>
             <div class="form-group">
               <label>Nama Perusahaan</label>
-              <input type="text" class="form-control" id="corpname" name="corporation[name]">
+              <input type="text" class="form-control" id="corpname" name="corporation[name]" value="{{old('corporation.name')}}">
             </div>
             <div class="form-group">
               <label>Alamat</label>
-              <input type="text" class="form-control" id="corpaddress" name="corporation[address]">
+              <input type="text" class="form-control" id="corpaddress" name="corporation[address]" value="{{old('corporation.address')}}">
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               <label>Kota</label>
-              <input type="text" class="form-control" id="corpcity" name="corporation[city]">
+              <input type="text" class="form-control" id="corpcity" name="corporation[city]" value="{{old('corporation.city')}}">
             </div>
             <div class="form-group">
               <label>Kode Pos</label>
-              <input type="text" class="form-control" id="corppost_code" name="corporation[post_code]">
+              <input type="text" class="form-control" id="corppost_code" name="corporation[post_code]" value="{{old('corporation.post_code')}}">
             </div>
             <div class="form-group">
               <label>Telp Kantor</label>
-              <input type="text" class="form-control" id="corptelp" name="corporation[telp]">
+              <input type="text" class="form-control" id="corptelp" name="corporation[telp]" value="{{old('corporation.telp')}}">
             </div>
             <div class="form-group hidden">
               <label>Fax Kantor</label>
-              <input type="text" class="form-control" id="corpfax" name="corporation[fax]">
+              <input type="text" class="form-control" id="corpfax" name="corporation[fax]" value="{{old('corporation.fax')}}">
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               <label>Jenis Bisnis</label>
-              <input type="text" class="form-control" id="corpbusiness_type" name="corporation[business_type]">
+              <input type="text" class="form-control" id="corpbusiness_type" name="corporation[business_type]" value="{{old('corporation.business_type')}}">
             </div>
             <div class="form-group">
               <label>Profil</label>
-              <textarea class="form-control" rows="4" id="corpdescription" name="corporation[description]"></textarea>
+              <textarea class="form-control" rows="4" id="corpdescription" name="corporation[description]">{{old('corporation.description')}}</textarea>
             </div>
           </div>
         </div>
@@ -97,13 +107,13 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>Tanggal Mulai</label>
-              <input type="date" data-provide="datepicker" class="datepicker form-control" name="group[start_date]">
+              <input type="date" data-provide="datepicker" class="datepicker form-control" name="group[start_date]" value="{{old('group.start_date')}}">
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               <label>Tanggal Selesai</label>
-              <input type="date" data-provide="datepicker" class="datepicker form-control" name="group[end_date]">
+              <input type="date" data-provide="datepicker" class="datepicker form-control" name="group[end_date]" value="{{old('group.end_date')}}">
             </div>
           </div>
           <div class="col-md-4">
