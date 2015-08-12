@@ -18,6 +18,7 @@
             <th nowrap>Nama</th>
             <th nowrap>NRP</th>
             <th nowrap>Kelompok</th>
+            <th nowrap>Semester</th>
             <th nowrap>Mulai</th>
             <th nowrap>Selesai</th>
             <th nowrap>Dosen Pembimbing</th>
@@ -34,6 +35,7 @@
               <td nowrap>{{$member->student->name}}</td>
               <td nowrap>{{$member->student->nrp}}</td>
               <td nowrap>{{$member->group->id}} ({{$member->group->status['name']}})</td>
+              <td nowrap>{{$member->group->semester->toString()}}</td>
               <td nowrap>{{$member->group->start_date}}</td>
               <td nowrap>{{$member->group->end_date}}</td>
               <td nowrap>{{$member->group->lecturer == null ? '-' : $member->group->lecturer->name}}</td>
