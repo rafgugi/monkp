@@ -6,6 +6,16 @@
 
 @section('content')
   <h1>Statistic</h1>
+  <form class="form-inline">
+    <select name="semester" class="form-control input-sm">
+      <option value="0">-- Pilih semester --</option>
+      @foreach(App\Semester::get()->sortBy('year')->sortByDesc('odd') as $semester)
+        <option value="{{$semester->id}}">{{$semester->toString()}}</option>
+      @endforeach
+    </select>
+    <button class="btn btn-default btn-sm">Pilih</button>
+  </form>
+  <hr>
   <div class="row">
     <div class="col-md-4">
       <div class="panel panel-default">
@@ -120,7 +130,9 @@
       // Chart data records -- each entry in this array corresponds to a point on
       // the chart.
       colors: ["#337ab7", "#5cb85c","#5bc0de","#f0ad4e","#d9534f"],
-      formatter: function(y, data) { return y+' | '+100*y/{{$groups->count()}}+'%' },
+      formatter: function(y, data) {
+        return y + ' | ' + Math.round(10000*y/{{$groups->count()}})/100+'%';
+      },
       data: [
         @if (($c = $groups->where('status.status', 0)->count()) != 0)
           {label: "Created", value: {{$c}}},

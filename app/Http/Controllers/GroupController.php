@@ -122,6 +122,73 @@ class GroupController extends Controller {
 		return $this->alert('info', 'Mentor berhasil diperbarui.');
 	}
 
+	/**
+	 * Remove the group and related resource.
+	 *
+	 * @param  int  $id of Group
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		$group = Group::find($id);
+		foreach ($group->requests as $request) {
+			$request->notif->delete();
+			$request->delete();
+		}
+		foreach ($group->members as $member) {
+			$member->delete();
+		}
+		$group->delete();
+
+		return redirect()->back();
+	}
+
+	/**
+	 * Create json alert for view 'inside.kelompok'.
+	 *
+	 * @return string
+	 */
+	protected function alert($alert, $body) {
+		return json_encode(compact('alert', 'body'));
+	}
+
+	/**
+	 * Display statistics.
+	 *
+	 * @return Response
+	 */
+	public function stats() {
+		$groups = Group::get();
+		$corps = Corporation::get()->sortByDesc(
+				function($s) { return $s->groups->count(); }
+			);
+		$lects = Lecturer::getDosen()->sortByDesc(
+				function($s) { return $s->groups->count(); }
+			);
+		$data = compact('groups', 'corps', 'lects');
+		return view('inside.statistic', $data);
+	}
+
+	/**
+	 * Display groups listing in table.
+	 *
+	 * @return Response
+	 */
+	public function table() {
+		$members = Member::get();
+
+		$total = $members->count();
+		$perPage = 15;
+		$page = Request::input('page');
+		$page == null ? 1 : $page;
+		$option = ['path' => url('table')];
+
+		$members = new Pagination($members, $total, $perPage, $page, $option);
+
+		$data = compact('members');
+		return view('inside.table', $data);
+	}
+
 
 	/**
 	 * Update the grades via json.
@@ -153,52 +220,6 @@ class GroupController extends Controller {
 
 		$member->grade->save();
 		return $this->alert('info', 'Nilai berhasil diperbarui.');
-	}
-
-	/**
-	 * Create json alert for view 'inside.kelompok'.
-	 *
-	 * @return string
-	 */
-	protected function alert($alert, $body) {
-		return json_encode(compact('alert', 'body'));
-	}
-
-	/**
-	 * Display statistics.
-	 *
-	 * @return Response
-	 */
-	public function stats() {
-		$groups = Group::get();
-		$corps = Corporation::get()->sortBy(
-				function($s) { return $s->groups->count(); }
-			)->reverse();
-		$lects = Lecturer::getDosen()->sortBy(
-				function($s) { return $s->groups->count(); }
-			)->reverse();
-		$data = compact('groups', 'corps', 'lects');
-		return view('inside.statistic', $data);
-	}
-
-	/**
-	 * Display groups listing in table.
-	 *
-	 * @return Response
-	 */
-	public function table() {
-		$members = Member::get();
-
-		$total = $members->count();
-		$perPage = 15;
-		$page = Request::input('page');
-		$page == null ? 1 : $page;
-		$option = ['path' => url('table')];
-
-		$members = new Pagination($members, $total, $perPage, $page, $option);
-
-		$data = compact('members');
-		return view('inside.table', $data);
 	}
 
 	/**
@@ -234,27 +255,6 @@ class GroupController extends Controller {
 			$sheet->setBorder('A1:L' . (count($members) + 1), 'thin');
 		});
 		return $excel->export('xls');
-	}
-
-	/**
-	 * Remove the group and related resource.
-	 *
-	 * @param  int  $id of Group
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		$group = Group::find($id);
-		foreach ($group->requests as $request) {
-			$request->notif->delete();
-			$request->delete();
-		}
-		foreach ($group->members as $member) {
-			$member->delete();
-		}
-		$group->delete();
-
-		return redirect()->back();
 	}
 
 }

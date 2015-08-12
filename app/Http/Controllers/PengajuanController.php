@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePengajuanRequest as StoreRequest;
+use Illuminate\Http\Request;
 use App\Corporation;
 use App\Group;
 use App\Student;
@@ -30,11 +30,23 @@ class PengajuanController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(StoreRequest $request)
+	public function store(Request $request)
 	{
-		$req = $request->all();
-		$creq = $req['corporation'];
-		$greq = $req['group'];
+		$this->validate($request, [
+			'corporation.name' => 'required',
+			'corporation.address' => 'required',
+			'corporation.post_code' => 'required',
+			'corporation.business_type' => 'required',
+			'corporation.description' => 'required',
+			'corporation.city' => 'required',
+			'group.start_date' => 'required|date|before:'
+					. $request['group']['end_date'],
+			'group.end_date' => 'required|date',
+		]);
+
+		$request = $request->all();
+		$creq = $request['corporation'];
+		$greq = $request['group'];
 
 		# check if student 1 has created group in the same semester
 		$now = Semester::now();
@@ -42,20 +54,18 @@ class PengajuanController extends Controller {
 		$student_groups = $student->groups->where('semester_id', $now->id);
 		foreach ($student_groups as $group) {
 			if ($group->status['status'] >= 0) {
-				return redirect()->back()
-						->with('you');
+				return redirect()->back()->with('you');
 			}
 		}
 
 		# check if student 2 has created group in the same semester
-		$friend_id = $req['friend'];
+		$friend_id = $request['friend'];
 		$student2 = Student::find($friend_id);
 		$groups = $student2->groups->where('semester_id', $now->id);
 		$allowed = true;
 		foreach ($groups as $group) {
 			if ($group->status['status'] >= 0) {
-				return redirect()->back()
-						->with('you');
+				return redirect()->back()->with('you');
 			}
 		}
 

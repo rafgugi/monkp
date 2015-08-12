@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('pengajuan/mentor/{id}', 'GroupController@updateMentor');
 
 	Route::get('berita', 'BeritaController@index');
-	Route::get('file/{id}', 'BeritaController@file');
+	Route::get('file/{id}/{name}', 'BeritaController@file');
 
 	Route::group(['middleware' => ['student']], function() {
 		Route::get('pengajuan', 'PengajuanController@create');
@@ -38,7 +38,9 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('settings', 'SettingsController@index');
 		Route::post('settings', 'SettingsController@store');
 		Route::get('stats', 'GroupController@stats');
+		Route::get('stats/{semester}', 'GroupController@stats');
 		Route::get('table', 'GroupController@table');
+		Route::get('table/{semester}', 'GroupController@table');
 		Route::get('table/grading/{id}', 'GroupController@grading');
 		Route::get('table/export', 'GroupController@export');
 		Route::post('berita/edit', 'BeritaController@update');
