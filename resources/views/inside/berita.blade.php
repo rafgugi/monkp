@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
               <label>Attach</label>
-              <div class="fileinput fileinput-new input-group" data-povides="fileinput">
+              <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                 <div class="form-control" data-trigger="fileinput">
                   <i class="glyphicon glyphicon-file fileinput-exists"></i>
                   <span class="fileinput-filename"></span>
