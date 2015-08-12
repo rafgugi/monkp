@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use File as FileFacade;
 
 class File extends Model {
 
@@ -16,6 +17,19 @@ class File extends Model {
 
 	public function getPathAttribute() {
 		return $this->download_path . $this->saved_name;
+	}
+
+	public function delete()
+	{
+		if (is_null($this->primaryKey)) {
+			throw new Exception("No primary key defined on model.");
+		}
+
+		if ($this->exists) {
+			FileFacade::delete($this->path);
+			$this->performDeleteOnModel();
+			return true;
+		}
 	}
 
 }

@@ -28,9 +28,7 @@ class EventServiceProvider extends ServiceProvider {
 	{
 		parent::boot($events);
 
-		MyFile::deleting(function($file) {
-			return File::delete($file->path);
-		});
+		// event listener here
 	}
 
 }
