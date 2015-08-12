@@ -91,7 +91,7 @@ class AuthController extends Controller {
 			$this->auth->user()->save();
 			return redirect('/');
 		}
-		dd($request->input('old_password'), $request->input('password'), $old, $new, $this->auth->user()->password);
+
 		return redirect()->back()->withErrors(['Wrong password.']);
 	}
 
