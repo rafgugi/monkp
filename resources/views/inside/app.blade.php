@@ -116,7 +116,7 @@
             @endif
             @if (Auth::user()->role == 'ADMIN')
               <li>
-                <a href="{{url('stats')}}"><i class="fa fa-bar-chart fa-fw"></i> Statistics</a>
+                <a href="{{url('stats')}}"><i class="fa fa-bar-chart fa-fw"></i> Statistik</a>
               </li>
               <li>
                 <a href="{{url('table')}}"><i class="fa fa-table fa-fw"></i> Tabel</a>
