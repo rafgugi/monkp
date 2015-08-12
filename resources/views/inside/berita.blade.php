@@ -1,5 +1,9 @@
 @extends('inside.app')
 
+@section('css')
+  {!! HTML::style('public/css/jasny-bootstrap.css') !!}
+@endsection
+
 @section('content')
   <h1>Berita</h1>
   <hr>
@@ -32,7 +36,18 @@
             </div>
             <div class="form-group">
               <label>Attach</label>
-              <input type="file" class="form-control" name="file">
+              <div class="fileinput fileinput-new input-group" data-povides="fileinput">
+                <div class="form-control" data-trigger="fileinput">
+                  <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                  <span class="fileinput-filename"></span>
+                </div>
+                <span class="input-group-addon btn btn-default btn-file">
+                  <span class="fileinput-new">Select file</span>
+                  <span class="fileinput-exists">Change</span>
+                  <input type="file" name="file">
+                </span>
+                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -129,6 +144,7 @@
 @endsection
 
 @section('js')
+  {!! HTML::script('public/js/jasny-bootstrap.min.js') !!}
   <script>
     $(".edit-post").click(function() {
       $parent = $(this).parent().parent().parent();
