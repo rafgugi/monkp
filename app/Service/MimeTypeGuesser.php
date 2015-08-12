@@ -1,4 +1,4 @@
-<?php namespace App\Service;
+<?php namespace App\Services;
 
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeExtensionGuesser as MimeGuesser;
 

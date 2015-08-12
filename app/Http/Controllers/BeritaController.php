@@ -2,7 +2,7 @@
 
 use App\File;
 use App\Post;
-use App\Service\MimeTypeGuesser;
+use App\Services\MimeTypeGuesser;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator as Pagination;
