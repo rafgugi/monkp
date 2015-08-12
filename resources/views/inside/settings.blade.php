@@ -2,6 +2,7 @@
 
 @section('content')
   <h1>Settings</h1>
+  <hr>
   <div class="panel panel-default">
     <div class="panel-body">
       <h4><strong>Ganti semester:</strong></h4>

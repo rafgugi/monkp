@@ -1,48 +1,8 @@
 @extends('inside.app')
 
-@section('js')
-  <script>
-    var corps = {!!$corps!!};
-    $(document).ready(function(){
-      // fill corporation dropdown
-      for (var i = corps.length - 1; i >= 0; i--) {
-        c = corps[i];
-        $("#corporation").append('<option value="'+c.id+'">'+c.name_city+'</option>');
-      };
-      // add onChange event
-      $("#corporation").change(function(){
-        if ($(this).val() != 0) {
-          var c;
-          for (var i = 0; i < corps.length; i++) {
-            if (corps[i].id == $(this).val()) {
-              c = corps[i];
-            }
-          };
-          $("#corpname").val(c.name);
-          $("#corpaddress").val(c.address);
-          $("#corpcity").val(c.city);
-          $("#corppost_code").val(c.post_code);
-          $("#corptelp").val(c.telp);
-          $("#corpfax").val(c.fax);
-          $("#corpbusiness_type").val(c.business_type);
-          $("#corpdescription").val(c.description);
-        } else {
-          $("#corpname").val("");
-          $("#corpaddress").val("");
-          $("#corpcity").val("");
-          $("#corppost_code").val("");
-          $("#corptelp").val("");
-          $("#corpfax").val("");
-          $("#corpbusiness_type").val("");
-          $("#corpdescription").val("");
-        }
-      });
-    });
-  </script>
-@endsection
-
 @section('content')
   <h1>Pengajuan</h1>
+  <hr>
   @if (count($errors) > 0)
     <div class="alert alert-warning">
       <strong>Whoops!</strong> Lengkapi apa yang harus dilengkapi.<br><br>
@@ -139,4 +99,45 @@
       </div>
     </div>
   </form>
+@endsection
+
+@section('js')
+  <script>
+    var corps = {!!$corps!!};
+    $(document).ready(function(){
+      // fill corporation dropdown
+      for (var i = corps.length - 1; i >= 0; i--) {
+        c = corps[i];
+        $("#corporation").append('<option value="'+c.id+'">'+c.name_city+'</option>');
+      };
+      // add onChange event
+      $("#corporation").change(function(){
+        if ($(this).val() != 0) {
+          var c;
+          for (var i = 0; i < corps.length; i++) {
+            if (corps[i].id == $(this).val()) {
+              c = corps[i];
+            }
+          };
+          $("#corpname").val(c.name);
+          $("#corpaddress").val(c.address);
+          $("#corpcity").val(c.city);
+          $("#corppost_code").val(c.post_code);
+          $("#corptelp").val(c.telp);
+          $("#corpfax").val(c.fax);
+          $("#corpbusiness_type").val(c.business_type);
+          $("#corpdescription").val(c.description);
+        } else {
+          $("#corpname").val("");
+          $("#corpaddress").val("");
+          $("#corpcity").val("");
+          $("#corppost_code").val("");
+          $("#corptelp").val("");
+          $("#corpfax").val("");
+          $("#corpbusiness_type").val("");
+          $("#corpdescription").val("");
+        }
+      });
+    });
+  </script>
 @endsection

@@ -16,6 +16,7 @@
 
 @section('content')
   <h1>List Kelompok</h1>
+  <hr>
   <div id="alert-container"></div>
   <div class="panel panel-default">
     @if (sizeof($groups) < 1)

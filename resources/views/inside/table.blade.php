@@ -2,6 +2,7 @@
 
 @section('content')
   <h1>List Mahasiswa Mengambil KP</h1>
+  <hr>
   <div id="alert-container"></div>
   @if (sizeof($members) < 1)
     <div class="panel panel-default">

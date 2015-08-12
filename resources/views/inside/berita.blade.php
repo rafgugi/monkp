@@ -2,6 +2,7 @@
 
 @section('content')
   <h1>Berita</h1>
+  <hr>
   @if (session('alert'))
     <div class="alert alert-{{session('alert')['alert']}} alert-dismissible" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">

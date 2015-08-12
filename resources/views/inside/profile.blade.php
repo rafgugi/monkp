@@ -2,6 +2,7 @@
 
 @section('content')
   <h1>Profile</h1>
+  <hr>
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="row">
