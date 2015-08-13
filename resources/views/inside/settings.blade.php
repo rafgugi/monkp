@@ -9,7 +9,7 @@
         <div class="form-group">
           <label class="control-label col-md-3">Tahun</label>
           <div class="col-md-2">
-            <input type="text" name="year" class="form-control input-sm" placeholder="{{date('Y')}}">
+            <input type="text" name="year" class="form-control input-sm" value="{{date('Y')}}">
           </div>
         </div>
         <div class="form-group">
