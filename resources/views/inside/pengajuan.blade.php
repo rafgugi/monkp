@@ -5,16 +5,17 @@
   <hr>
   @if (count($errors) > 0)
     <div class="alert alert-warning">
-      <strong>Whoops!</strong> Lengkapi apa yang harus dilengkapi.<br><br>
-        <ul>
-          @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <strong>Whoops!</strong> Lengkapi apa yang harus dilengkapi.
     </div>
   @endif
   @if (session('you'))
     <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
       <strong>Whoops!</strong> Selesaikan apa yang harus diselesaikan.
     </div>
   @endif
