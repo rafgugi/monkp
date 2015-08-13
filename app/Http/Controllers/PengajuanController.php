@@ -126,7 +126,6 @@ class PengajuanController extends Controller {
 			$groupreq->notif->is_read = true;
 			$groupreq->notif->save();
 			$groupreq->save();
-			dd($groupreq, $groupreq->notif);
 		}
 		return redirect()->back();
 	}
