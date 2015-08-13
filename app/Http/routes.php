@@ -17,6 +17,8 @@ Route::get('/', function() {
 	return redirect('home');
 });
 
+Route::get('dummy', 'DummyController@index');
+
 Route::group(['middleware' => ['auth']], function() {
 
 	Route::get('pengajuan/destroy/{id}', 'GroupController@destroy');
