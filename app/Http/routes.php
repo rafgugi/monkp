@@ -37,12 +37,12 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('pengajuan/update/{id}', 'GroupController@update');
 		Route::get('settings', 'SettingsController@index');
 		Route::post('settings', 'SettingsController@store');
-		Route::get('stats', 'GroupController@stats');
-		Route::get('stats/{semester}', 'GroupController@stats');
-		Route::get('table', 'GroupController@table');
-		Route::get('table/{semester}', 'GroupController@table');
-		Route::get('table/grading/{id}', 'GroupController@grading');
-		Route::get('table/export', 'GroupController@export');
+		Route::get('stats', 'SettingsController@stats');
+		Route::get('stats/{semester}', 'SettingsController@stats');
+		Route::get('table', 'SettingsController@table');
+		Route::get('table/{semester}', 'SettingsController@table');
+		Route::get('table/grading/{id}', 'SettingsController@grading');
+		Route::get('table/export', 'SettingsController@export');
 		Route::post('berita/edit', 'BeritaController@update');
 		Route::post('berita/tambah', 'BeritaController@store');
 	});
