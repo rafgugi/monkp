@@ -8,9 +8,8 @@ use App\Member;
 use App\Semester;
 use DB;
 use Excel;
-use Request;
-
 use Illuminate\Pagination\LengthAwarePaginator as Pagination;
+use Request;
 
 class SettingsController extends Controller {
 
