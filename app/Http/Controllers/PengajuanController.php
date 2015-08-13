@@ -18,10 +18,9 @@ class PengajuanController extends Controller {
 	 */
 	public function create()
 	{
-		$corps = Corporation::get()->sortBy('name')->toJson();
+		$corps = Corporation::orderBy('name', 'desc')->get()->toJson();
 		$students = Student::where('id', '!=', Auth::user()->personable_id)->get();
 		$data = compact('students', 'corps');
-		// dd($data);
 		return view('inside.pengajuan', $data);
 	}
 
