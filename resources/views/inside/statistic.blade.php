@@ -129,7 +129,7 @@
       element: 'myfirstchart',
       // Chart data records -- each entry in this array corresponds to a point on
       // the chart.
-      colors: ["#337ab7", "#5cb85c","#5bc0de","#f0ad4e","#d9534f"],
+      colors: ["#337ab7", "#5cb85c","#5bc0de","#f0ad4e","#d9534f", "#ff69b4"],
       formatter: function(y, data) {
         return y + ' | ' + Math.round(10000*y/{{$groups->count()}})/100+'%';
       },
