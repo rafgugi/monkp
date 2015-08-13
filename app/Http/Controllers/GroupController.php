@@ -93,7 +93,7 @@ class GroupController extends Controller {
 			$group->status = $rstat;
 			$group->save();
 		}
-		return $this->alert('info', 'Kelompok telah berhasil diperbarui.');
+		return $this->alert('info', 'Kelompok berhasil diperbarui. Silahkan refresh halaman.');
 	}
 
 	/**

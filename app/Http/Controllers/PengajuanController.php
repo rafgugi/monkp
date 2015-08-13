@@ -53,7 +53,7 @@ class PengajuanController extends Controller {
 		$student_groups = $student->groups->where('semester_id', $now->id);
 		foreach ($student_groups as $group) {
 			if ($group->status['status'] >= 0) {
-				return redirect()->back()->with('you');
+				return redirect()->back()->with('you', true);
 			}
 		}
 
@@ -65,7 +65,7 @@ class PengajuanController extends Controller {
 			$allowed = true;
 			foreach ($groups as $group) {
 				if ($group->status['status'] >= 0) {
-					return redirect()->back()->with('you');
+					return redirect()->back()->with('you', true);
 				}
 			}
 		}
