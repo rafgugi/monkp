@@ -27,23 +27,18 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function semester()
-	{
-		//
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
 	public function store()
 	{
-		//
+		$request = Request::only(['year', 'odd', 'start_date', 'end_date', 'user_due_date']);
+		// dd($request);
+		$semester = Semester::firstOrNew(Request::only(['year', 'odd']));
+		$semester->fill($request);
+		$semester->save();
+		return redirect()->back();
 	}
 
 	/**
