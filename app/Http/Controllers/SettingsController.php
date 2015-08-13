@@ -36,6 +36,7 @@ class SettingsController extends Controller {
 		$request = Request::only(['year', 'odd', 'start_date', 'end_date', 'user_due_date']);
 		// dd($request);
 		$semester = Semester::firstOrNew(Request::only(['year', 'odd']));
+		$baru = false;
 		if ($semester->id == null) {
 			$baru = true;
 		}
