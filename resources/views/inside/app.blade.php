@@ -109,17 +109,21 @@
             <li>
               <a href="{{url('berita')}}"><i class="fa fa-newspaper-o fa-fw"></i> Berita</a>
             </li>
-            @if (Auth::user()->role == 'STUDENT')
+            @if ($role = Auth::user()->role)
+            @endif
+            @if ($role == 'STUDENT')
               <li>
                 <a href="{{url('pengajuan')}}"><i class="fa fa-edit fa-fw"></i> Pengajuan</a>
               </li>
             @endif
-            @if (Auth::user()->role == 'ADMIN')
-              <li>
-                <a href="{{url('stats')}}"><i class="fa fa-bar-chart fa-fw"></i> Statistik</a>
-              </li>
+            @if ($role == 'LECTURER' || $role == 'ADMIN')
               <li>
                 <a href="{{url('table')}}"><i class="fa fa-table fa-fw"></i> Tabel</a>
+              </li>
+            @endif
+            @if ($role == 'ADMIN')
+              <li>
+                <a href="{{url('stats')}}"><i class="fa fa-bar-chart fa-fw"></i> Statistik</a>
               </li>
               <li>
                 <a href="{{url('settings')}}"><i class="fa fa-cog fa-fw"></i> Periode</a>
