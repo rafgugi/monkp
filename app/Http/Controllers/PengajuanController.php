@@ -34,11 +34,10 @@ class PengajuanController extends Controller {
 	{
 		$this->validate($request, [
 			'corporation.name' => 'required',
+			'corporation.city' => 'required',
 			'corporation.address' => 'required',
-			'corporation.post_code' => 'required',
 			'corporation.business_type' => 'required',
 			'corporation.description' => 'required',
-			'corporation.city' => 'required',
 			'group.start_date' => 'required|date|before:'
 					. $request['group']['end_date'],
 			'group.end_date' => 'required|date',
