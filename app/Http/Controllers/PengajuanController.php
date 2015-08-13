@@ -60,7 +60,7 @@ class PengajuanController extends Controller {
 		# check if student 2 has created group in the same semester
 		$friend_id = $request['friend'];
 		$student2 = Student::find($friend_id);
-		if ($stuent2 != null) {
+		if ($student2 != null) {
 			$groups = $student2->groups->where('semester_id', $now->id);
 			$allowed = true;
 			foreach ($groups as $group) {
