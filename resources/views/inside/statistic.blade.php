@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-  <h1>Statistic</h1>
+  <h1>Statistik</h1>
   <form class="form-inline">
     <select name="semester" class="form-control input-sm">
       <option value="0">-- Pilih semester --</option>
@@ -27,7 +27,7 @@
             <div id="myfirstchart" style="height: 250px;"></div>
             <div class="col-md-10 col-md-offset-1">
               <a class="btn btn-default btn-block" role="button" data-toggle="collapse" href="#group-collapse" aria-expanded="false" aria-controls="group-collapse">
-                View Details
+                Lihat Detil
               </a>
               <div class="collapse" id="group-collapse" style="padding-top: 7px;">
                 <table class="table table-condensed table-bordered">
@@ -73,7 +73,7 @@
             <tr>
               <th>Nama</th>
               <th>Kota</th>
-              <th class="text-center">Count</th>
+              <th class="text-center">Jumlah</th>
             </tr>
             @foreach ($corps as $corp)
               <tr>
@@ -94,13 +94,13 @@
         <div class="panel-heading">
           Dosen Pembimbing
           <a class="btn btn-default btn-xs" role="button" data-toggle="collapse" href=".dsn" aria-expanded="false" aria-controls="dosen-collapse">
-            View All
+            Lihat Semua
           </a>
         </div>
         <table class="table">
           <tr>
             <th>Nama</th>
-            <th class="text-center">Count</th>
+            <th class="text-center">Jumlah</th>
           </tr>
           @foreach ($lects->take(10) as $dosen)
             <tr>
