@@ -21,9 +21,7 @@ class SettingsController extends Controller {
 	 */
 	public function index()
 	{
-		$semester = Semester::latest();
-		$data = compact('semester');
-		return view('inside.settings', $data);
+		return view('inside.settings');
 	}
 
 	/**
