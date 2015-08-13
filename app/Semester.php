@@ -12,8 +12,13 @@ class Semester extends Model {
 		return $this->HasMany('App\Group');
 	}
 
-	public static function latest() {
-		return static::orderBy('id', 'desc')->first();
+	public static function current() {
+		$now = date('Y-m-d');
+		$semester = static::where('start_date', '<=', $now)
+				->where('end_date', '>=', $now)
+				->orderBy('start_date')
+				->get();
+		return $semester->first();
 	}
 
 	public static function now() {
