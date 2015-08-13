@@ -3,6 +3,14 @@
 @section('content')
   <h1>Periode</h1>
   <hr>
+  @if (session('alert'))
+    <div class="alert alert-{{session('alert')['alert']}} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{session('alert')['body']}}
+    </div>
+  @endif
   <div class="panel panel-default">
     <div class="panel-body">
       <form action="" class="form-horizontal" method="post">

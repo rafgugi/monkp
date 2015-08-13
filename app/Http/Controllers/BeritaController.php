@@ -9,7 +9,6 @@ use Illuminate\Pagination\LengthAwarePaginator as Pagination;
 
 class BeritaController extends Controller {
 
-
 	/**
 	 * Display posts listing.
 	 *

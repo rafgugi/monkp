@@ -36,9 +36,17 @@ class SettingsController extends Controller {
 		$request = Request::only(['year', 'odd', 'start_date', 'end_date', 'user_due_date']);
 		// dd($request);
 		$semester = Semester::firstOrNew(Request::only(['year', 'odd']));
+		if ($semester->id == null) {
+			$baru = true;
+		}
 		$semester->fill($request);
 		$semester->save();
-		return redirect()->back();
+		if (!$baru) {
+			return redirect()->back()
+				->with('alert', ['alert' => 'success', 'body' => 'Berhasil memperbarui semester.']);
+		}
+		return redirect()->back()
+			->with('alert', ['alert' => 'success', 'body' => 'Berhasil membuat semester baru.']);
 	}
 
 	/**
