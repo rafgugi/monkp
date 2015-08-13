@@ -122,7 +122,7 @@
                 <a href="{{url('table')}}"><i class="fa fa-table fa-fw"></i> Tabel</a>
               </li>
               <li>
-                <a href="{{url('settings')}}"><i class="fa fa-cog fa-fw"></i> Pengaturan</a>
+                <a href="{{url('settings')}}"><i class="fa fa-cog fa-fw"></i> Periode</a>
               </li>
             @endif
           </ul>

@@ -1,11 +1,10 @@
 @extends('inside.app')
 
 @section('content')
-  <h1>Settings</h1>
+  <h1>Periode</h1>
   <hr>
   <div class="panel panel-default">
     <div class="panel-body">
-      <h4><strong>Ganti semester:</strong></h4>
       <form action="" class="form-horizontal" method="post">
         <div class="form-group">
           <label class="control-label col-md-3">Tahun</label>
