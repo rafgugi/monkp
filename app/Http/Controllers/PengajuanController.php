@@ -61,7 +61,6 @@ class PengajuanController extends Controller {
 		$student2 = Student::find($friend_id);
 		if ($student2 != null) {
 			$groups = $student2->groups->where('semester_id', $now->id);
-			$allowed = true;
 			foreach ($groups as $group) {
 				if ($group->status['status'] >= 0) {
 					return redirect()->back()->with('you', true);
@@ -98,7 +97,6 @@ class PengajuanController extends Controller {
 			$notif->is_read = false;
 			$notif->save();
 		}
-		// dd(compact('member', 'group', 'corp', 'friend', 'notif'));
 
 		return redirect('home');
 	}
@@ -107,12 +105,23 @@ class PengajuanController extends Controller {
 	{
 		$groupreq = Friend::find($id);
 		if ($groupreq != null) {
+			$student = Auth::user()->personable;
 			$groupreq->status = 1;
 			$groupreq->notif->is_read = true;
 			$groupreq->notif->save();
 			$groupreq->save();
 
-			$student = Auth::user()->personable;
+			# check if alredy join group
+			$now = Semester::now();
+			$student_groups = $student->groups->where('semester_id', $now->id);
+			foreach ($student_groups as $group) {
+				if ($group->status['status'] >= 0) {
+					$groupreq->status = 2;
+					$groupreq->save();
+					return redirect()->back();
+				}
+			}
+
 			$student->groups()->attach($groupreq->group_id);
 		}
 		return redirect()->back();
