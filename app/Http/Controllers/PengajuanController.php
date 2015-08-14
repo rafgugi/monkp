@@ -31,6 +31,10 @@ class PengajuanController extends Controller {
 	 */
 	public function store(Request $request)
 	{
+		if (Semester::current() == null) {
+			return redirect()->back();
+		}
+
 		$this->validate($request, [
 			'corporation.name' => 'required',
 			'corporation.city' => 'required',
@@ -47,7 +51,7 @@ class PengajuanController extends Controller {
 		$greq = $request['group'];
 
 		# check if student 1 has created group in the same semester
-		$now = Semester::now();
+		$now = Semester::current();
 		$student = Auth::user()->personable;
 		$student_groups = $student->groups->where('semester_id', $now->id);
 		foreach ($student_groups as $group) {
@@ -76,7 +80,7 @@ class PengajuanController extends Controller {
 		# make group
 		$group = new Group($greq);
 		$group->corporation()->associate($corp);
-		$group->semester()->associate(Semester::now());
+		$group->semester()->associate(Semester::current());
 		$group->save();
 
 		# connect group to student
@@ -112,7 +116,7 @@ class PengajuanController extends Controller {
 			$groupreq->save();
 
 			# check if alredy join group
-			$now = Semester::now();
+			$now = Semester::current();
 			$student_groups = $student->groups->where('semester_id', $now->id);
 			foreach ($student_groups as $group) {
 				if ($group->status['status'] >= 0) {

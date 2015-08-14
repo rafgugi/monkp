@@ -21,16 +21,28 @@ class Semester extends Model {
 		return $semester->first();
 	}
 
-	public static function now() {
-		$year = date('Y');
-		$month = date('m');
-		$odd = 1;
-		if ($month < 8 && $month > 1) {
-			$year--;
-			$odd--;
+	public static function allowedToRegister() {
+		$current = static::current();
+		if ($current == null) {
+			return false;
 		}
-		return static::firstOrCreate(compact('year', 'odd'));
+
+		$start = strtotime($current->start_date);
+		$end = strtotime($current->user_due_date);
+		$now = time();
+		return ($now >= $start) && ($now <= $end);
 	}
+
+	// public static function now() {
+	// 	$year = date('Y');
+	// 	$month = date('m');
+	// 	$odd = 1;
+	// 	if ($month < 8 && $month > 1) {
+	// 		$year--;
+	// 		$odd--;
+	// 	}
+	// 	return static::firstOrCreate(compact('year', 'odd'));
+	// }
 
 	public function toString() {
 		return $this->year . '/'

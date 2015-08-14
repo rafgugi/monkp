@@ -4,6 +4,7 @@
   <title>
     [Monitoring Kerja Praktik] Home
   </title>
+  <link rel="icon" type="image/x-icon" href="{{url('public/favicon.ico')}}">
   {!! HTML::style('public/css/bootstrap.min.css') !!}
   {!! HTML::style('public/css/font-awesome.min.css') !!}
 </head>

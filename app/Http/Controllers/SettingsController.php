@@ -53,22 +53,6 @@ class SettingsController extends Controller {
 	 * @return Response
 	 */
 	public function stats() {
-		// $results = DB::select('SELECT groups.*, lecturers.*, corporations.*
-		// 			FROM groups, semesters, (
-		// 				SELECT corporations.*, COUNT(groups.id) AS corp_count
-		// 				FROM corporations, groups
-		// 				WHERE groups.corporation_id = corporations.id
-		// 			) AS corporations, (
-		// 				SELECT lecturers.*, COUNT(groups.id) AS lect_count
-		// 				FROM lecturers, groups
-		// 				WHERE groups.lecturer_id = lecturers.id    
-		// 			) AS lecturers
-		// 			WHERE groups.semester_id = semesters.id
-		// 			AND lecturers.id = groups.lecturer_id
-		// 			AND corporations.id = groups.corporation_id
-		// 			AND semesters.id = ?', [1]);
-		// dd($results);
-
 		$groups = Group::get();
 		$corps = Corporation::get()->sortByDesc(
 				function($s) { return $s->groups->count(); }

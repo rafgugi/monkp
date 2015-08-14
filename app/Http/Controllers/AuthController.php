@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Semester;
 use App\Student;
 use App\User;
 use Hash;
@@ -92,7 +93,7 @@ class AuthController extends Controller {
 			return redirect('/');
 		}
 
-		return redirect()->back()->withErrors(['Wrong password.']);
+		return redirect()->back()->withErrors(['error' => 'Wrong password.']);
 	}
 
 	/**
@@ -102,7 +103,10 @@ class AuthController extends Controller {
 	 */
 	public function getRegister()
 	{
-		return view('register');
+		if (Semester::allowedToRegister()) {
+			return view('register');
+		}
+		return redirect()->back()->withErrors(['error' => 'Tidak bisa register sekarang.']);
 	}
 
 	/**
@@ -113,31 +117,34 @@ class AuthController extends Controller {
 	 */
 	public function postRegister(Request $request)
 	{
-		$this->validate($request, [
-			'name' => 'required',
-			'nrp' => 'required|numeric|unique:users,username',
-			'password' => 'required|same:password_confirmation',
-		]);
+		if (Semester::allowedToRegister()) {
+			$this->validate($request, [
+				'name' => 'required',
+				'nrp' => 'required|numeric|unique:users,username',
+				'password' => 'required|same:password_confirmation',
+			]);
 
-		# make student
-		$student = new Student();
-		$student->nrp = $request->input('nrp');
-		$student->name = $request->input('name');
-		$student->save();
+			# make student
+			$student = new Student();
+			$student->nrp = $request->input('nrp');
+			$student->name = $request->input('name');
+			$student->save();
 
-		# make user
-		$user = new User();
-		$user->username = $request->input('nrp');
-		$user->password = bcrypt($request->input('password'));
+			# make user
+			$user = new User();
+			$user->username = $request->input('nrp');
+			$user->password = bcrypt($request->input('password'));
 
-		# attach student to user
-		$user->personable_id = $student->id;
-		$user->personable_type = 'student';
-		$user->save();
+			# attach student to user
+			$user->personable_id = $student->id;
+			$user->personable_type = 'student';
+			$user->save();
 
-		$this->auth->login($user);
+			$this->auth->login($user);
 
-		return redirect($this->redirectPath());
+			return redirect($this->redirectPath());
+		}
+		return redirect()->back()->withErrors(['error' => 'Tidak bisa register sekarang.']);
 	}
 
 	/**
