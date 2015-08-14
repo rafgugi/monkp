@@ -82,7 +82,7 @@
               <tr>
                 <td>{{$corp->name}}</td>
                 <td>{{$corp->city}}</td>
-                <td class="text-center">{{$corp->groups->count()}}</td>
+                <td class="text-center">{{$corp->corp_count}}</td>
               </tr>
             @endforeach
             <tr class="active">

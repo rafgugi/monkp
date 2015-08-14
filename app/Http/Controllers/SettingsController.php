@@ -74,7 +74,7 @@ class SettingsController extends Controller {
 			$groups = Group::where('semester_id', $semester_id)->get();
 			$lects = new Collection(DB::select(
 					'SELECT * FROM (
-						SELECT lecturers.*, COALESCE(COUNT(groups.id), 0) AS lect_count
+						SELECT lecturers.*, COUNT(groups.id) AS lect_count
 						FROM lecturers 
 						LEFT JOIN (
 							SELECT *
@@ -84,9 +84,17 @@ class SettingsController extends Controller {
 						WHERE nip != 0
 						GROUP BY 1) as lecturers
 					ORDER BY lect_count DESC, initial', [$semester_id]));
-			$corps = Corporation::has('groups')->get()->sortByDesc(
-					function($s) { return $s->groups->count(); }
-				);
+			$corps = new Collection(DB::select(
+					'SELECT * FROM (
+						SELECT corporations.*, COUNT(groups.id) AS corp_count
+						FROM corporations 
+						LEFT JOIN (
+							SELECT *
+							FROM groups
+							WHERE groups.semester_id = ?
+						) AS groups ON groups.corporation_id = corporations.id
+						GROUP BY 1) as corporations
+					ORDER BY lect_count DESC, initial', [$semester_id]));
 		}
 		
 		$data = compact('groups', 'corps', 'lects');
