@@ -9,6 +9,7 @@ use App\Semester;
 use DB;
 use Excel;
 use Illuminate\Pagination\LengthAwarePaginator as Pagination;
+use Illuminate\Support\Collection;
 use Request;
 
 class SettingsController extends Controller {
@@ -52,14 +53,32 @@ class SettingsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function stats() {
-		$groups = Group::get();
-		$corps = Corporation::get()->sortByDesc(
-				function($s) { return $s->groups->count(); }
-			);
-		$lects = Lecturer::getDosen()->sortByDesc(
-				function($s) { return $s->groups->count(); }
-			);
+	public function stats($semester_id = null) {
+		$all = false;
+		if ($semester_id == null) {
+			if (($req = Request::input('semester')) > 0) {
+				return redirect('stats/' . $req);
+			}
+			$all = true;
+		}
+
+		if ($all) {
+			$groups = Group::get();
+			$corps = Corporation::has('groups')->get()->sortByDesc(
+					function($s) { return $s->groups->count(); }
+				);
+			$lects = Lecturer::dosen()->get()->sortByDesc(
+					function($s) { return $s->groups->count(); }
+				);
+		} else {
+			$groups = Group::where('semester_id', $semester_id)->get();
+			$lects = DB::select(
+				'SELECT lecturers.*, COALESCE(COUNT(groups.id), 0) AS lect_count
+				FROM lecturers LEFT JOIN groups ON groups.lecturer_id = lecturers.id
+				WHERE groups.semester_id = ?
+				GROUP BY 1');
+		}
+		
 		$data = compact('groups', 'corps', 'lects');
 		return view('inside.statistic', $data);
 	}

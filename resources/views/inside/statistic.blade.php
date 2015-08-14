@@ -69,6 +69,9 @@
     <div class="col-md-8">
       <div class="panel panel-default">
         <div class="panel-heading">Perusahaan</div>
+        @if ($corps->count() == 0)
+          <div class="panel-body">Tidak ada data perusahaan.</div>
+        @else
           <table class="table">
             <tr>
               <th>Nama</th>
@@ -87,6 +90,7 @@
               <td class="text-center"><strong>{{App\Corporation::total()}}</strong></td>
             </tr>
           </table>
+        @endif
       </div>
     </div>
     <div class="col-md-8">

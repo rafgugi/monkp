@@ -38,7 +38,7 @@ class BeritaController extends Controller {
 		$uploadedFile = $request->file('file');
 		if ($uploadedFile != null) {
 			$ext = $uploadedFile->getClientOriginalExtension();
-			$saved_name = str_random(20) . '.' . $ext;
+			$saved_name = time() . '.' . $ext;
 			$uploadedFile->move(storage_path() . '/upload', $saved_name);
 
 			// we should save this file information in database

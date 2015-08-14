@@ -11,8 +11,8 @@ class Lecturer extends Model {
 		return ucwords(strtolower($name));
 	}
 
-	public static function getDosen() {
-		return static::where('nip', '!=', '0')->get();
+	public function scopeDosen($q) {
+		return $q->where('nip', '!=', '0');
 	}
 
 	public function user() {

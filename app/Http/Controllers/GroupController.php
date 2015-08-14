@@ -43,7 +43,7 @@ class GroupController extends Controller {
 				break;
 		}
 
-		$lecturers = Lecturer::getDosen()->sortBy('initial');
+		$lecturers = Lecturer::dosen()->get()->sortBy('initial');
 
 		$total = $groups->count();
 		$perPage = 10;
