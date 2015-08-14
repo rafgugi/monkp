@@ -77,6 +77,7 @@ class SettingsController extends Controller {
 				FROM lecturers LEFT JOIN groups ON groups.lecturer_id = lecturers.id
 				WHERE groups.semester_id = ?
 				GROUP BY 1', [$semester_id]);
+			$corps = new Collection;
 		}
 		
 		$data = compact('groups', 'corps', 'lects');
