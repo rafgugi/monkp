@@ -109,13 +109,13 @@
           @foreach ($lects->take(10) as $dosen)
             <tr>
               <td>{{$dosen->initial}} - {{$dosen->name}}</td>
-              <td class="text-center">{{$dosen->groups->count()}}</td>
+              <td class="text-center">{{$dosen->lect_count}}</td>
             </tr>
           @endforeach
           @foreach ($lects->slice(10) as $dosen)
             <tr class="dsn collapse">
               <td>{{$dosen->initial}} - {{$dosen->name}}</td>
-              <td class="text-center">{{$dosen->groups->count()}}</td>
+              <td class="text-center">{{$dosen->lect_count}}</td>
             </tr>
           @endforeach
         </table>
