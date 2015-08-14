@@ -87,7 +87,7 @@
             @endforeach
             <tr class="active">
               <td colspan="2"><strong>Total</strong></td>
-              <td class="text-center"><strong>{{App\Corporation::total()}}</strong></td>
+              <td class="text-center"><strong>{{$corps->sum('corp_count')}}</strong></td>
             </tr>
           </table>
         @endif

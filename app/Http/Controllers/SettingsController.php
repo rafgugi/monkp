@@ -60,45 +60,12 @@ class SettingsController extends Controller {
 				return redirect('stats/' . $req);
 			}
 			$all = true;
+		} else if (Semester::find($semester_id) == null) {
+			$all = true;
 		}
 
 		$where = $all ? '' : "WHERE groups.semester_id = $semester_id";
-		/*
-		if ($all) {
-			$groups = Group::get();
-			$corps = Corporation::has('groups')->get()->sortByDesc(
-					function($s) { return $s->groups->count(); }
-				);
-			$lects = Lecturer::dosen()->get()->sortByDesc(
-					function($s) { return $s->groups->count(); }
-				);
-		} else {
-			$groups = Group::where('semester_id', $semester_id)->get();
-			$lects = new Collection(DB::select(
-					'SELECT * FROM (
-						SELECT lecturers.*, COUNT(groups.id) AS lect_count
-						FROM lecturers 
-						LEFT JOIN (
-							SELECT *
-							FROM groups
-							WHERE groups.semester_id = ?
-						) AS groups ON groups.lecturer_id = lecturers.id
-						WHERE nip != 0
-						GROUP BY 1) as lecturers
-					ORDER BY lect_count DESC, initial', [$semester_id]));
-			$corps = new Collection(DB::select(
-					'SELECT * FROM (
-						SELECT corporations.*, COUNT(groups.id) AS corp_count
-						FROM corporations 
-						LEFT JOIN (
-							SELECT *
-							FROM groups
-							WHERE groups.semester_id = ?
-						) AS groups ON groups.corporation_id = corporations.id
-						GROUP BY 1) as corporations
-					ORDER BY corp_count DESC', [$semester_id]));
-		}
-//*/
+
 		$groups = $all ? Group::get() : Group::where('semester_id', $semester_id)->get();
 		$lects = new Collection(DB::select(
 				"SELECT * FROM (
@@ -133,8 +100,22 @@ class SettingsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function table() {
-		$members = Member::get();
+	public function table($semester_id = null) {
+		$all = false;
+		if ($semester_id == null) {
+			if (($req = Request::input('semester')) > 0) {
+				return redirect('table/' . $req);
+			}
+			$all = true;
+		} else if (Semester::find($semester_id) == null) {
+			$all = true;
+		}
+
+		$members = $all ? Member::get() : Member::whereHas('groups',
+			function ($q) use($semester_id) {
+				$q->where('semester_id', $semester_id);
+			}
+		)->get();
 
 		$total = $members->count();
 		$perPage = 15;
@@ -144,7 +125,7 @@ class SettingsController extends Controller {
 
 		$members = new Pagination($members, $total, $perPage, $page, $option);
 
-		$data = compact('members');
+		$data = compact('members', 'semester_id', 'all');
 		return view('inside.table', $data);
 	}
 
@@ -186,14 +167,27 @@ class SettingsController extends Controller {
 	 *
 	 * @return File .xls
 	 */
-	public function export() {
+	public function export($semester_id = null) {
+		$all = false;
+		if ($semester_id == null) {
+			$all = true;
+		} else if (Semester::find($semester_id) == null) {
+			$all = true;
+		}
+
+		$membera = $all ? Member::get() : Member::whereHas('groups',
+			function ($q) use($semester_id) {
+				$q->where('semester_id', $semester_id);
+			}
+		)->get();
+
 		$excel = Excel::create('export');
 		$excel->setTitle('Export List Kelompok KP')
 			  ->setCreator('Teknik Informatika')
 			  ->setCompany('Teknik Informatika');
 
 		$members = [];
-		foreach (Member::get() as $member) {
+		foreach ($membera as $member) {
 			$q['Nama'] = $member->student->name;
 			$q['NRP'] = $member->student->nrp;
 			$q['Kelompok (Status)'] = $member->group->id . ' (' . $member->group->status['name'] . ')';

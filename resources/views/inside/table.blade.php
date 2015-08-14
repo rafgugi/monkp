@@ -10,7 +10,9 @@
     </div>
   @else
     <p class="">
-      <a href="{{url('table/export')}}" class="btn btn-success">Export to Excel</a>
+      <a href="{{url('table/export') . $all ? '' : $semester_id}}" class="btn btn-success">
+        Export to Excel
+      </a>
     </p>
     <div class="panel panel-default">
       <div class="table-responsive">
