@@ -134,7 +134,7 @@
                 <a href="{{url('stats')}}"><i class="fa fa-bar-chart fa-fw"></i> Statistik</a>
               </li>
               <li>
-                <a href="{{url('settings')}}"><i class="fa fa-cog fa-fw"></i> Periode</a>
+                <a href="{{url('periode')}}"><i class="fa fa-cog fa-fw"></i> Periode</a>
               </li>
             @endif
           </ul>

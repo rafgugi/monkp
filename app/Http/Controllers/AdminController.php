@@ -12,16 +12,16 @@ use Illuminate\Pagination\LengthAwarePaginator as Pagination;
 use Illuminate\Support\Collection;
 use Request;
 
-class SettingsController extends Controller {
+class AdminController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function getPeriode()
 	{
-		return view('inside.settings');
+		return view('inside.periode');
 	}
 
 	/**
@@ -29,10 +29,17 @@ class SettingsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function postPeriode()
 	{
 		$request = Request::only(['year', 'odd', 'start_date', 'end_date', 'user_due_date']);
-		// dd($request);
+		if ($request['year'] < 2000
+				|| $request['end_date'] == '' 
+				|| $request['user_due_date'] == ''
+				|| $request['start_date'] == '' 
+		) {
+			return redirect()->back()->withInputs($request)
+				->with('alert', ['alert' => 'warning', 'body' => 'Lengkapi. Yang benar.']);
+		}
 		$semester = Semester::firstOrNew(Request::only(['year', 'odd']));
 		$baru = false;
 		if ($semester->id == null) {
