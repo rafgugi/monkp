@@ -80,6 +80,7 @@ class SettingsController extends Controller {
 								FROM groups
 								WHERE groups.semester_id = ?
 							) AS groups ON groups.lecturer_id = lecturers.id
+							WHERE nip != 0
 							GROUP BY 1', [$semester_id]));
 			$corps = Corporation::has('groups')->get()->sortByDesc(
 					function($s) { return $s->groups->count(); }
