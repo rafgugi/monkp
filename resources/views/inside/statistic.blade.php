@@ -5,7 +5,10 @@
 @endsection
 
 @section('content')
-  <h1>Statistik</h1>
+  <h1>
+    Statistik
+    <small>{{$all ? 'Semua Periode' : 'Periode ' . App\Semester::find($semester_id)->toString()}}</small>
+  </h1>
   <form class="form-inline">
     <select name="semester" class="form-control input-sm">
       <option value="0">-- Pilih semester --</option>

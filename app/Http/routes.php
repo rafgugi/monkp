@@ -42,10 +42,10 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('stats', 'SettingsController@stats');
 		Route::get('stats/{semester}', 'SettingsController@stats');
 		Route::get('table', 'SettingsController@table');
-		Route::get('table/{semester}', 'SettingsController@table');
 		Route::get('table/export', 'SettingsController@export');
 		Route::get('table/export/{semester}', 'SettingsController@export');
 		Route::get('table/grading/{id}', 'SettingsController@grading');
+		Route::get('table/{semester}', 'SettingsController@table');
 		Route::post('berita/edit', 'BeritaController@update');
 		Route::post('berita/tambah', 'BeritaController@store');
 	});

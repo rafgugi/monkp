@@ -1,7 +1,19 @@
 @extends('inside.app')
 
 @section('content')
-  <h1>Tabel</h1>
+  <h1>
+    Tabel
+    <small>{{$all ? 'Semua Periode' : 'Periode ' . App\Semester::find($semester_id)->toString()}}</small>
+  </h1>
+  <form class="form-inline">
+    <select name="semester" class="form-control input-sm">
+      <option value="0">-- Pilih semester --</option>
+      @foreach(App\Semester::get()->sortBy('year')->sortByDesc('odd') as $semester)
+        <option value="{{$semester->id}}">{{$semester->toString()}}</option>
+      @endforeach
+    </select>
+    <button class="btn btn-default btn-sm">Pilih</button>
+  </form>
   <hr>
   <div id="alert-container"></div>
   @if (sizeof($members) < 1)
@@ -10,7 +22,7 @@
     </div>
   @else
     <p class="">
-      <a href="{{url('table/export') . $all ? '' : $semester_id}}" class="btn btn-success">
+      <a href="{{url('table/export') . ($all ? '' : '/' . $semester_id)}}" class="btn btn-success">
         Export to Excel
       </a>
     </p>

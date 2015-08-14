@@ -55,13 +55,12 @@ class SettingsController extends Controller {
 	 */
 	public function stats($semester_id = null) {
 		$all = false;
-		if ($semester_id == null) {
-			if (($req = Request::input('semester')) > 0) {
-				return redirect('stats/' . $req);
-			}
+		if (($req = Request::input('semester')) != null) {
+			return redirect('stats/' . $req);
+		} else if ($semester_id == null || Semester::find($semester_id) == null) {
 			$all = true;
-		} else if (Semester::find($semester_id) == null) {
-			$all = true;
+		} else {
+			$all = false;
 		}
 
 		$where = $all ? '' : "WHERE groups.semester_id = $semester_id";
@@ -91,7 +90,7 @@ class SettingsController extends Controller {
 					GROUP BY 1) as corporations
 				ORDER BY corp_count DESC"));
 		
-		$data = compact('groups', 'corps', 'lects');
+		$data = compact('groups', 'corps', 'lects', 'all', 'semester_id');
 		return view('inside.statistic', $data);
 	}
 
@@ -102,16 +101,15 @@ class SettingsController extends Controller {
 	 */
 	public function table($semester_id = null) {
 		$all = false;
-		if ($semester_id == null) {
-			if (($req = Request::input('semester')) > 0) {
-				return redirect('table/' . $req);
-			}
+		if (($req = Request::input('semester')) != null) {
+			return redirect('table/' . $req);
+		} else if ($semester_id == null || Semester::find($semester_id) == null) {
 			$all = true;
-		} else if (Semester::find($semester_id) == null) {
-			$all = true;
+		} else {
+			$all = false;
 		}
 
-		$members = $all ? Member::get() : Member::whereHas('groups',
+		$members = $all ? Member::get() : Member::whereHas('group',
 			function ($q) use($semester_id) {
 				$q->where('semester_id', $semester_id);
 			}
@@ -174,8 +172,7 @@ class SettingsController extends Controller {
 		} else if (Semester::find($semester_id) == null) {
 			$all = true;
 		}
-
-		$membera = $all ? Member::get() : Member::whereHas('groups',
+		$membera = $all ? Member::get() : Member::whereHas('group',
 			function ($q) use($semester_id) {
 				$q->where('semester_id', $semester_id);
 			}
@@ -191,6 +188,7 @@ class SettingsController extends Controller {
 			$q['Nama'] = $member->student->name;
 			$q['NRP'] = $member->student->nrp;
 			$q['Kelompok (Status)'] = $member->group->id . ' (' . $member->group->status['name'] . ')';
+			$q['Semester'] = $member->group->semester->toString();
 			$q['Mulai'] = $member->group->start_date;
 			$q['Selesai'] = $member->group->end_date;
 			$q['Dosen Pembimbing'] = $member->group->lecturer == null ? '-' : $member->group->lecturer->name;
