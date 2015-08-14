@@ -76,7 +76,7 @@ class SettingsController extends Controller {
 				'SELECT lecturers.*, COALESCE(COUNT(groups.id), 0) AS lect_count
 				FROM lecturers LEFT JOIN groups ON groups.lecturer_id = lecturers.id
 				WHERE groups.semester_id = ?
-				GROUP BY 1');
+				GROUP BY 1', [$semester_id]);
 		}
 		
 		$data = compact('groups', 'corps', 'lects');
