@@ -94,7 +94,7 @@ class SettingsController extends Controller {
 							WHERE groups.semester_id = ?
 						) AS groups ON groups.corporation_id = corporations.id
 						GROUP BY 1) as corporations
-					ORDER BY lect_count DESC, initial', [$semester_id]));
+					ORDER BY corp_count DESC, initial', [$semester_id]));
 		}
 		
 		$data = compact('groups', 'corps', 'lects');
