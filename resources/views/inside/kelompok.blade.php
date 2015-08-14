@@ -130,7 +130,7 @@
                   <div class="col-md-12">
                     <div class="form-horizontal">
                       <div class="form-group">
-                        <label class="col-md-2 control-label">Mentor <i class="fa fa-question-circle text-primary" title="Mentor adalah pembimbing eksternal."></i></label>
+                        <label class="col-md-2 control-label">Pembimbing Lapangan</label>
                         @if (Auth::user()->role != 'STUDENT')
                           <div class="col-md-4 control-text">
                             {{$group->mentor == null ? '-' : $group->mentor->name}}
