@@ -89,23 +89,6 @@
   </div>
   <!-- /Modal -->
   <div class="panel panel-default">
-    <div class="panel-heading">
-      <form action="{{url('berita')}}" method="get" class="form-inline">
-        @if (Auth::user()->role == 'ADMIN')
-          <div class="form-group">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
-              Tambah
-            </button>
-          </div>
-        @endif
-        <div class="input-group custom-search-form">
-          <input type="text" class="form-control" placeholder="Cari berita">
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
-          </span>
-        </div>
-      </form>
-    </div>
     @if (sizeof($posts) < 1)
       <div class="panel-body">Tidak ada berita.</div>
     @else

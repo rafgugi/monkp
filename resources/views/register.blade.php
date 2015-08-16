@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>[Monitoring Kerja Praktik] Daftar</title>
+  <link rel="icon" type="image/x-icon" href="{{asset('public/favicon.ico')}}">
   {!! HTML::style('public/css/bootstrap.min.css') !!}
   {!! HTML::style('public/css/font-awesome.min.css') !!}
 </head>

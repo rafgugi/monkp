@@ -5,7 +5,7 @@
     [Monitoring Kerja Praktik]
     @yield('title')
   </title>
-  <link rel="icon" type="image/x-icon" href="{{url('public/favicon.ico')}}">
+  <link rel="icon" type="image/x-icon" href="{{asset('public/favicon.ico')}}">
   {!! HTML::style('public/css/bootstrap.min.css') !!}
   {!! HTML::style('public/css/bootstrap-table.css') !!}
   {!! HTML::style('public/css/bootstrap-datepicker.css') !!}
@@ -20,13 +20,32 @@
     .borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
       border: none !important;
     }
+    .nav > li.dropdown > a:hover, .nav > li.dropdown > a:focus {
+      background-color: #337ab7;
+    }
+    .navbar-inverse {
+      background-color: #428bca;
+      border-color: #337ab7;
+    }
+    .navbar-inverse .navbar-brand, .dropdown a {
+      color: #fff;
+    }
+    .dropdown.open a.dropdown-toggle {
+      color: #ddd;
+    }
+    .dropdown.open {
+      background-color: #337ab7;
+    }
+    .sidebar ul li:hover {
+      background-color: #ddd;
+    }
   </style>
   @yield('css')
 </head>
 <body>
   <div id="wrapper">
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation" style="margin-bottom: 0">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
