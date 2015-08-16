@@ -136,6 +136,9 @@
               <li>
                 <a href="{{url('periode')}}"><i class="fa fa-cog fa-fw"></i> Periode</a>
               </li>
+              <li>
+                <a href="{{url('users')}}"><i class="fa fa-user-plus fa-fw"></i> User</a>
+              </li>
             @endif
           </ul>
         </div>
