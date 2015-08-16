@@ -16,6 +16,9 @@
 ### Cara menginstal (linux)
  - Baca cara menginstal (windows).
  - Instal sendiri setau anda. Cari di google bila perlu.
+ - Bantuan:
+   - White blank page: `sudo chmod -R o+w storage/`
+   - Encrypt error: `sudo php5enmod mcrypt; sudo apache2 restart`
 
 ### Proxified git (git bash)
    ``git config --global http.proxy http://proxyuser:proxypwd@proxy.server.com:8080``  
