@@ -11,19 +11,6 @@ use Request;
 class GroupController extends Controller {
 
 	/**
-	 * Display either login page or groups listing.
-	 *
-	 * @return Response
-	 */
-	public function home()
-	{
-		if (Auth::check()) {
-			return $this->index();
-		}
-		return redirect('auth/login');
-	}
-
-	/**
 	 * Display groups listing.
 	 *
 	 * @return Response

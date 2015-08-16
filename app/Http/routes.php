@@ -12,7 +12,6 @@
 |
 */
 
-Route::get('home', 'GroupController@home');
 Route::get('/', function() {
 	return redirect('home');
 });
@@ -21,6 +20,7 @@ Route::get('/', function() {
 
 Route::group(['middleware' => ['auth']], function() {
 
+	Route::get('home', 'GroupController@index');
 	Route::get('pengajuan/destroy/{id}', 'GroupController@destroy');
 	Route::get('pengajuan/mentor/{id}', 'GroupController@updateMentor');
 

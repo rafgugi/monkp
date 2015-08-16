@@ -11,10 +11,6 @@ class File extends Model {
 	protected $appends = ['path'];
 	protected $download_path = 'storage/upload/';
 
-	public function download() {
-		return redirect($this->path);
-	}
-
 	public function getPathAttribute() {
 		return $this->download_path . $this->saved_name;
 	}
