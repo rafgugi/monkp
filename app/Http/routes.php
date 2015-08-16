@@ -36,18 +36,26 @@ Route::group(['middleware' => ['auth']], function() {
 
 	Route::group(['middleware' => ['admin']], function() {
 		Route::get('berita/hapus/{id}', 'BeritaController@destroy');
+		Route::post('berita/edit', 'BeritaController@update');
+		Route::post('berita/tambah', 'BeritaController@store');
+
 		Route::get('pengajuan/update/{id}', 'GroupController@update');
+
 		Route::get('periode', 'AdminController@getPeriode');
 		Route::post('periode', 'AdminController@postPeriode');
+
 		Route::get('stats', 'AdminController@stats');
 		Route::get('stats/{semester}', 'AdminController@stats');
+
 		Route::get('table', 'AdminController@table');
 		Route::get('table/export', 'AdminController@export');
 		Route::get('table/export/{semester}', 'AdminController@export');
 		Route::get('table/grading/{id}', 'AdminController@grading');
 		Route::get('table/{semester}', 'AdminController@table');
-		Route::post('berita/edit', 'BeritaController@update');
-		Route::post('berita/tambah', 'BeritaController@store');
+
+		Route::get('users', 'UserController@create');
+		Route::post('users/mahasiswa', 'UserController@student');
+		Route::post('users/dosen', 'UserController@lecturer');
 	});
 });
 
