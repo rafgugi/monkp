@@ -25,3 +25,6 @@
    ``git config --global https.proxy https://proxyuser:proxypwd@proxy.server.com:8080``  
    ``git config --global --unset http.proxy``  
    ``git config --global --unset https.proxy``  
+
+### Git without aunthetication
+`git config remote.origin.url "https://{username}:{password}@github.com/{username}/{project}.git"`
