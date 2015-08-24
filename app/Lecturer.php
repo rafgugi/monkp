@@ -12,7 +12,7 @@ class Lecturer extends Model {
 	}
 
 	public function scopeDosen($q) {
-		return $q->where('nip', '!=', '0');
+		return $q->whereNotIn('nip', ['0', '1']);
 	}
 
 	public function user() {

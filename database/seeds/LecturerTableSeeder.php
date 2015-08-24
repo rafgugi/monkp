@@ -17,6 +17,7 @@ class LecturerTableSeeder extends Seeder {
 		DB::table('lecturers')->delete();
 		$lecturers = [
 			['0', 'KOOR KP', 'KOORDINATOR KERJA PRAKTIK', 'ADM'],
+			['1', 'TATA USAHA', 'TATA USAHA', 'TAT'],
 			['051100003', 'ARIF BRAMANTORO', 'ARIF BRAMANTORO, S.Kom.', 'AB'],
 			['051100008', 'NUNUT PRIYO J. ', 'NUNUT PRIYO JATMIKO, S.Kom.', 'NP'],
 			['051100012', 'MEDIANA ARYUNI', 'MEDIANA ARYUNI, S.Kom.,M.Kom', 'MA'],

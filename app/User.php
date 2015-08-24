@@ -18,6 +18,8 @@ class User extends Model implements AuthenticatableContract {
 		} else if ($this->personable_type == 'App\Lecturer') {
 			if ($this->personable->nip == '0') {
 				return 'ADMIN';
+			} else if ($this->personable->nip == '1') {
+				return 'TU';
 			} else {
 				return 'LECTURER';
 			}
