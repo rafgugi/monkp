@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Group extends Model {
 
 	protected $fillable = ['start_date', 'end_date'];
-	protected $status_collection = [
+	public static $status_collection = [
 		['status' =>  0, 'name' => 'created', 'desc' => 'Pengajuan kelompok KP baru saja dibuat', 'changeto' => [1, -1]],
 		['status' => -1, 'name' => 'denied', 'desc' => 'Pengajuan kelompok KP ditolak oleh Koor KP', 'changeto' => []],
 		['status' =>  1, 'name' => 'confirmed', 'desc' => 'Pengajuan kelompok KP telah dikonfirmasi', 'changeto' => [2, -2]],
@@ -14,10 +14,13 @@ class Group extends Model {
 		['status' =>  3, 'name' => 'finished', 'desc' => 'Proses KP telah selesai', 'changeto' => [2]],
 	];
 
+	public static function statusAll() {
+		return collect(static::$status_collection);
+	}
+
 	public function getStatusAttribute($status) {
-		return collect($this
-				->status_collection)
-				->where('status', $status)
+		return collect(static::$status_collection)
+				->where('status', (int)$status)
 				->first();
 	}
 

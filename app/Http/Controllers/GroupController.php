@@ -30,6 +30,10 @@ class GroupController extends Controller {
 				return view('home');
 				break;
 		}
+		$status = Request::input('status');
+		if ($status != null && $status != 'null') {
+			$groups = $groups->where('status.status', (int)$status);
+		}
 
 		$lecturers = Lecturer::dosen()->get()->sortBy('initial');
 

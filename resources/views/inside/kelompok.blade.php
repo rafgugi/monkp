@@ -16,6 +16,20 @@
 
 @section('content')
   <h1>List Kelompok</h1>
+  <form class="form-inline text-muted">
+    Status:
+    <select name="status" class="form-control input-sm">
+      <option value="null">-- Lihat semua --</option>
+      @foreach(App\Group::statusAll() as $status)
+        <option value="{{$status['status']}}">{{$status['name']}}</option>
+      @endforeach
+    </select>
+    &nbsp;
+    Search:
+    <input type="text" class="form-control input-sm">
+    &nbsp;
+    <button class="btn btn-default btn-sm">Search</button>
+  </form>
   <hr>
   <div id="alert-container"></div>
   <div class="panel panel-default">
