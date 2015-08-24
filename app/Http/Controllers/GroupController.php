@@ -45,7 +45,7 @@ class GroupController extends Controller {
 
 		$groups = new Pagination($groups, $total, $perPage, $page, $option);
 		// dd($groups, $groups->render());
-		$data = compact('groups', 'lecturers');
+		$data = compact('groups', 'lecturers', 'status');
 		return view('inside.kelompok', $data);
 	}
 

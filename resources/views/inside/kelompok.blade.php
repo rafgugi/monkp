@@ -176,7 +176,7 @@
     @endif
   </div>
   @if (sizeof($groups) > 0)
-    {!!$groups->render()!!}
+    {!!$groups->appends(['status' => $status])->render()!!}
   @endif
 @endsection
 
