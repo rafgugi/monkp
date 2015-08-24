@@ -88,6 +88,11 @@
     </form>
   </div>
   <!-- /Modal -->
+  @if (Auth::user()->role == 'ADMIN')
+    <div class="form-group">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">Tambah</button>
+    </div>
+  @endif
   <div class="panel panel-default">
     @if (sizeof($posts) < 1)
       <div class="panel-body">Tidak ada berita.</div>
