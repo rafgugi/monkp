@@ -23,6 +23,7 @@ class GroupController extends Controller {
 				$groups = Auth::user()->personable->groups;
 				break;
 			case 'ADMIN':
+			case 'TU':
 				$groups = Group::get();
 				break;
 			default:

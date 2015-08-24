@@ -27,7 +27,7 @@ class UserTableSeeder extends Seeder {
 		User::create([
 				'username' => 'tu',
 				'password' => bcrypt('tu'),
-				'personable_id' => Dosen::where('nip', '0')->first()->id,
+				'personable_id' => Dosen::where('nip', '1')->first()->id,
 				'personable_type' => 'lecturer',
 				'created_at' => date("Y-m-d H:i:s"),
 				'updated_at' => date("Y-m-d H:i:s"),
