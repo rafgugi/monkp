@@ -39,6 +39,10 @@
     .sidebar ul li:hover {
       background-color: #ddd;
     }
+    .badge {
+      background-color: #fff;
+      color: #337ab7;
+    }
   </style>
   @yield('css')
 </head>
@@ -70,8 +74,8 @@
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="fa fa-bell fa-fw"></i>
-            @if (Auth::user()->notif->contains('is_read', 0))
-            <span class="badge">{{Auth::user()->notif->where('is_read', 0)->count()}}</span>
+            @if (Auth::user()->notif->contains('is_read', '0'))
+            <span class="badge">{{Auth::user()->notif->where('is_read', '0')->count()}}</span>
             @endif
             <i class="fa fa-caret-down"></i>
           </a>
