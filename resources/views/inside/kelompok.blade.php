@@ -11,6 +11,9 @@
     .form-horizontal .control-text {
       padding-top: 7px;
     }
+    .table tr:nth-of-type(even) {
+      border-top: 1px solid #ddd;
+    }
   </style>
 @endsection
 
@@ -38,7 +41,7 @@
     @if (sizeof($groups) < 1)
       <div class="panel-body">Tidak ada kelompok KP.</div>
     @else
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover borderless">
         <tr>
           <th>Status</th>
           <th>Peserta</th>
@@ -61,8 +64,21 @@
             <td colspan="3" class="hidden-row">
               <div class="accordion-body collapse" id="clps{{$group->id}}">
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                     <div class="form-horizontal">
+                    </div>
+                  </div>
+                  <div class="col-md-7">
+                    <div class="form-horizontal">
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">Mahasiswa</label>
+                        <div class="col-md-8 control-text">
+                          {{$group->students->get(0)->nrp}} {{$group->students->get(0)->name}}
+                          @for ($i = 1; $i < $group->students->count(); $i++)
+                            - {{$group->students->get($i)->nrp}} {{$group->students->get($i)->name}}
+                          @endfor
+                        </div>
+                      </div>
                       <div class="form-group">
                         <label class="col-md-4 control-label">Status KP</label>
                         <div class="col-md-6">
@@ -100,9 +116,21 @@
                           </div>
                         @endif
                       </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">Pembimbing Lapangan</label>
+                        @if (Auth::user()->role != 'STUDENT')
+                          <div class="col-md-8 control-text">
+                            {{$group->mentor == null ? '-' : $group->mentor->name}}
+                          </div>
+                        @else
+                          <div class="col-md-4">
+                            <input type="text" id="mentor{{$group->id}}" class="form-control input-sm" value="{{$group->mentor == null ? '' : $group->mentor->name}}" onchange="mentor({{$group->id}})">
+                          </div>
+                        @endif
+                      </div>
                     </div> 
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-5">
                     <div class="form-horizontal">
                       <div class="form-group">
                         <label class="col-md-4 control-label">Tanggal Mulai</label>
@@ -128,34 +156,59 @@
                           </div>
                         @endif
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div class="form-horizontal">
-                      <div class="form-group">
-                        <label class="col-md-2 control-label">Mahasiswa</label>
-                        <div class="col-md-10 control-text">
-                          {{$group->students->get(0)->nrp}} {{$group->students->get(0)->name}}
-                          @for ($i = 1; $i < $group->students->count(); $i++)
-                            - {{$group->students->get($i)->nrp}} {{$group->students->get($i)->name}}
-                          @endfor
+                      <div class="row">
+                        <div class="col-md-5">
+                          <div class="form-group">
+                            <label class="col-md-6 control-label">NI</label>
+                            @if (Auth::user()->role == 'STUDENT')
+                              <div class="col-md-6 control-text">
+                                -
+                              </div>
+                            @else
+                              <div class="col-md-6">
+                                <input class="form-control input-sm" id="ni{{$group->id}}">
+                              </div>
+                            @endif
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-6 control-label">NE</label>
+                            @if (Auth::user()->role == 'STUDENT')
+                              <div class="col-md-6 control-text">
+                                -
+                              </div>
+                            @else
+                              <div class="col-md-6">
+                                <input class="form-control input-sm" id="ne{{$group->id}}">
+                              </div>
+                            @endif
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div class="form-horizontal">
-                      <div class="form-group">
-                        <label class="col-md-2 control-label">Pembimbing Lapangan</label>
-                        @if (Auth::user()->role != 'STUDENT')
-                          <div class="col-md-4 control-text">
-                            {{$group->mentor == null ? '-' : $group->mentor->name}}
+                        <div class="col-md-5">
+                          <div class="form-group">
+                            <label class="col-md-6 control-label">ND</label>
+                            @if (Auth::user()->role == 'STUDENT')
+                              <div class="col-md-6 control-text">
+                                -
+                              </div>
+                            @else
+                              <div class="col-md-6">
+                                <input class="form-control input-sm" id="nd{{$group->id}}">
+                              </div>
+                            @endif
                           </div>
-                        @else
-                          <div class="col-md-4">
-                            <input type="text" id="mentor{{$group->id}}" class="form-control input-sm" value="{{$group->mentor == null ? '' : $group->mentor->name}}" onchange="mentor({{$group->id}})">
+                          <div class="form-group">
+                            <label class="col-md-6 control-label">NB</label>
+                            @if (Auth::user()->role == 'STUDENT')
+                              <div class="col-md-6 control-text">
+                                -
+                              </div>
+                            @else
+                              <div class="col-md-6">
+                                <input class="form-control input-sm" id="nb{{$group->id}}">
+                              </div>
+                            @endif
                           </div>
-                        @endif
+                        </div>
                       </div>
                     </div>
                   </div>
