@@ -4,6 +4,7 @@ use App\Grade;
 use App\Group;
 use App\Lecturer;
 use App\Mentor;
+use App\Student;
 use Auth;
 use Illuminate\Pagination\LengthAwarePaginator as Pagination;
 use Request;
@@ -30,6 +31,15 @@ class GroupController extends Controller {
 				return view('home');
 				break;
 		}
+
+		$nrp = Request::input('nrp');
+		if ($nrp != null && $nrp != '') {
+			$student = Student::where('nrp', $nrp)->first();
+			if ($student != null) {
+				$groups = $student->groups;
+			}
+		}
+
 		$status = Request::input('status');
 		if ($status != null && $status != 'null') {
 			$groups = $groups->where('status.status', (int)$status);
@@ -45,7 +55,7 @@ class GroupController extends Controller {
 
 		$groups = new Pagination($groups, $total, $perPage, $page, $option);
 		// dd($groups, $groups->render());
-		$data = compact('groups', 'lecturers', 'status');
+		$data = compact('groups', 'lecturers', 'status', 'nrp');
 		return view('inside.kelompok', $data);
 	}
 

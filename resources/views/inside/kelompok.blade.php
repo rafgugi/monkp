@@ -16,9 +16,10 @@
 
 @section('content')
   <h1>List Kelompok</h1>
+  @if (Auth::user()->role != 'STUDENT')
   <form class="form-inline text-muted">
     Status:
-    <select name="status" class="form-control input-sm">
+    <select name="status" class="form-control input-sm" value="{{$status}}">
       <option value="null">-- Lihat semua --</option>
       @foreach(App\Group::statusAll() as $status)
         <option value="{{$status['status']}}">{{$status['name']}}</option>
@@ -26,10 +27,11 @@
     </select>
     &nbsp;
     Search:
-    <input type="text" class="form-control input-sm">
+    <input name="nrp" class="form-control input-sm" placeholder="NRP" value="{{$nrp}}">
     &nbsp;
     <button class="btn btn-default btn-sm">Search</button>
   </form>
+  @endif
   <hr>
   <div id="alert-container"></div>
   <div class="panel panel-default">
