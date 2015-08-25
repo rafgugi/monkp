@@ -55,7 +55,7 @@ class BeritaController extends Controller {
 		}
 
 		return redirect('berita')
-			->with('alert', ['alert' => 'success', 'body' => 'Berhasil membuat berita.']);
+			->with('alert', ['alert' => 'info', 'body' => 'Berhasil membuat berita.']);
 	}
 
 
@@ -81,7 +81,7 @@ class BeritaController extends Controller {
 		$post->fill($br);
 		$post->save();
 		return redirect('berita')
-			->with('alert', ['alert' => 'success', 'body' => 'Berhasil mengubah berita.']);
+			->with('alert', ['alert' => 'info', 'body' => 'Berhasil mengubah berita.']);
 	}
 
 	/**
@@ -100,7 +100,7 @@ class BeritaController extends Controller {
 		$post->delete();
 
 		return redirect('berita')
-			->with('alert', ['alert' => 'success', 'body' => 'Berhasil menghapus berita.']);
+			->with('alert', ['alert' => 'info', 'body' => 'Berhasil menghapus berita.']);
 	}
 
 }
