@@ -43,6 +43,18 @@
       background-color: #fff;
       color: #337ab7;
     }
+    .navbar-inverse .navbar-toggle {
+      border-color: #fff;
+      color: #337ab7;
+    }
+    .navbar-inverse .navbar-toggle:hover,
+    .navbar-inverse .navbar-toggle:focus {
+      background-color: #5bc0de;
+    }
+    .navbar-inverse .navbar-collapse,
+    .navbar-inverse .navbar-form {
+      border-color: #fff;
+    }
   </style>
   @yield('css')
 </head>
