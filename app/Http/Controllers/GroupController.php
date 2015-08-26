@@ -145,9 +145,8 @@ class GroupController extends Controller {
 			$grade = $member->grade;
 			$grade->fill($fill);
 			$grade->save();
-
-			return $this->alert('info', 'Nilai berhasil diperbarui.');
 		}
+		return $this->alert('info', 'Nilai berhasil diperbarui.');
 	}
 
 	/**
