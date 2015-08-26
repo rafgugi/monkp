@@ -52,9 +52,10 @@
           <th>Perusahaan</th>
         </tr>
         @foreach ($groups->slice(($groups->currentPage() - 1) * $groups->perPage(), $groups->perPage()) as $group)
+          <?php $status = $group->status; ?>
           <tr data-toggle="collapse" data-target="#clps{{$group->id}}" class="accordion-toggle" title="klik untuk lihat detail">
             <td>
-              <span title="{{$group->status['desc']}}">{{strtoupper($group->status['name'])}}</span>
+              <span title="{{$status['desc']}}">{{strtoupper($status['name'])}}</span>
             </td>
             <td>
               {{$group->students->get(0)->name}}
@@ -87,12 +88,12 @@
                         <label class="col-md-4 control-label">Status KP</label>
                         <div class="col-md-6">
                           <select class="form-control input-sm" id="status{{$group->id}}" onchange="change({{$group->id}})">
-                            <option value="{{$group->status['status']}}">
-                              {{strtoupper($group->status['name'])}}
-                              ({{$group->status['desc']}})
+                            <option value="{{$status['status']}}">
+                              {{strtoupper($status['name'])}}
+                              ({{$status['desc']}})
                             </option>
                             @if ($role != 'STUDENT')
-                              @foreach ($group->status['changeto'] as $s)
+                              @foreach ($status['changeto'] as $s)
                                 <option value="{{$group->getStatusAttribute($s)['status']}}">
                                   {{strtoupper($group->getStatusAttribute($s)['name'])}}
                                   ({{$group->getStatusAttribute($s)['desc']}})
@@ -162,7 +163,7 @@
                         @endif
                       </div>
                       <!-- ******* Nilai ******* -->
-                      @if ($group->status['status'] == 2 || $group->status['status'] == 3)
+                      @if ($status['status'] == 2 || $status['status'] == 3)
                       <div class="form-group">
                         <div class="col-md-offset-4 col-md-6">
                           <a href="#" class="btn btn-warning" onclick="open_nilai({{$group->id}})" data-toggle="modal" data-target="#nilaiModal">Nilai</a>
@@ -176,7 +177,7 @@
                   @if ($role != 'STUDENT')
                     <button type="button" class="btn btn-primary" onclick="save({{$group->id}})">Save</button>
                   @endif
-                  @if ($group->status['status'] == 0)
+                  @if ($status['status'] == 0)
                     <a href="{{url('pengajuan/destroy/'.$group->id)}}" class="btn btn-danger">
                       Hapus
                     </a>
@@ -243,39 +244,6 @@
       });
     }
 
-  @if ($role != 'STUDENT')
-    function change(id) {
-      if ($("#status" + id).val() == 2) { // jika statusnya 'progress'
-        $("#dosenselect" + id).removeClass("hidden");
-        $("#dosentext" + id).addClass("hidden");
-      } else {
-        $("#dosenselect" + id).addClass("hidden");
-        $("#dosentext" + id).removeClass("hidden");
-      }
-    }
-
-    function save(id) {
-      var status = $("#status"+id).val();
-      var dosen = $("#dosen"+id).val();
-      $.ajax({
-        type: "GET",
-        dataType: "json",
-        data: {
-          dosen: $("#dosen"+id).val(),
-          status: $("#status"+id).val(),
-          start_date: $("#start_date"+id).val(),
-          end_date: $("#end_date"+id).val(),
-        },
-        url: "{{url('pengajuan/update')}}/" + id,
-        success: function(data){
-          niceAlert(data);
-        },
-        error: function(data) {
-          niceAlert({alert: 'danger', body: 'Failed to fetch data via ajax.'});
-        }
-      });
-    }
-
     function open_nilai(id) {
       $.ajax({
         type: "GET",
@@ -283,10 +251,30 @@
         url: "{{url('json/groupgrade')}}/" + id,
         success: function(group){
           console.log(group);
-
+          
           $table = $('<table nowrap class="table table-striped table-bordered">')
             .append('<tr><th>Nama</th><th>NRP</th><th>Internal</th><th>Eksternal</th><th>Displin</th><th>Laporan</th></tr>');
-          
+          @if ($role != 'LECTURER' && $role != 'ADMIN')
+          for (member of group.members) {
+            console.log(member);
+            $table.append($("<tr>").append(
+              "<td nowrap>" + member.student.name + "</td>" +
+              "<td nowrap>" + member.student.nrp + "</td>" + (
+                member.grade == null ? (
+                  '<td class="col-xs-1">-></td>'+
+                  '<td class="col-xs-1">-></td>'+
+                  '<td class="col-xs-1">-></td>'+
+                  '<td class="col-xs-1">-></td>'
+                ) : (
+                  '<td class="col-xs-1">' + member.grade.lecturer_grade+ ' </td>'+
+                  '<td class="col-xs-1">' + member.grade.mentor_grade+ ' </td>'+
+                  '<td class="col-xs-1">' + member.grade.discipline_grade+ ' </td>'+
+                  '<td class="col-xs-1">' + member.grade.report_status+ ' </td>'
+                )
+              )
+            ));
+          }          
+          @else
           for (member of group.members) {
             console.log(member);
             $table.append($("<tr>").append(
@@ -306,10 +294,6 @@
               )
             ));
           }
-
-          $nilaiBody = $("#edit-nilai-body");
-          $nilaiBody.html('');
-          $nilaiBody.append($table);
 
           $("#save-nilai").unbind().click(function() {
             console.log(group);
@@ -338,8 +322,46 @@
               }
             });
           });
+          @endif
+
+          $nilaiBody = $("#edit-nilai-body");
+          $nilaiBody.html('');
+          $nilaiBody.append($table);
         },
         error: function(group) {
+          niceAlert({alert: 'danger', body: 'Failed to fetch data via ajax.'});
+        }
+      });
+    }
+
+  @if ($role != 'STUDENT')
+    function change(id) {
+      if ($("#status" + id).val() == 2) { // jika statusnya 'progress'
+        $("#dosenselect" + id).removeClass("hidden");
+        $("#dosentext" + id).addClass("hidden");
+      } else {
+        $("#dosenselect" + id).addClass("hidden");
+        $("#dosentext" + id).removeClass("hidden");
+      }
+    }
+
+    function save(id) {
+      var status = $("#status"+id).val();
+      var dosen = $("#dosen"+id).val();
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        data: {
+          dosen: $("#dosen"+id).val(),
+          status: $("#status"+id).val(),
+          start_date: $("#start_date"+id).val(),
+          end_date: $("#end_date"+id).val(),
+        },
+        url: "{{url('pengajuan/update')}}/" + id,
+        success: function(data){
+          niceAlert(data);
+        },
+        error: function(data) {
           niceAlert({alert: 'danger', body: 'Failed to fetch data via ajax.'});
         }
       });
