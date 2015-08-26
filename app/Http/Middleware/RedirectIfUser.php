@@ -27,7 +27,7 @@ class RedirectIfUser {
 	{
 		$user = strtoupper($this->user);
 		if (Auth::user()->role != $user) {
-			return new RedirectResponse(url('/home'));
+			abort(401);
 		}
 		return $next($request);
 	}

@@ -192,7 +192,7 @@
     @endif
   </div>
   @if (sizeof($groups) > 0)
-    {!!$groups->appends(['status' => $status])->render()!!}
+    {!!$groups->appends(['status' => $stat])->render()!!}
   @endif
   <div class="modal fade" id="nilaiModal" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">

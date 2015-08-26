@@ -41,9 +41,9 @@ class GroupController extends Controller {
 			}
 		}
 
-		$status = Request::input('status');
-		if ($status != null && $status != 'null') {
-			$groups = $groups->where('status.status', (int)$status);
+		$stat = Request::input('status');
+		if ($stat != null && $stat != 'null') {
+			$groups = $groups->where('status.status', (int)$stat);
 		}
 
 		$lecturers = Lecturer::dosen()->get()->sortBy('initial');
@@ -55,7 +55,7 @@ class GroupController extends Controller {
 		$option = ['path' => url('home')];
 
 		$groups = new Pagination($groups, $total, $perPage, $page, $option);
-		$data = compact('groups', 'lecturers', 'status', 'nrp');
+		$data = compact('groups', 'lecturers', 'stat', 'nrp');
 		return view('inside.kelompok', $data);
 	}
 
