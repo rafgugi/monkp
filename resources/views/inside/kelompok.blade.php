@@ -26,7 +26,7 @@
   @if ($role != 'STUDENT')
   <form class="form-inline text-muted">
     Status:
-    <select name="status" class="form-control input-sm" value="{{$status}}">
+    <select name="status" class="form-control input-sm">
       <option value="null">-- Lihat semua --</option>
       @foreach(App\Group::statusAll() as $status)
         <option value="{{$status['status']}}">{{$status['name']}}</option>
