@@ -27,6 +27,9 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('berita', 'BeritaController@index');
 	Route::get('file/{id}/{name}', 'BeritaController@file');
 
+	Route::get('json/groupgrade/{id}', 'GroupController@getGroupWithGrade');
+	Route::post('pengajuan/nilai', 'GroupController@updateGrade');
+
 	Route::group(['middleware' => ['student']], function() {
 		Route::get('pengajuan', 'PengajuanController@create');
 		Route::get('pengajuan/accept/{id}', 'PengajuanController@accept');

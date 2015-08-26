@@ -4,6 +4,7 @@ use App\Grade;
 use App\Group;
 use App\Lecturer;
 use App\Mentor;
+use App\Member;
 use App\Student;
 use Auth;
 use Illuminate\Pagination\LengthAwarePaginator as Pagination;
@@ -54,9 +55,19 @@ class GroupController extends Controller {
 		$option = ['path' => url('home')];
 
 		$groups = new Pagination($groups, $total, $perPage, $page, $option);
-		// dd($groups, $groups->render());
 		$data = compact('groups', 'lecturers', 'status', 'nrp');
 		return view('inside.kelompok', $data);
+	}
+
+	/**
+	 * Get group by given group_id with grade.
+	 *
+	 * @param  int  $id
+	 * @return string
+	 */
+	public function getGroupWithGrade($id) {
+		$with = ['members.grade', 'members.student'];
+		return Group::with($with)->find($id)->toJson();
 	}
 
 	/**
@@ -96,6 +107,47 @@ class GroupController extends Controller {
 			$group->save();
 		}
 		return $this->alert('info', 'Kelompok berhasil diperbarui. Silahkan refresh halaman.');
+	}
+
+	/**
+	 * Update the grade via json.
+	 *
+	 * @return string
+	 */
+	public function updateGrade() {
+		foreach (Request::input('input') as $input) {
+			$lecturer_grade = (int)$input['lecturer_grade'];
+			$lecturer_grade = $lecturer_grade < 0 ? 0 : (
+				$lecturer_grade > 100 ? 100 : $lecturer_grade
+			);
+
+			$mentor_grade = (int)$input['mentor_grade'];
+			$mentor_grade = $mentor_grade < 0 ? 0 : (
+				$mentor_grade > 100 ? 100 : $mentor_grade
+			);
+
+			$discipline_grade = (int)$input['discipline_grade'];
+			$discipline_grade = $discipline_grade < 0 ? 0 : (
+				$discipline_grade > 100 ? 100 : $discipline_grade
+			);
+
+			$report_status = (int)$input['report_status'];
+			$report_status = $report_status < 0 ? 0 : (
+				$report_status > 100 ? 100 : $report_status
+			);
+
+			$fill = compact('lecturer_grade', 'mentor_grade', 'discipline_grade', 'report_status');
+
+			$member = Member::find($input['id']);
+			if ($member->grade == null) {
+				$member->grade()->save(new Grade);
+			}
+			$grade = $member->grade;
+			$grade->fill($fill);
+			$grade->save();
+
+			return $this->alert('info', 'Nilai berhasil diperbarui.');
+		}
 	}
 
 	/**

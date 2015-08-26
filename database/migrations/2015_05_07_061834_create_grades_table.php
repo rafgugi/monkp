@@ -19,7 +19,7 @@ class CreateGradesTable extends Migration {
 			$table->integer('lecturer_grade');
 			$table->integer('mentor_grade');
 			$table->integer('discipline_grade');
-			$table->boolean('report_status');
+			$table->integer('report_status');
 			$table->timestamps();
 		});
 	}

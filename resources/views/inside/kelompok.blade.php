@@ -1,5 +1,9 @@
 @extends('inside.app')
 
+<?php
+  $role = Auth::user()->role;
+?>
+
 @section('css')
   <style>
     .hidden-row {
@@ -19,7 +23,7 @@
 
 @section('content')
   <h1>List Kelompok</h1>
-  @if (Auth::user()->role != 'STUDENT')
+  @if ($role != 'STUDENT')
   <form class="form-inline text-muted">
     Status:
     <select name="status" class="form-control input-sm" value="{{$status}}">
@@ -75,7 +79,7 @@
                         <div class="col-md-8 control-text">
                           {{$group->students->get(0)->nrp}} {{$group->students->get(0)->name}}
                           @for ($i = 1; $i < $group->students->count(); $i++)
-                            - {{$group->students->get($i)->nrp}} {{$group->students->get($i)->name}}
+                            <br>{{$group->students->get($i)->nrp}} {{$group->students->get($i)->name}}
                           @endfor
                         </div>
                       </div>
@@ -87,7 +91,7 @@
                               {{strtoupper($group->status['name'])}}
                               ({{$group->status['desc']}})
                             </option>
-                            @if (Auth::user()->role != 'STUDENT')
+                            @if ($role != 'STUDENT')
                               @foreach ($group->status['changeto'] as $s)
                                 <option value="{{$group->getStatusAttribute($s)['status']}}">
                                   {{strtoupper($group->getStatusAttribute($s)['name'])}}
@@ -103,7 +107,7 @@
                         <div class="col-md-6 control-text" id="dosentext{{$group->id}}">
                           {{$group->lecturer == null ? '-' : $group->lecturer->name}}
                         </div>
-                        @if (Auth::user()->role != 'STUDENT')
+                        @if ($role != 'STUDENT')
                           <div class="col-md-6" id="dosenselect{{$group->id}}">
                             <select class="form-control input-sm" id="dosen{{$group->id}}">
                               <option value="-">-- PILIH DOSEN PEMBIMBING --</option>
@@ -118,7 +122,7 @@
                       </div>
                       <div class="form-group">
                         <label class="col-md-4 control-label">Pembimbing Lapangan</label>
-                        @if (Auth::user()->role != 'STUDENT')
+                        @if ($role != 'STUDENT')
                           <div class="col-md-8 control-text">
                             {{$group->mentor == null ? '-' : $group->mentor->name}}
                           </div>
@@ -132,9 +136,10 @@
                   </div>
                   <div class="col-md-5">
                     <div class="form-horizontal">
+                      <!-- ******* Tanggal ******* -->
                       <div class="form-group">
                         <label class="col-md-4 control-label">Tanggal Mulai</label>
-                        @if (Auth::user()->role == 'STUDENT')
+                        @if ($role == 'STUDENT')
                           <div class="col-md-6 control-text">
                             {{$group->start_date}}
                           </div>
@@ -146,7 +151,7 @@
                       </div>
                       <div class="form-group">
                         <label class="col-md-4 control-label">Tanggal Selesai</label>
-                        @if (Auth::user()->role == 'STUDENT')
+                        @if ($role == 'STUDENT')
                           <div class="col-md-6 control-text">
                             {{$group->end_date}}
                           </div>
@@ -156,65 +161,19 @@
                           </div>
                         @endif
                       </div>
-                      <div class="row">
-                        <div class="col-md-5">
-                          <div class="form-group">
-                            <label class="col-md-6 control-label">NI</label>
-                            @if (Auth::user()->role == 'STUDENT')
-                              <div class="col-md-6 control-text">
-                                -
-                              </div>
-                            @else
-                              <div class="col-md-6">
-                                <input class="form-control input-sm" id="ni{{$group->id}}">
-                              </div>
-                            @endif
-                          </div>
-                          <div class="form-group">
-                            <label class="col-md-6 control-label">NE</label>
-                            @if (Auth::user()->role == 'STUDENT')
-                              <div class="col-md-6 control-text">
-                                -
-                              </div>
-                            @else
-                              <div class="col-md-6">
-                                <input class="form-control input-sm" id="ne{{$group->id}}">
-                              </div>
-                            @endif
-                          </div>
-                        </div>
-                        <div class="col-md-5">
-                          <div class="form-group">
-                            <label class="col-md-6 control-label">ND</label>
-                            @if (Auth::user()->role == 'STUDENT')
-                              <div class="col-md-6 control-text">
-                                -
-                              </div>
-                            @else
-                              <div class="col-md-6">
-                                <input class="form-control input-sm" id="nd{{$group->id}}">
-                              </div>
-                            @endif
-                          </div>
-                          <div class="form-group">
-                            <label class="col-md-6 control-label">NB</label>
-                            @if (Auth::user()->role == 'STUDENT')
-                              <div class="col-md-6 control-text">
-                                -
-                              </div>
-                            @else
-                              <div class="col-md-6">
-                                <input class="form-control input-sm" id="nb{{$group->id}}">
-                              </div>
-                            @endif
-                          </div>
+                      <!-- ******* Nilai ******* -->
+                      @if ($group->status['status'] == 2 || $group->status['status'] == 3)
+                      <div class="form-group">
+                        <div class="col-md-offset-4 col-md-6">
+                          <a href="#" class="btn btn-warning" onclick="open_nilai({{$group->id}})" data-toggle="modal" data-target="#nilaiModal">Nilai</a>
                         </div>
                       </div>
+                      @endif
                     </div>
                   </div>
                 </div>
                 <div class="col-md-offset-10">
-                  @if (Auth::user()->role != 'STUDENT')
+                  @if ($role != 'STUDENT')
                     <button type="button" class="btn btn-primary" onclick="save({{$group->id}})">Save</button>
                   @endif
                   @if ($group->status['status'] == 0)
@@ -233,6 +192,26 @@
   @if (sizeof($groups) > 0)
     {!!$groups->appends(['status' => $status])->render()!!}
   @endif
+  <div class="modal fade" id="nilaiModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Edit Nilai</h4>
+        </div>
+        <div class="modal-body">
+          <div id="edit-nilai-body"></div>
+          <p class="text-muted">Range Nilai antara 0 - 100.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-warning" id="save-nilai" data-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @section('js')
@@ -264,7 +243,7 @@
       });
     }
 
-  @if (Auth::user()->role != 'STUDENT')
+  @if ($role != 'STUDENT')
     function change(id) {
       if ($("#status" + id).val() == 2) { // jika statusnya 'progress'
         $("#dosenselect" + id).removeClass("hidden");
@@ -292,6 +271,75 @@
           niceAlert(data);
         },
         error: function(data) {
+          niceAlert({alert: 'danger', body: 'Failed to fetch data via ajax.'});
+        }
+      });
+    }
+
+    function open_nilai(id) {
+      $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "{{url('json/groupgrade')}}/" + id,
+        success: function(group){
+          console.log(group);
+
+          $table = $('<table nowrap class="table table-striped table-bordered">')
+            .append('<tr><th>Nama</th><th>NRP</th><th>Internal</th><th>Eksternal</th><th>Displin</th><th>Laporan</th></tr>');
+          
+          for (member of group.members) {
+            console.log(member);
+            $table.append($("<tr>").append(
+              "<td nowrap>" + member.student.name + "</td>" +
+              "<td nowrap>" + member.student.nrp + "</td>" + (
+                member.grade == null ? (
+                  '<td class="col-xs-1"><input type="text" class="form-control input-sm" id="lecturer_grade' + member.id + '" value="0"></td>'+
+                  '<td class="col-xs-1"><input type="text" class="form-control input-sm" id="mentor_grade' + member.id + '" value="0"></td>'+
+                  '<td class="col-xs-1"><input type="text" class="form-control input-sm" id="discipline_grade' + member.id + '" value="0"></td>'+
+                  '<td class="col-xs-1"><input type="text" class="form-control input-sm" id="report_status' + member.id + '" value="0"></td>'
+                ) : (
+                  '<td class="col-xs-1"><input type="text" class="form-control input-sm" id="lecturer_grade' + member.id + '" value="'+member.grade.lecturer_grade+'"></td>'+
+                  '<td class="col-xs-1"><input type="text" class="form-control input-sm" id="mentor_grade' + member.id + '" value="'+member.grade.mentor_grade+'"></td>'+
+                  '<td class="col-xs-1"><input type="text" class="form-control input-sm" id="discipline_grade' + member.id + '" value="'+member.grade.discipline_grade+'"></td>'+
+                  '<td class="col-xs-1"><input type="text" class="form-control input-sm" id="report_status' + member.id + '" value="'+member.grade.report_status+'"></td>'
+                )
+              )
+            ));
+          }
+
+          $nilaiBody = $("#edit-nilai-body");
+          $nilaiBody.html('');
+          $nilaiBody.append($table);
+
+          $("#save-nilai").unbind().click(function() {
+            console.log(group);
+            requestInput = [];
+            for (member of group.members) {
+              requestInput.push({
+                id: member.id,
+                lecturer_grade: + $("#lecturer_grade" + member.id).val(),
+                mentor_grade: + $("#mentor_grade" + member.id).val(),
+                discipline_grade: + $("#discipline_grade" + member.id).val(),
+                report_status: + $("#report_status" + member.id).val(),
+              });
+            }
+            console.log(requestInput);
+            $.ajax({
+              type: "POST",
+              dataType: "json",
+              data: {input: requestInput},
+              url: "{{url('pengajuan/nilai')}}",
+              success: function(data){
+                niceAlert(data);
+              },
+              error: function(data) {
+                console.log(data.responseText);
+                niceAlert({alert: 'danger', body: 'Failed to fetch data via ajax.'});
+              }
+            });
+          });
+        },
+        error: function(group) {
           niceAlert({alert: 'danger', body: 'Failed to fetch data via ajax.'});
         }
       });
