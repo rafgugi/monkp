@@ -174,6 +174,7 @@
                   </div>
                 </div>
                 <div class="col-md-offset-10">
+                    <button type="button" class="btn btn-default" onclick="save({{$group->id}})" data-toggle="collapse" data-target="#clps{{$group->id}}" class="accordion-toggle">Close</button>
                   @if ($role != 'STUDENT')
                     <button type="button" class="btn btn-primary" onclick="save({{$group->id}})">Save</button>
                   @endif
