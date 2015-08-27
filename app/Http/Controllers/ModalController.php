@@ -4,7 +4,8 @@ use App\Corporation;
 
 class ModalController extends Controller {
 
-	public function getPerusahaan() {
-		return view('modal.corporation');
+	public function getPerusahaan($id) {
+		$corp = Corporation::with('groups.students')->find($id);
+		return view('modal.corporation', compact('corp'));
 	}
 }

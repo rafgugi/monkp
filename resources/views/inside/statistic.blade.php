@@ -71,7 +71,7 @@
     </div>
     <div class="col-md-8">
       <div class="panel panel-default">
-        <div class="panel-heading">Perusahaan</div>
+        <div class="panel-heading">Perusahaan <small>(klik untuk lihat detail)</small></div>
         @if ($corps->count() == 0)
           <div class="panel-body">Tidak ada data perusahaan.</div>
         @else
@@ -83,7 +83,7 @@
             </tr>
             @foreach ($corps as $corp)
               <tr>
-                <td>{{$corp->name}}</td>
+                <td><a href="#" class="mainmodal" data-url="{{url('modal/perusahaan/'.$corp->id)}}">{{$corp->name}}</a></td>
                 <td>{{$corp->city}}</td>
                 <td class="text-center">{{$corp->corp_count}}</td>
               </tr>

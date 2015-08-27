@@ -5,7 +5,3 @@
   <h4 class="modal-title">@yield('title')</h4>
 </div>
 <div class="modal-body">@yield('body')</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-  @yield('footer')
-</div>
