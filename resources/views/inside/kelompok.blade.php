@@ -1,8 +1,6 @@
 @extends('inside.app')
 
-<?php
-  $role = Auth::user()->role;
-?>
+<?php $role = Auth::user()->role; ?>
 
 @section('css')
   <style>
@@ -26,7 +24,7 @@
   @if ($role != 'STUDENT')
   <form class="form-inline text-muted">
     Status:
-    <select name="status" class="form-control input-sm">
+    <select name="status" class="form-control input-sm" onchange="$(this).parent().submit()">
       <option value="null">-- Lihat semua --</option>
       @foreach(App\Group::statusAll() as $status)
         <option value="{{$status['status']}}">{{$status['name']}}</option>
@@ -34,7 +32,7 @@
     </select>
     &nbsp;
     Search:
-    <input name="nrp" class="form-control input-sm" placeholder="NRP" value="{{$nrp}}">
+    <input name="search" class="form-control input-sm" placeholder="NRP/Nama/Perusahaan" value="{{$search}}">
     &nbsp;
     <button class="btn btn-default btn-sm">Search</button>
   </form>
