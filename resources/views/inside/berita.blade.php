@@ -1,4 +1,4 @@
-@extends('inside.app')
+@extends('inside.template')
 
 @section('css')
   {!! HTML::style('public/css/jasny-bootstrap.css') !!}

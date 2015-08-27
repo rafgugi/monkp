@@ -1,4 +1,4 @@
-@extends('inside.app')
+@extends('inside.template')
 
 @section('content')
   <h1>Periode</h1>

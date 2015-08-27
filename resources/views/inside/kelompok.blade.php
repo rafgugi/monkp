@@ -1,4 +1,4 @@
-@extends('inside.app')
+@extends('inside.template')
 
 <?php $role = Auth::user()->role; ?>
 
