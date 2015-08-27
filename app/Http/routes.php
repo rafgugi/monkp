@@ -64,4 +64,5 @@ Route::group(['middleware' => ['auth']], function() {
 
 Route::controllers([
 	'auth' => 'AuthController',
+	'modal' => 'ModalController'
 ]);

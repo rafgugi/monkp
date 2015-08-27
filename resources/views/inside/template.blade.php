@@ -192,7 +192,11 @@
     <!-- /#page-wrapper -->
   </div>
   <!-- /#wrapper -->
-
+  <div class="modal fade" id="mainModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" id="mainModalContent"></div>
+    </div>
+  </div>
   {!! HTML::script('public/js/jquery.min.js') !!}
   {!! HTML::script('public/js/bootstrap.min.js') !!}
   {!! HTML::script('public/js/bootstrap-table.js') !!}
@@ -201,4 +205,24 @@
   {!! HTML::script('public/js/metis-menu.min.js') !!}
   {!! HTML::script('public/js/sb-admin-2.js') !!}
   @yield('js')
+  <script>
+    $(document).ready(function(){
+      $(".mainmodal").click(function() {
+        $this = $(this);
+        $.ajax({
+          type: "GET",
+          url: $(this).attr('data-url'),
+          success: function(data){
+            console.log('success');
+            $("#mainModal").modal('show');
+            $("#mainModalContent").html(data);
+          },
+          error: function(data) {
+            $("#mainModal").modal('show');
+            $("#mainModalContent").html(data);
+          }
+        });
+      });
+    });
+  </script>
 </body>
