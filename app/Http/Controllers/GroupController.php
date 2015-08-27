@@ -32,18 +32,23 @@ class GroupController extends Controller {
 				return view('home');
 				break;
 		}
-
-		$nrp = Request::input('nrp');
-		if ($nrp != null && $nrp != '') {
-			$student = Student::where('nrp', $nrp)->first();
-			if ($student != null) {
-				$groups = $student->groups;
+		$stat = null;
+		$search = Request::input('search');
+		if ($search != null && $search != '') {
+			$groups =
+				Group::whereHas('corporation', function($q) use ($search) {
+					$q->where('name', 'like', '%'.$search.'%');
+				})->orWhereHas('students', function($q) use ($search) {
+					$q->where('name', 'like', '%'.$search.'%');
+				})->orWhereHas('students', function($q) use ($search) {
+					$q->where('nrp', 'like', '%'.$search.'%');
+				});
+			$groups = $groups->get();
+		} else {
+			$stat = Request::input('status');
+			if ($stat != null && $stat != 'null') {
+				$groups = $groups->where('status.status', (int)$stat);
 			}
-		}
-
-		$stat = Request::input('status');
-		if ($stat != null && $stat != 'null') {
-			$groups = $groups->where('status.status', (int)$stat);
 		}
 
 		$lecturers = Lecturer::dosen()->get()->sortBy('initial');
@@ -55,7 +60,7 @@ class GroupController extends Controller {
 		$option = ['path' => url('home')];
 
 		$groups = new Pagination($groups, $total, $perPage, $page, $option);
-		$data = compact('groups', 'lecturers', 'stat', 'nrp');
+		$data = compact('groups', 'lecturers', 'stat', 'search');
 		return view('inside.kelompok', $data);
 	}
 
