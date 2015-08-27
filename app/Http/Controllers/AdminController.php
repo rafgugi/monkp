@@ -70,7 +70,7 @@ class AdminController extends Controller {
 			$all = false;
 		}
 
-		$where = $all ? '' : "WHERE groups.semester_id = $semester_id";
+		$where = $all ? '' : "AND groups.semester_id = $semester_id";
 
 		$groups = $all ? Group::get() : Group::where('semester_id', $semester_id)->get();
 		$lects = new Collection(DB::select(
@@ -78,8 +78,9 @@ class AdminController extends Controller {
 					SELECT lecturers.*, COUNT(groups.id) AS lect_count
 					FROM lecturers 
 					LEFT JOIN (
-						SELECT *
-						FROM groups
+						SELECT groups.*
+						FROM groups, members
+						WHERE groups.id = members.group_id
 						$where
 					) AS groups ON groups.lecturer_id = lecturers.id
 					WHERE nip != 0
@@ -90,8 +91,9 @@ class AdminController extends Controller {
 					SELECT corporations.*, COUNT(groups.id) AS corp_count
 					FROM corporations 
 					LEFT JOIN (
-						SELECT *
-						FROM groups
+						SELECT groups.*
+						FROM groups, members
+						WHERE groups.id = members.group_id
 						$where
 					) AS groups ON groups.corporation_id = corporations.id
 					GROUP BY 1) as corporations

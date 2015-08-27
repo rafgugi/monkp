@@ -77,9 +77,9 @@
         @else
           <table class="table">
             <tr>
-              <th>Nama</th>
-              <th>Kota</th>
-              <th class="text-center">Jumlah</th>
+              <th class="col-md-5">Nama</th>
+              <th class="col-md-5">Kota</th>
+              <th class="text-center col-md-2">Peserta</th>
             </tr>
             @foreach ($corps as $corp)
               <tr>
@@ -106,8 +106,8 @@
         </div>
         <table class="table">
           <tr>
-            <th>Nama</th>
-            <th class="text-center">Jumlah</th>
+            <th class="col-md-10">Nama</th>
+            <th class="text-center col-md-2">Peserta</th>
           </tr>
           @foreach ($lects->take(10) as $dosen)
             <tr>
