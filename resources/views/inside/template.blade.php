@@ -208,17 +208,14 @@
   <script>
     $(document).ready(function(){
       $(".mainmodal").click(function() {
-        $this = $(this);
+        $("#mainModal").modal('show');
         $.ajax({
           type: "GET",
           url: $(this).attr('data-url'),
           success: function(data){
-            console.log('success');
-            $("#mainModal").modal('show');
             $("#mainModalContent").html(data);
           },
           error: function(data) {
-            $("#mainModal").modal('show');
             $("#mainModalContent").html(data);
           }
         });
