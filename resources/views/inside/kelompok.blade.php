@@ -33,8 +33,6 @@
     &nbsp;
     Search:
     <input name="search" class="form-control input-sm" placeholder="NRP/Nama/Perusahaan" value="{{$search}}">
-    &nbsp;
-    <button class="btn btn-default btn-sm">Search</button>
   </form>
   @endif
   <hr>

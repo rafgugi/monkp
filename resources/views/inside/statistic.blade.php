@@ -10,13 +10,12 @@
     <small>{{$all ? 'Semua Periode' : 'Periode ' . App\Semester::find($semester_id)->toString()}}</small>
   </h1>
   <form class="form-inline">
-    <select name="semester" class="form-control input-sm">
+    <select name="semester" class="form-control input-sm" onchange="$(this).parent().submit()">
       <option value="0">-- Pilih semester --</option>
       @foreach(App\Semester::get()->sortBy('year')->sortByDesc('odd') as $semester)
         <option value="{{$semester->id}}">{{$semester->toString()}}</option>
       @endforeach
     </select>
-    <button class="btn btn-default btn-sm">Pilih</button>
   </form>
   <hr>
   <div class="row">
