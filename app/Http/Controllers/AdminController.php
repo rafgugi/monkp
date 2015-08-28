@@ -99,14 +99,7 @@ class AdminController extends Controller {
 					GROUP BY 1) as corporations
 				ORDER BY corp_count DESC");
 
-		$with = $all ? 'group.member' : ['group' => 
-			function($q) use ($semester_id) {
-				$q->where('semester_id', $semester_id);
-			}, 'group.member'
-		];
-		$corps = Corporation::with('group')->select(DB::raw('corporations.*, COUNT(groups.id) AS corp_count'))->groupBy(DB::raw(1))->toSql();
 		$data = compact('groups', 'corps', 'lects', 'all', 'semester_id');
-		dd($data);
 		return view('inside.statistic', $data);
 	}
 
