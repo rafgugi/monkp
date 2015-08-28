@@ -98,7 +98,7 @@
                               {{strtoupper($status['name'])}}
                               ({{$status['desc']}})
                             </option>
-                            @if ($role != 'STUDENT')
+                            @if ($role == 'LECTURER' || $role == 'ADMIN')
                               @foreach ($status['changeto'] as $s)
                                 <option value="{{$group->getStatusAttribute($s)['status']}}">
                                   {{strtoupper($group->getStatusAttribute($s)['name'])}}
@@ -114,7 +114,7 @@
                         <div class="col-md-6 control-text" id="dosentext{{$group->id}}">
                           {{$group->lecturer == null ? '-' : $group->lecturer->name}}
                         </div>
-                        @if ($role != 'STUDENT')
+                        @if ($role == 'LECTURER' || $role == 'ADMIN')
                           <div class="col-md-6" id="dosenselect{{$group->id}}">
                             <select class="form-control input-sm" id="dosen{{$group->id}}">
                               <option value="-">-- PILIH DOSEN PEMBIMBING --</option>
@@ -129,13 +129,13 @@
                       </div>
                       <div class="form-group">
                         <label class="col-md-4 control-label">Pembimbing Lapangan</label>
-                        @if ($role != 'STUDENT')
-                          <div class="col-md-8 control-text">
-                            {{$group->mentor == null ? '-' : $group->mentor->name}}
-                          </div>
-                        @else
+                        @if ($role == 'STUDENT')
                           <div class="col-md-4">
                             <input type="text" id="mentor{{$group->id}}" class="form-control input-sm" value="{{$group->mentor == null ? '' : $group->mentor->name}}" onchange="mentor({{$group->id}})">
+                          </div>
+                        @else
+                          <div class="col-md-8 control-text">
+                            {{$group->mentor == null ? '-' : $group->mentor->name}}
                           </div>
                         @endif
                       </div>
@@ -146,7 +146,7 @@
                       <!-- ******* Tanggal ******* -->
                       <div class="form-group">
                         <label class="col-md-4 control-label">Tanggal Mulai</label>
-                        @if ($role == 'STUDENT')
+                        @if ($role == 'STUDENT' || $role == 'TU')
                           <div class="col-md-6 control-text">
                             {{$group->start_date}}
                           </div>
@@ -158,7 +158,7 @@
                       </div>
                       <div class="form-group">
                         <label class="col-md-4 control-label">Tanggal Selesai</label>
-                        @if ($role == 'STUDENT')
+                        @if ($role == 'STUDENT' || $role == 'TU')
                           <div class="col-md-6 control-text">
                             {{$group->end_date}}
                           </div>
@@ -183,7 +183,7 @@
                   <div class="row">
                     <div class="col-md-10 text-right">
                       <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#clps{{$group->id}}" class="accordion-toggle">Close</button>
-                      @if ($role != 'STUDENT')
+                      @if ($role == 'LECTURER' || $role == 'ADMIN')
                         <button type="button" class="btn btn-primary" onclick="save({{$group->id}})">Save</button>
                       @endif
                       @if ($status['status'] == 0)
@@ -219,7 +219,9 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          @if ($role == 'LECTURER' || $role == 'ADMIN')
           <button class="btn btn-warning" id="save-nilai" data-dismiss="modal">Save changes</button>
+          @endif
         </div>
       </div>
     </div>
@@ -345,7 +347,7 @@
       });
     }
 
-  @if ($role != 'STUDENT')
+  @if ($role == 'LECTURER' || $role == 'ADMIN')
     function change(id) {
       if ($("#status" + id).val() == 2) { // jika statusnya 'progress'
         $("#dosenselect" + id).removeClass("hidden");

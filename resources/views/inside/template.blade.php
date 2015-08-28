@@ -159,12 +159,10 @@
                 <a href="{{url('pengajuan')}}"><i class="fa fa-edit fa-fw"></i> Pengajuan</a>
               </li>
             @endif
-            @if ($role == 'LECTURER' || $role == 'ADMIN')
+            @if ($role == 'ADMIN')
               <li>
                 <a href="{{url('table')}}"><i class="fa fa-table fa-fw"></i> Tabel</a>
               </li>
-            @endif
-            @if ($role == 'ADMIN')
               <li>
                 <a href="{{url('stats')}}"><i class="fa fa-bar-chart fa-fw"></i> Statistik</a>
               </li>
