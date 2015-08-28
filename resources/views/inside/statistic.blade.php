@@ -26,6 +26,12 @@
           @if ($groups->count() == 0)
             Tidak ada kelompok KP
           @else
+          <?php
+          $status = [0, -1, 1, -2, 2, 3];
+          foreach ($status as $val) {
+            $groupCount[$val] = $groups->where('status.status', $val)->count();
+          }
+          ?>
             <div id="myfirstchart" style="height: 250px;"></div>
             <div class="col-md-10 col-md-offset-1">
               <a class="btn btn-default btn-block" role="button" data-toggle="collapse" href="#group-collapse" aria-expanded="false" aria-controls="group-collapse">
@@ -35,27 +41,27 @@
                 <table class="table table-condensed table-bordered">
                   <tr>
                     <td class="text-right">Created</td>
-                    <td>{{$groups->where('status.status', 0)->count()}}</td>
+                    <td>{{$groupCount[0]}}</td>
                   </tr>
                   <tr>
                     <td class="text-right">Denied</td>
-                    <td>{{$groups->where('status.status', -1)->count()}}</td>
+                    <td>{{$groupCount[-1]}}</td>
                   </tr>
                   <tr>
                     <td class="text-right">Confirmed</td>
-                    <td>{{$groups->where('status.status', 1)->count()}}</td>
+                    <td>{{$groupCount[1]}}</td>
                   </tr>
                   <tr>
                     <td class="text-right">Rejected</td>
-                    <td>{{$groups->where('status.status', -2)->count()}}</td>
+                    <td>{{$groupCount[-2]}}</td>
                   </tr>
                   <tr>
                     <td class="text-right">Progress</td>
-                    <td>{{$groups->where('status.status', 2)->count()}}</td>
+                    <td>{{$groupCount[2]}}</td>
                   </tr>
                   <tr>
                     <td class="text-right">Finished</td>
-                    <td>{{$groups->where('status.status', 3)->count()}}</td>
+                    <td>{{$groupCount[3]}}</td>
                   </tr>
                   <tr class="active">
                     <td class="text-right"><strong>Total</strong></td>
@@ -140,22 +146,22 @@
         return y + ' | ' + Math.round(10000*y/{{$groups->count()}})/100+'%';
       },
       data: [
-        @if (($c = $groups->where('status.status', 0)->count()) != 0)
+        @if (($c = $groupCount[0]) != 0)
           {label: "Created", value: {{$c}}},
         @endif
-        @if (($c = $groups->where('status.status', -1)->count()) != 0)
+        @if (($c = $groupCount[-1]) != 0)
           {label: "Denied", value: {{$c}}},
         @endif
-        @if (($c = $groups->where('status.status', 1)->count()) != 0)
+        @if (($c = $groupCount[1]) != 0)
           {label: "Confirmed", value: {{$c}}},
         @endif
-        @if (($c = $groups->where('status.status', -2)->count()) != 0)
+        @if (($c = $groupCount[-2]) != 0)
           {label: "Rejected", value: {{$c}}},
         @endif
-        @if (($c = $groups->where('status.status', 2)->count()) != 0)
+        @if (($c = $groupCount[2]) != 0)
           {label: "Progress", value: {{$c}}},
         @endif
-        @if (($c = $groups->where('status.status', 3)->count()) != 0)
+        @if (($c = $groupCount[3]) != 0)
           {label: "Finished", value: {{$c}}},
         @endif
       ],

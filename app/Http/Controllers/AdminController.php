@@ -72,7 +72,8 @@ class AdminController extends Controller {
 
 		$where = $all ? '' : "AND groups.semester_id = $semester_id";
 
-		$groups = $all ? Group::get() : Group::where('semester_id', $semester_id)->get();
+		$groups = Group::with('members');
+		$groups = $all ? $groups->get() : $groups->where('semester_id', $semester_id)->get();
 		$lects = Corporation::hydrateRaw(
 				"SELECT * FROM (
 					SELECT lecturers.*, COUNT(groups.id) AS lect_count
