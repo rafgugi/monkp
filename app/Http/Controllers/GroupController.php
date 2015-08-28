@@ -44,11 +44,10 @@ class GroupController extends Controller {
 					$q->where('nrp', 'like', '%'.$search.'%');
 				});
 			$groups = $groups->get();
-		} else {
-			$stat = Request::input('status');
-			if ($stat != null && $stat != 'null') {
-				$groups = $groups->where('status.status', (int)$stat);
-			}
+		}
+		$stat = Request::input('status');
+		if ($stat != null && $stat != 'null') {
+			$groups = $groups->where('status.status', (int)$stat);
 		}
 
 		$lecturers = Lecturer::dosen()->get()->sortBy('initial');

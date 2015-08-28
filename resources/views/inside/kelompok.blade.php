@@ -20,7 +20,17 @@
 @endsection
 
 @section('content')
-  <h1>List Kelompok</h1>
+  <h1>
+    List Kelompok
+    <small>
+    @if (isset($stat) && $stat != 'null')
+      status={{(new App\Group(['status' => $stat]))->status['name']}}
+    @endif
+    @if ($search != '' && $search != null)
+      search='{{$search}}'
+    @endif
+    </small>
+  </h1>
   @if ($role != 'STUDENT')
   <form class="form-inline text-muted">
     Status:
