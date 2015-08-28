@@ -23,6 +23,9 @@
   <h1>
     List Kelompok
     <small>
+    @if (isset($semester_id) && $semester_id != 'null')
+      Periode {{App\Semester::find($semester_id)->toString()}}
+    @endif
     @if (isset($stat) && $stat != 'null')
       status={{(new App\Group(['status' => $stat]))->status['name']}}
     @endif
@@ -31,20 +34,24 @@
     @endif
     </small>
   </h1>
-  @if ($role != 'STUDENT')
   <form class="form-inline text-muted">
-    Status:
+    <select name="semester" class="form-control input-sm" onchange="$(this).parent().submit()">
+      <option value="0">-- Pilih semester --</option>
+      @foreach(App\Semester::get()->sortBy('year')->sortByDesc('odd') as $semester)
+        <option value="{{$semester->id}}">{{$semester->toString()}}</option>
+      @endforeach
+    </select>
+  @if ($role != 'STUDENT')
     <select name="status" class="form-control input-sm" onchange="$(this).parent().submit()">
-      <option value="null">-- Lihat semua --</option>
+      <option value="null">-- Pilih filter --</option>
       @foreach(App\Group::statusAll() as $status)
         <option value="{{$status['status']}}">{{$status['name']}}</option>
       @endforeach
     </select>
     &nbsp;
-    Search:
     <input name="search" class="form-control input-sm" placeholder="NRP/Nama/Perusahaan" value="{{$search}}">
-  </form>
   @endif
+  </form>
   <hr>
   <div id="alert-container"></div>
   <div class="panel panel-default">
@@ -202,7 +209,7 @@
     @endif
   </div>
   @if (sizeof($groups) > 0)
-    {!!$groups->appends(['status' => $stat, 'search' => $search])->render()!!}
+    {!!$groups->appends(['status' => $stat, 'search' => $search, 'semester' => $semester_id])->render()!!}
   @endif
   <div class="modal fade" id="nilaiModal" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">

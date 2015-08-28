@@ -5,6 +5,7 @@ use App\Group;
 use App\Lecturer;
 use App\Mentor;
 use App\Member;
+use App\Semester;
 use App\Student;
 use Auth;
 use Illuminate\Pagination\LengthAwarePaginator as Pagination;
@@ -49,6 +50,14 @@ class GroupController extends Controller {
 		if ($stat != null && $stat != 'null') {
 			$groups = $groups->where('status.status', (int)$stat);
 		}
+		$semester_id = Request::input('semester');
+		if ($semester_id != null && $semester_id != 'null') {
+			if (Semester::find($semester_id) != null) {
+				$groups = $groups->where('semester_id', $semester_id);
+			} else {
+				$semester_id = null;
+			}
+		}
 
 		$lecturers = Lecturer::dosen()->get()->sortBy('initial');
 
@@ -59,7 +68,7 @@ class GroupController extends Controller {
 		$option = ['path' => url('home')];
 
 		$groups = new Pagination($groups, $total, $perPage, $page, $option);
-		$data = compact('groups', 'lecturers', 'stat', 'search');
+		$data = compact('groups', 'lecturers', 'stat', 'search', 'semester_id');
 		return view('inside.kelompok', $data);
 	}
 

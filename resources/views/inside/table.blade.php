@@ -71,6 +71,6 @@
         </table>
       </div>
     </div>
-    {!!$members->render()!!}
+    {!!$members->appends(['semester' => $semester_id])->render()!!}
   @endif
 @endsection
