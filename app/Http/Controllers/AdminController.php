@@ -73,7 +73,7 @@ class AdminController extends Controller {
 		$where = $all ? '' : "AND groups.semester_id = $semester_id";
 
 		$groups = $all ? Group::get() : Group::where('semester_id', $semester_id)->get();
-		$lects = new Collection(DB::select(
+		$lects = Corporation::hydrateRaw(
 				"SELECT * FROM (
 					SELECT lecturers.*, COUNT(groups.id) AS lect_count
 					FROM lecturers 
@@ -85,8 +85,8 @@ class AdminController extends Controller {
 					) AS groups ON groups.lecturer_id = lecturers.id
 					WHERE nip != 0
 					GROUP BY 1) as lecturers
-				ORDER BY lect_count DESC, initial"));
-		$corps = new Collection(DB::select(
+				ORDER BY lect_count DESC, initial");
+		$corps = Corporation::hydrateRaw(
 				"SELECT * FROM (
 					SELECT corporations.*, COUNT(groups.id) AS corp_count
 					FROM corporations 
@@ -97,9 +97,16 @@ class AdminController extends Controller {
 						$where
 					) AS groups ON groups.corporation_id = corporations.id
 					GROUP BY 1) as corporations
-				ORDER BY corp_count DESC"));
-		
+				ORDER BY corp_count DESC");
+
+		$with = $all ? 'group.member' : ['group' => 
+			function($q) use ($semester_id) {
+				$q->where('semester_id', $semester_id);
+			}, 'group.member'
+		];
+		$corps = Corporation::with('group')->select(DB::raw('corporations.*, COUNT(groups.id) AS corp_count'))->groupBy(DB::raw(1))->toSql();
 		$data = compact('groups', 'corps', 'lects', 'all', 'semester_id');
+		dd($data);
 		return view('inside.statistic', $data);
 	}
 
