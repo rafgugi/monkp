@@ -179,16 +179,20 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-offset-10">
-                    <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#clps{{$group->id}}" class="accordion-toggle">Close</button>
-                  @if ($role != 'STUDENT')
-                    <button type="button" class="btn btn-primary" onclick="save({{$group->id}})">Save</button>
-                  @endif
-                  @if ($status['status'] == 0)
-                    <a href="{{url('pengajuan/destroy/'.$group->id)}}" class="btn btn-danger">
-                      Hapus
-                    </a>
-                  @endif
+                <div class="col-md-offset-7">
+                  <div class="row">
+                    <div class="col-md-10 text-right">
+                      <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#clps{{$group->id}}" class="accordion-toggle">Close</button>
+                      @if ($role != 'STUDENT')
+                        <button type="button" class="btn btn-primary" onclick="save({{$group->id}})">Save</button>
+                      @endif
+                      @if ($status['status'] == 0)
+                        <a href="{{url('pengajuan/destroy/'.$group->id)}}" class="btn btn-danger">
+                          Hapus
+                        </a>
+                      @endif
+                    </div>
+                  </div>
                 </div>
               </div>
             </td>
