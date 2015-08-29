@@ -60,9 +60,10 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::post('users/mahasiswa', 'UserController@student');
 		Route::post('users/dosen', 'UserController@lecturer');
 	});
+
+	Route::get('modal/perusahaan/{id}', 'AdminController@showCorporation');
 });
 
 Route::controllers([
 	'auth' => 'AuthController',
-	'modal' => 'ModalController'
 ]);

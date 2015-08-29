@@ -138,9 +138,12 @@ class AdminController extends Controller {
 	}
 
 	/**
+	 * Display corporation details from modal.
+	 *
+	 * @param $id corporation_id
 	 * @return Response modal view
 	 */
-	public function getPerusahaan($id) {
+	public function showCorporation($id) {
 		$corp = Corporation::with('groups.students')->find($id);
 		return view('modal.corporation', compact('corp'));
 	}
