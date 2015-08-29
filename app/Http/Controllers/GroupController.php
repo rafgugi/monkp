@@ -9,7 +9,7 @@ use App\Semester;
 use App\Student;
 use Auth;
 use Illuminate\Pagination\LengthAwarePaginator as Pagination;
-use Request;
+use Illuminate\Http\Request;
 
 class GroupController extends Controller {
 
@@ -18,7 +18,7 @@ class GroupController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{
 		switch (Auth::user()->role) {
 			case 'LECTURER':
@@ -34,7 +34,7 @@ class GroupController extends Controller {
 				break;
 		}
 		$stat = null;
-		$search = Request::input('search');
+		$search = $request->input('search');
 		if ($search != null && $search != '') {
 			$groups =
 				Group::whereHas('corporation', function($q) use ($search) {
@@ -46,11 +46,11 @@ class GroupController extends Controller {
 				});
 			$groups = $groups->get();
 		}
-		$stat = Request::input('status');
+		$stat = $request->input('status');
 		if ($stat != null && $stat != 'null') {
 			$groups = $groups->where('status.status', (int)$stat);
 		}
-		$semester_id = Request::input('semester');
+		$semester_id = $request->input('semester');
 		if ($semester_id != null && $semester_id != 'null') {
 			if (Semester::find($semester_id) != null) {
 				$groups = $groups->where('semester_id', $semester_id);
@@ -63,7 +63,7 @@ class GroupController extends Controller {
 
 		$total = $groups->count();
 		$perPage = 10;
-		$page = Request::input('page');
+		$page = $request->input('page');
 		$page == null ? 1 : $page;
 		$option = ['path' => url('home')];
 
@@ -89,17 +89,17 @@ class GroupController extends Controller {
 	 * @param  int  $id
 	 * @return string
 	 */
-	public function update($id)
+	public function update(Request $request, $id)
 	{
 		$group = Group::find($id);
 		if ($group == null) {
 			return $this->alert('danger', 'ID kelompok tidak terdaftar.');
 		}
 
-		$rstat = Request::input('status');
-		$rlect = Request::input('dosen');
-		$group->start_date = Request::input('start_date');
-		$group->end_date = Request::input('end_date');
+		$rstat = $request->input('status');
+		$rlect = $request->input('dosen');
+		$group->start_date = $request->input('start_date');
+		$group->end_date = $request->input('end_date');
 
 		if ($rstat == 2) {
 			if ($rlect == '-') {
@@ -127,8 +127,8 @@ class GroupController extends Controller {
 	 *
 	 * @return string
 	 */
-	public function updateGrade() {
-		foreach (Request::input('input') as $input) {
+	public function updateGrade(Request $request) {
+		foreach ($request->input('input') as $input) {
 			$lecturer_grade = (int)$input['lecturer_grade'];
 			$lecturer_grade = $lecturer_grade < 0 ? 0 : (
 				$lecturer_grade > 100 ? 100 : $lecturer_grade
@@ -168,7 +168,7 @@ class GroupController extends Controller {
 	 * @param  int  $id
 	 * @return string
 	 */
-	public function updateMentor($id) {
+	public function updateMentor(Request $request, $id) {
 		$group = Group::find($id);
 		if ($group == null) {
 			return $this->alert('danger', 'ID kelompok tidak terdaftar.');
@@ -176,10 +176,10 @@ class GroupController extends Controller {
 		if ($group->mentor == null) {
 			$mentor = new Mentor;
 			$mentor->group_id = $id;
-			$mentor->name = Request::input('mentor');
+			$mentor->name = $request->input('mentor');
 			$mentor->save();
 		} else {
-			$group->mentor->name = Request::input('mentor');
+			$group->mentor->name = $request->input('mentor');
 			$group->mentor->save();
 		}
 		return $this->alert('info', 'Mentor berhasil diperbarui.');
