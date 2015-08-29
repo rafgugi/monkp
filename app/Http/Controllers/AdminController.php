@@ -137,37 +137,12 @@ class AdminController extends Controller {
 		return view('inside.table', $data);
 	}
 
-
 	/**
-	 * Update the grades via json.
-	 *
-	 * @param  int  $id member_id
-	 * @return string
+	 * @return Response modal view
 	 */
-	public function grading($id)
-	{
-		$req = Request::all();
-		if ($req == []) {
-			return $this->alert('warning', 'Nilai tidak diperbarui.');
-		}
-		$lecturer_grade = $req['lecturer_grade'];
-		$mentor_grade = $req['mentor_grade'];
-		$discipline_grade = $req['discipline_grade'];
-		$report_status = $req['report_status'];
-
-		$member = Member::find($id);
-		if ($member->grade == null) {
-			$member->grade = new Grade;
-		}
-		$grade = $member->grade;
-
-		$member->grade->lecturer_grade = is_numeric($lecturer_grade) ? $lecturer_grade : '';
-		$member->grade->mentor_grade = is_numeric($mentor_grade) ? $mentor_grade : '';
-		$member->grade->discipline_grade = is_numeric($discipline_grade) ? $discipline_grade : '';
-		$member->grade->report_status = is_numeric($report_status) ? $report_status : '';
-
-		$member->grade->save();
-		return $this->alert('info', 'Nilai berhasil diperbarui.');
+	public function getPerusahaan($id) {
+		$corp = Corporation::with('groups.students')->find($id);
+		return view('modal.corporation', compact('corp'));
 	}
 
 	/**
