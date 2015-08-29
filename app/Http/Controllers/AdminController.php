@@ -8,9 +8,9 @@ use App\Member;
 use App\Semester;
 use DB;
 use Excel;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator as Pagination;
 use Illuminate\Support\Collection;
-use Request;
 
 class AdminController extends Controller {
 
@@ -29,9 +29,9 @@ class AdminController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function postPeriode()
+	public function postPeriode(Request $request)
 	{
-		$request = Request::only(['year', 'odd', 'start_date', 'end_date', 'user_due_date']);
+		$request = $request->only(['year', 'odd', 'start_date', 'end_date', 'user_due_date']);
 		if ($request['year'] < 2000
 				|| $request['end_date'] == '' 
 				|| $request['user_due_date'] == ''
@@ -40,7 +40,7 @@ class AdminController extends Controller {
 			return redirect()->back()->withInputs($request)
 				->with('alert', ['alert' => 'warning', 'body' => 'Lengkapi. Yang benar.']);
 		}
-		$semester = Semester::firstOrNew(Request::only(['year', 'odd']));
+		$semester = Semester::firstOrNew($request->only(['year', 'odd']));
 		$baru = false;
 		if ($semester->id == null) {
 			$baru = true;
@@ -60,9 +60,9 @@ class AdminController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function stats($semester_id = null) {
+	public function stats(Request $request, $semester_id = null) {
 		$all = false;
-		if (($req = Request::input('semester')) != null) {
+		if (($req = $request->input('semester')) != null) {
 			return redirect('stats/' . $req);
 		} else if ($semester_id == null || Semester::find($semester_id) == null) {
 			$all = true;
@@ -109,9 +109,9 @@ class AdminController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function table($semester_id = null) {
+	public function table(Request $request, $semester_id = null) {
 		$all = false;
-		if (($req = Request::input('semester')) != null) {
+		if (($req = $request->input('semester')) != null) {
 			return redirect('table/' . $req);
 		} else if ($semester_id == null || Semester::find($semester_id) == null) {
 			$all = true;
@@ -127,7 +127,7 @@ class AdminController extends Controller {
 
 		$total = $members->count();
 		$perPage = 15;
-		$page = Request::input('page');
+		$page = $request->input('page');
 		$page == null ? 1 : $page;
 		$option = ['path' => url('table')];
 

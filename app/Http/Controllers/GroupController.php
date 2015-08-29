@@ -8,8 +8,8 @@ use App\Member;
 use App\Semester;
 use App\Student;
 use Auth;
-use Illuminate\Pagination\LengthAwarePaginator as Pagination;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator as Pagination;
 
 class GroupController extends Controller {
 

@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Corporation;
 use App\Group;
 use App\Student;
@@ -8,6 +7,7 @@ use App\Semester;
 use App\GroupRequest as Friend;
 use App\Notification as Notif;
 use Auth;
+use Illuminate\Http\Request;
 
 class PengajuanController extends Controller {
 
