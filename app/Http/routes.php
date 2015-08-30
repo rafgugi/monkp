@@ -24,8 +24,8 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::get('pengajuan/destroy/{id}', 'GroupController@destroy');
 	Route::get('pengajuan/mentor/{id}', 'GroupController@updateMentor');
 
-	Route::get('berita', 'BeritaController@index');
-	Route::get('file/{id}/{name}', 'BeritaController@file');
+	Route::get('berita', 'PostController@index');
+	Route::get('file/{id}/{name}', 'PostController@file');
 
 	Route::get('json/groupgrade/{id}', 'GroupController@getGroupWithGrade');
 	Route::post('pengajuan/nilai', 'GroupController@updateGrade');
@@ -38,9 +38,9 @@ Route::group(['middleware' => ['auth']], function() {
 	});
 
 	Route::group(['middleware' => ['admin']], function() {
-		Route::get('berita/hapus/{id}', 'BeritaController@destroy');
-		Route::post('berita/edit', 'BeritaController@update');
-		Route::post('berita/tambah', 'BeritaController@store');
+		Route::get('berita/hapus/{id}', 'PostController@destroy');
+		Route::post('berita/edit', 'PostController@update');
+		Route::post('berita/tambah', 'PostController@store');
 
 		Route::get('pengajuan/update/{id}', 'GroupController@update');
 
