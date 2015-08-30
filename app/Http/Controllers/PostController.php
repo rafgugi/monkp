@@ -7,7 +7,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator as Pagination;
 
-class BeritaController extends Controller {
+class PostController extends Controller {
 
 	/**
 	 * Display posts listing.
