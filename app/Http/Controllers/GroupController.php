@@ -53,7 +53,7 @@ class GroupController extends Controller {
 		$semester_id = $request->input('semester');
 		if ($semester_id != null && $semester_id != 'null') {
 			if (Semester::find($semester_id) != null) {
-				$groups = $groups->where('semester_id', $semester_id);
+				$groups = $groups->where('semester_id', intval($semester_id));
 			} else {
 				$semester_id = null;
 			}
