@@ -135,6 +135,10 @@
 @section('js')  
   {!! HTML::script('public/js/raphael-min.js') !!}
   {!! HTML::script('public/js/morris.min.js') !!}
+
+  @if ($groups->count() == 0)
+    Tidak ada kelompok KP
+  @else
   <script>
     new Morris.Donut({
       // ID of the element in which to draw the chart.
@@ -167,4 +171,5 @@
       ],
     });
   </script>
+  @endif
 @endsection
