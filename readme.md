@@ -6,7 +6,7 @@
  - Buat folder `monkp` di direktori public xampp. Biasanya di `C:\xampp\htdocs`.
  - Download source ini dan masukkan ke dalam folder `monkp`.
  - Buka command line, jalankan `composer-update` di direktori utama `monkp`.
- - Selagi menunggu update selesai, buat database baru di mysql, beri nama `monkp`.
+ - Selagi menunggu update selesai, [buat database baru di mysql](http://www.slideshare.net/prin000/step-by-step-how-to-create-database-with-phpmyadmin), beri nama `monkp`.
  - Rename `./.env.example` menjadi `.env`.
  - Setelah update selesai, jalankan `composer dump-autoload`.
  - Jalankan `php artisan migrate` untuk membuat seluruh tabel.
