@@ -20,6 +20,13 @@
    - White blank page: `sudo chmod -R o+w storage/`
    - Encrypt error: `sudo php5enmod mcrypt; sudo apache2 restart`
 
+### Abis install
+ - Setting app
+   - Buka `localhost/monkp`
+   - login dengan user `koorkp` dan password `koorkp`
+   - klik Periode di sidebar
+   - konfigurasi semester aktif
+
 ### Proxified git (git bash)
    ``git config --global http.proxy http://proxyuser:proxypwd@proxy.server.com:8080``  
    ``git config --global https.proxy https://proxyuser:proxypwd@proxy.server.com:8080``  
