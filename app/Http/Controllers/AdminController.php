@@ -40,7 +40,7 @@ class AdminController extends Controller {
 			return redirect()->back()->withInputs($request)
 				->with('alert', ['alert' => 'warning', 'body' => 'Lengkapi. Yang benar.']);
 		}
-		$semester = Semester::firstOrNew($request->only(['year', 'odd']));
+		$semester = Semester::firstOrNew(array_only($request, ['year', 'odd']));
 		$baru = false;
 		if ($semester->id == null) {
 			$baru = true;
