@@ -6,7 +6,7 @@
  - Buat folder `monkp` di direktori public xampp. Biasanya di `C:\xampp\htdocs`.
  - Download source ini dan masukkan ke dalam folder `monkp`.
  - Buka command line, jalankan `composer-update` di direktori utama `monkp`.
- - Selagi menunggu update selesai, buat database baru di mysql, beri nama `monkp`.
+ - Selagi menunggu update selesai, [buat database baru di mysql](http://www.slideshare.net/prin000/step-by-step-how-to-create-database-with-phpmyadmin), beri nama `monkp`.
  - Rename `./.env.example` menjadi `.env`.
  - Setelah update selesai, jalankan `composer dump-autoload`.
  - Jalankan `php artisan migrate` untuk membuat seluruh tabel.
@@ -19,6 +19,13 @@
  - Bantuan:
    - White blank page: `sudo chmod -R o+w storage/`
    - Encrypt error: `sudo php5enmod mcrypt; sudo apache2 restart`
+
+### Abis install
+ - Setting app
+   - Buka `localhost/monkp`
+   - login dengan user `koorkp` dan password `koorkp`
+   - klik Periode di sidebar
+   - konfigurasi semester aktif
 
 ### Proxified git (git bash)
    ``git config --global http.proxy http://proxyuser:proxypwd@proxy.server.com:8080``  
