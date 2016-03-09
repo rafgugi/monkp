@@ -78,5 +78,13 @@ class UserController extends Controller {
 		return redirect()->back()
 			->with('alert', ['alert' => 'warning', 'body' => 'Berhasil membuat akun.']);
 	}
+	public function reset(Request $request)
+	{
+		$this->validate($request, [
+			'student.nrp' => 'numeric',			
+			
+			]);
+		dd($request);
+	}
 
 }

@@ -99,5 +99,12 @@
       </div>    
     </div>
   </div>
+  <div class="row">
+      <label class="col-md-4 control-label">Reset NRP</label>
+        <div class="col-md-4">
+          <input type="text" class="form-control" name="student[nrp]" value="{{old('student.nrp')}}">
+        </div>
+        <button type="submit" class="btn btn-primary"> Reset</button>
+   </div>
   
 @endsection
