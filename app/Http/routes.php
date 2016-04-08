@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function() {
 		Route::get('users', 'UserController@create');
 		Route::post('users/mahasiswa', 'UserController@student');
 		Route::post('users/dosen', 'UserController@lecturer');
+		Route::post('users/reset', 'UserController@reset');
 	});
 
 	Route::get('modal/perusahaan/{id}', 'AdminController@showCorporation');

@@ -54,7 +54,7 @@
         </div>
       </div>    
     </div>
-        <div class="col-md-6">
+    <div class="col-md-6">
       <div class="panel panel-default">
         <div class="panel-heading">Dosen</div>
         <div class="panel-body">
@@ -98,13 +98,18 @@
         </div>
       </div>    
     </div>
-  </div>
-  <div class="row">
-      <label class="col-md-4 control-label">Reset NRP</label>
-        <div class="col-md-4">
-          <input type="text" class="form-control" name="student[nrp]" value="{{old('student.nrp')}}">
-        </div>
-        <button type="submit" class="btn btn-primary"> Reset</button>
-   </div>
-  
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">Dosen</div>
+        <form action="{{url('users/reset')}}" method="post" class="form-horizontal">
+          <div class="panel-body">
+            <label class="col-md-4 control-label">Reset NRP</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" name="student[nrp]" value="{{old('student.nrp')}}">
+            </div>
+            <button type="submit" class="btn btn-primary"> Reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
 @endsection

@@ -43,7 +43,7 @@ class UserController extends Controller {
 		$user->personable_type = 'student';
 		$user->save();
 		return redirect()->back()
-			->with('alert', ['alert' => 'warning', 'body' => 'Berhasil membuat akun.']);
+			->with('alert', ['alert' => 'success', 'body' => 'Berhasil membuat akun.']);
 	}
 
 	/**
@@ -76,15 +76,27 @@ class UserController extends Controller {
 		$user->personable_type = 'lecturer';
 		$user->save();
 		return redirect()->back()
-			->with('alert', ['alert' => 'warning', 'body' => 'Berhasil membuat akun.']);
+			->with('alert', ['alert' => 'success', 'body' => 'Berhasil membuat akun.']);
 	}
+
+	/**
+	 * Reset student password, given nrp.
+	 *
+	 * @return Response
+	 */
 	public function reset(Request $request)
 	{
 		$this->validate($request, [
-			'student.nrp' => 'numeric',			
-			
-			]);
-		dd($request);
+			'student.nrp' => 'numeric',
+		]);
+		$student = $request->get('student');
+		$nrp = $student['nrp'];
+		$obj_student = Student::where('nrp', $nrp)->first();
+		$user = $obj_student->user;
+		$user->password = bcrypt($nrp);
+		$user->save();
+		return redirect()->back()
+			->with('alert', ['alert' => 'success', 'body' => 'Berhasil mereset password '.$nrp.'.']);
 	}
 
 }
